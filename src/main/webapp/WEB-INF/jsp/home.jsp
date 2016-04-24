@@ -26,5 +26,9 @@
         </tr>
     </table>
 </form:form>
+<form:form method="GET" action="/exercises">
+    <br/><br/><br/>
+    <input type="submit" value="Skocz do testu"/>
+</form:form>
 </body>
 </html>
