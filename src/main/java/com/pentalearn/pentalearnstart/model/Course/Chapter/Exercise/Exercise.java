@@ -1,4 +1,6 @@
-package com.pentalearn.pentalearnstart.model.Exercise;
+package com.pentalearn.pentalearnstart.model.Course.Chapter.Exercise;
+
+import com.pentalearn.pentalearnstart.model.Course.Chapter.Exercise.Task.Task;
 
 import java.util.ArrayList;
 
@@ -8,22 +10,21 @@ import java.util.ArrayList;
  * Exercise contains Task, and Task contains Answer
  */
 public class Exercise {
-    //TODO ID will be great for DataBase,
     private int id;
-    private int courseId;
+    private int chapterId;
     private String title;
     private ArrayList<Task> tasks;
 
     public Exercise(){};
-    public Exercise(int id, int courseId, String title, ArrayList<Task> tasks){
+    public Exercise(int id, int chapterId, String title, ArrayList<Task> tasks){
         this.id = id;
-        this.courseId = courseId;
+        this.chapterId = chapterId;
         this.title = title;
         this.tasks = tasks;
     }
 
     public int getId() {return id;}
-    public int getCourseId() {return courseId;}
+    public int getChapterId() {return chapterId;}
     public String getTitle() {return title;}
     public ArrayList<Task> getTasks() {return tasks;}
 }

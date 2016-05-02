@@ -14,7 +14,7 @@
 <body>
     <h3>${lecture.content}</h3>
     <form:form method="POST" action="/exercise">
-    <button name="courseNumber" value="${lecture.courseId}" type="submit">Przejdź do testu</button>
+    <button name="chapterNumber" value="${lecture.chapterId}" type="submit">Przejdź do testu</button>
     </form:form>
 </body>
 </html>

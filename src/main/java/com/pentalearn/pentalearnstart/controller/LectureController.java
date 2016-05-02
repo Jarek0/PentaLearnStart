@@ -1,7 +1,7 @@
 package com.pentalearn.pentalearnstart.controller;
 
-import com.pentalearn.pentalearnstart.database.Lecture.LectureDB;
-import com.pentalearn.pentalearnstart.model.Lecture.Lecture;
+import com.pentalearn.pentalearnstart.database.Course.Chapter.Lecture.LectureDB;
+import com.pentalearn.pentalearnstart.model.Course.Chapter.Lecture.Lecture;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,10 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/lecture")
 public class LectureController {
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView makeLecture(@RequestParam("courseNumber") int courseNumber) {
+    public ModelAndView makeLecture(@RequestParam("chapterNumber") int courseNumber) {
         ModelAndView mnv = new ModelAndView("Lecture/lecture");
 
-        Lecture lecture = LectureDB.getLectureByCourseId(courseNumber);
+        Lecture lecture = LectureDB.getLectureByChapterId(courseNumber);
 
         mnv.addObject("lecture", lecture);
         return  mnv;

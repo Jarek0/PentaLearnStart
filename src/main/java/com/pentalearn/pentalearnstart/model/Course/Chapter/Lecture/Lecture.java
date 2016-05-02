@@ -1,4 +1,4 @@
-package com.pentalearn.pentalearnstart.model.Lecture;
+package com.pentalearn.pentalearnstart.model.Course.Chapter.Lecture;
 
 /**
  * This class is responsible for learn before exercise
@@ -6,20 +6,20 @@ package com.pentalearn.pentalearnstart.model.Lecture;
  */
 public class Lecture {
     private int id;
-    private int courseId;
+    private int chapterId;
     private String content;
 
-    public Lecture(int id, int courseId, String content){
+    public Lecture(int id, int chapterId, String content){
         this.id = id;
-        this.courseId = courseId;
+        this.chapterId = chapterId;
         this.content = content;
     }
 
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 
-    public int getCourseId() { return courseId;}
-    public void setCourseId(int courseId) {this.courseId = courseId;}
+    public int getChapterId() { return chapterId;}
+    public void setChapterId(int chapterId) {this.chapterId = chapterId;}
 
     public String getContent() { return content;}
     public void setContent(String content) {this.content = content;}

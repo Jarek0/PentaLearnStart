@@ -1,4 +1,4 @@
-package com.pentalearn.pentalearnstart.model.Exercise;
+package com.pentalearn.pentalearnstart.model.Course.Chapter.Exercise.Task.Answer;
 
 /**
  * Created by Wojciech on 2016-04-24.

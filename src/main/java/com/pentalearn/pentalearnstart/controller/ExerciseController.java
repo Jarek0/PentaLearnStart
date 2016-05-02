@@ -1,7 +1,7 @@
 package com.pentalearn.pentalearnstart.controller;
 
-import com.pentalearn.pentalearnstart.database.Exercise.ExerciseDB;
-import com.pentalearn.pentalearnstart.model.Exercise.Exercise;
+import com.pentalearn.pentalearnstart.database.Course.Chapter.Exercise.ExerciseDB;
+import com.pentalearn.pentalearnstart.model.Course.Chapter.Exercise.Exercise;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,10 +20,10 @@ public class ExerciseController {
 
     //TODO WHEN will add database, get exercises by id from database
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView makeExercises(@RequestParam("courseNumber") int courseNumber) {
+    public ModelAndView makeExercises(@RequestParam("chapterNumber") int courseNumber) {
         ModelAndView model = new ModelAndView("Exercise/exercise");
 
-        Exercise exercise = ExerciseDB.getExerciseByCourseId(courseNumber);
+        Exercise exercise = ExerciseDB.getExerciseByChapterId(courseNumber);
 
         model.addObject("title", exercise.getTitle());
         model.addObject("tasks", exercise.getTasks());

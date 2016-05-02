@@ -1,5 +1,7 @@
 package com.pentalearn.pentalearnstart.model.Course;
 
+import java.util.ArrayList;
+
 /**
  * Class which is responsible for courses.
  * There are two parts of class:
@@ -10,16 +12,14 @@ package com.pentalearn.pentalearnstart.model.Course;
  */
 public class Course {
     private int id;
-    private int lectureId;
-    private int exerciseId;
+    private ArrayList<Integer> chapterIds;
     private String name;
     private String description;
 
 
-    public Course(int id, int lectureId, int exerciseId, String name, String description){
+    public Course(int id, ArrayList<Integer> chapterIds, String name, String description){
         this.id = id;
-        this.lectureId = lectureId;
-        this.exerciseId = exerciseId;
+        this.chapterIds = chapterIds;
         this.name = name;
         this.description = description;
     }
@@ -27,11 +27,8 @@ public class Course {
     public int getId() {return id;}
     public void setId(int id) {this.id = id; }
 
-    public int getLectureId() {return lectureId;}
-    public void setLectureId(int lectureId) {this.lectureId = lectureId;}
-
-    public int getExerciseId() { return exerciseId;}
-    public void setExerciseId(int exerciseId) {this.exerciseId = exerciseId;}
+    public ArrayList<Integer> getChapterIds() {return chapterIds;}
+    public void setChapterId(ArrayList<Integer> chapterIds) {this.chapterIds = chapterIds;}
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}

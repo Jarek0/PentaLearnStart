@@ -1,16 +1,13 @@
 package com.pentalearn.pentalearnstart.controller;
 
+import com.pentalearn.pentalearnstart.database.Course.Chapter.ChapterDB;
 import com.pentalearn.pentalearnstart.database.Course.CourseDB;
 import com.pentalearn.pentalearnstart.model.Course.Course;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  *
@@ -24,18 +21,19 @@ public class CourseController {
      * return ModelAndView with list of courses*/
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showAllCourses(){
-        ModelAndView mav = new ModelAndView("Course/course");
-        mav.addObject("courses", CourseDB.getAllCourses());
-        return mav;
+        return new ModelAndView("Course/course", "courses", CourseDB.getAllCourses());
     }
 
-    /**
-     * Receive courseNumber and show course with the same id
-     */
-    @RequestMapping(value = "show", method = RequestMethod.POST)
+    @RequestMapping(value = "/showChapters", method = RequestMethod.POST)
     public ModelAndView moveToCourse(@RequestParam("courseNumber") int courseNumber){
-        ModelAndView mav = new ModelAndView("Course/show");
-        mav.addObject("course", CourseDB.getCourseById(courseNumber));
+        ModelAndView mav = new ModelAndView("Course/showChapters");
+
+        Course course = CourseDB.getCourseById(courseNumber);
+        //add chapters to view
+        mav.addObject("chapters", CourseDB.getChaptersByCourseId(courseNumber));
+        //add name and description of course
+        mav.addObject("courseName", course.getName());
+        mav.addObject("courseDescription", course.getDescription());
         return mav;
     }
 

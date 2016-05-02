@@ -14,7 +14,7 @@
 </head>
 <body>
     <h2>Dostępne kursy: </h2>
-    <form:form method="POST" action="/course/show/">
+    <form:form method="POST" action="/course/showChapters/">
         <c:forEach var="course" items="${courses}">
             <h3>${course.name}</h3>
             ${course.description} <br/>
