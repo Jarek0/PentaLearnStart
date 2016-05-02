@@ -16,12 +16,8 @@
 
 </head>
 <body>
-    <h2>${title}</h2> <br/>
-    <input type="number" id="liczba" readonly>
-    <button id="pokaz" onclick="pokaz();" >Pokaz liczbe</button> <br/>
-    <button id="checkbox" onclick="hide();">Schowaj</button> <br/><br/><br/>
 
-<form:form method="POST" action="/exerciseResult">
+<form:form method="POST" action="/exercise/result">
     <ol>
         <c:forEach var="task" items="${tasks}">
             <li>${task.question}</li>

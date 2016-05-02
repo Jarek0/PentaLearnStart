@@ -1,4 +1,4 @@
-package com.pentalearn.pentalearnstart.model;
+package com.pentalearn.pentalearnstart.model.Main;
 
 /**
  * Created by pglg on 04-04-2016.

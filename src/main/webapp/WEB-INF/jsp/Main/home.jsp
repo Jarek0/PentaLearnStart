@@ -26,9 +26,9 @@
         </tr>
     </table>
 </form:form>
-<form:form method="GET" action="/exercises">
+<form:form method="GET" action="/course">
     <br/><br/><br/>
-    <input type="submit" value="Skocz do testu"/>
+    <input type="submit" value="Zobacz dostepne kursy"/>
 </form:form>
 </body>
 </html>
