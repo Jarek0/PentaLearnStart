@@ -35,8 +35,13 @@ public class CourseListController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    public List<Course> getAllCourses(){
+        return courseService.getAll();
+    }
+    /* OLD
+    @RequestMapping(method = RequestMethod.GET)
     public List<Course> showCoursesByCategoryId(@PathVariable Long categoryId){
         return courseService.getCoursesByCategoryId(categoryId);
     }
-
+    */
 }

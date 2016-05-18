@@ -31,16 +31,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly =true)
-    public List<Course> getList() {
+    public List<Course> getAll() {
         return (List<Course>) courseRepository.findAll();
     }
 
-    //Added method here - WN
-    @Override
-    @Transactional(readOnly = true)
-    public List<Course> getCoursesByCategoryId(long categoryId) {
-        return courseRepository.getCoursesByCategoryId( categoryId);
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -54,4 +48,11 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+     /* OLD
+    //Added method here - WN
+    @Override
+    @Transactional(readOnly = true)
+    public List<Course> getCoursesByCategoryId(long categoryId) {
+        return courseRepository.getCoursesByCategoryId( categoryId);
+    } */
 }
