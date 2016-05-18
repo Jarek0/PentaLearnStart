@@ -47,12 +47,4 @@ public class CourseServiceImpl implements CourseService {
             throw new NoSuchCourse("There isn't such category of question");
         }
     }
-
-     /* OLD
-    //Added method here - WN
-    @Override
-    @Transactional(readOnly = true)
-    public List<Course> getCoursesByCategoryId(long categoryId) {
-        return courseRepository.getCoursesByCategoryId( categoryId);
-    } */
 }
