@@ -12,9 +12,15 @@ import java.util.List;
 
 /**
  * Created by Wojciech on 2016-05-14.
+ * ------------------------------------------------------------------------
+ * neighbour controllers tree:    (all tree available on CourseController)
+ *                   --> Lecture
+ * Course -> Chapter |
+ *                   --> Exercise
+ * ------------------------------------------------------------------------
  */
 @RestController
-@RequestMapping(value = "/api/categories/{categoryId}/courses/{courseId}/chapters")
+@RequestMapping(value = "/api/courses/{courseId}/chapters")
 public class ChapterListController {
 
     private final ChapterService chapterService;

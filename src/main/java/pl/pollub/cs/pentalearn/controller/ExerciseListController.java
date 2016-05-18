@@ -11,6 +11,12 @@ import javax.inject.Inject;
 
 /**
  * Created by Wojciech on 2016-04-24.
+ * ------------------------------------------------------------------------
+ * neighbour controllers tree:    (all tree available on CourseController)
+ *
+ * Chapter --> Exercise --> Question
+ * -------------------------------------------------------------------------
+ *
  * Strategy: User calls for only ONE Question when 'click' next,
  * controller will return next Question.
  * If there is last question will be check exercise
@@ -18,7 +24,7 @@ import javax.inject.Inject;
  * also will return result to user //TODO IMPLEMENT
  */
 @RestController
-@RequestMapping(value = "/api/categories/{categoryId}/courses/{courseId}/chapters/{chapterId}/exercise")
+@RequestMapping(value = "/api/chapters/{chapterId}/exercise")
 public class ExerciseListController {
 
     //NARAZIE ŁADUJE CAŁY TEST I TYLKO POKAZUJE -- TO JEST DO ZMIANY,

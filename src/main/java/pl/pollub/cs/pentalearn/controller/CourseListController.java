@@ -14,11 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * Created by Wojciech on 2016-04-30.
+ *------------------------------------------------------------------------
+ * Controllers tree:
+ *                   --> Lecture
+ * Course -> Chapter |
+ *                   --> Exercise --> Question --> /Answer/ (?) Maybe
+ * ------------------------------------------------------------------------
  */
 @RestController
-@RequestMapping(value = "/api/categories/{categoryId}/courses")
+@RequestMapping(value = "/api/courses")
 public class CourseListController {
 
     private final CourseService courseService;
@@ -33,29 +38,5 @@ public class CourseListController {
     public List<Course> showCoursesByCategoryId(@PathVariable Long categoryId){
         return courseService.getCoursesByCategoryId(categoryId);
     }
-
-    // JSP Nie usuwam jeszcze na wszelki wypadek //
-
-    /*
-    @RequestMapping(value = "/showChapters", method = RequestMethod.POST)
-    public ModelAndView moveToCourse(@RequestParam("courseNumber") Long courseNumber){
-        ModelAndView mav = new ModelAndView("Course/showChapters");
-
-        try {
-           Course course = courseService.getById(courseNumber);
-            //add chapters to view
-           // mav.addObject("chapters", CourseDB.getChaptersByCourseId(courseNumber));
-            //add name and description of course
-            mav.addObject("courseName", course.getName());
-            mav.addObject("courseDescription", course.getDescription());
-        } catch (NoSuchCourse noSuchCourse) {
-            mav.addObject("courseName", "Blad");
-            mav.addObject("courseDescription", "Blad");
-        }
-        finally {
-            return mav;
-        }
-
-    } */
 
 }

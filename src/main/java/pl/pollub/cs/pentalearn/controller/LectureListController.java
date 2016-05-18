@@ -10,9 +10,14 @@ import javax.inject.Inject;
 
 /**
  * Created by Wojciech on 2016-05-02.
+ * ------------------------------------------------------------------------
+ * neighbour controllers tree:    (ale tree available on CourseController)
+ *
+ *  Chapter --> Lecture --> (nothing)
+ * ------------------------------------------------------------------------
  */
 @RestController
-@RequestMapping(value = "/api/categories/{categoryId}/courses/{courseId}/chapters/{chapterId}/lectures")
+@RequestMapping(value = "/api/chapters/{chapterId}/lectures")
 public class LectureListController {
 
     private final LectureService lectureService;

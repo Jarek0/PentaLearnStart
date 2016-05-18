@@ -21,6 +21,12 @@ import java.util.List;
 
 /**
  * Created by pglg on 25-04-2016.
+ * -------------------------------------------------------------------------
+ * neighbour controllers tree:    (all tree available on CourseController)
+ *
+ *  Exercise --> Question --> (?)
+ * -------------------------------------------------------------------------
+ *
  */
 
 /*TE LINIJKII WYRZUCAJA BLAD BO BRAKUJE ELEMENTOW DO KONSTRUKTORA A TO WIAZE SIE NARAZIE Z
