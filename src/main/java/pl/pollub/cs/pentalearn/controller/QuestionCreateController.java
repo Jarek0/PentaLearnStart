@@ -10,14 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pollub.cs.pentalearn.domain.*;
 import pl.pollub.cs.pentalearn.service.AnswerService;
-import pl.pollub.cs.pentalearn.service.CategoryService;
+import pl.pollub.cs.test.service.CategoryService;
 import pl.pollub.cs.pentalearn.service.QuestionService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCategory;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by pglg on 25-04-2016.

@@ -1,6 +1,7 @@
 package pl.pollub.cs.pentalearn.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import pl.pollub.cs.test.domain.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,7 +14,6 @@ import java.util.List;
  * There are two parts of class:
  * lecture is responsible for learning,
  * if user ends learn, exercise will appear.
- * //TODO add list of courses and corresponding exercises, e.q chapter(?)
  * Created by Wojciech on 2016-04-30.
  */
 @Entity
@@ -28,8 +28,8 @@ public class Course {
     private List<Chapter> chapters=new ArrayList<>();
 
     @NotNull
-    @ManyToOne
-    private Category category;
+    @Size(max = 32)
+    private String category;
 
     @NotNull
     @Size(max = 64,min = 4)
@@ -39,7 +39,7 @@ public class Course {
     @Size(max = 64)
     private String description;
 
-    public Course(String name, String description, Category category) {
+    public Course(String name, String description, String category) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -76,11 +76,11 @@ public class Course {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }

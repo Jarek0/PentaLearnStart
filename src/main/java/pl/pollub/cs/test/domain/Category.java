@@ -1,7 +1,8 @@
-package pl.pollub.cs.pentalearn.domain;
+package pl.pollub.cs.test.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
+import pl.pollub.cs.pentalearn.domain.Course;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,9 @@ import java.util.List;
 
 /**
  * Created by pglg on 24-04-2016.
+ *
+ * 19-05-2016 WN, musiałem zakomentaować powiązanie Category z Course żeby logika była zachowana,
+ * I tak to jest do usunięcia
  */
 @Entity
 public class Category {
@@ -23,9 +27,9 @@ public class Category {
     @Size(max = 64)
     private String name;
 
-    @NotNull
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-    private List<Course> courses=new ArrayList<>();
+   // @NotNull
+   // @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    //private List<Course> courses=new ArrayList<>();
 
     public Category(String name) {
         this.name = name;
@@ -34,7 +38,7 @@ public class Category {
     private Category() {
     }
 
-    public void addCourse(Course course){
+    /*public void addCourse(Course course){
        courses.add(course);
     }
 
@@ -45,7 +49,7 @@ public class Category {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
-    }
+    } */
 
     public void setName(String name) {
         this.name = name;

@@ -38,13 +38,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Course getById(@NotNull @Valid final Long id) throws NoSuchCourse {
-        Course existing= courseRepository.findOne(id);
+    public Course getById(@NotNull @Valid final Long courseId) throws NoSuchCourse {
+        Course existing= courseRepository.findOne(courseId);
         if(existing!=null){
             return existing;
         }
         else{
-            throw new NoSuchCourse("There isn't such category of question");
+            throw new NoSuchCourse(courseId);
         }
     }
 }

@@ -1,8 +1,8 @@
-package pl.pollub.cs.pentalearn.service;
+package pl.pollub.cs.test.service;
 
-import pl.pollub.cs.pentalearn.domain.Category;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCategory;
-import pl.pollub.cs.pentalearn.service.exception.CategoryAlreadyExistException;
+import pl.pollub.cs.test.domain.Category;
+import pl.pollub.cs.test.service.exception.NoSuchCategory;
+import pl.pollub.cs.test.service.exception.CategoryAlreadyExistException;
 
 import java.util.List;
 

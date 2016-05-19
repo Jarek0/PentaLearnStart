@@ -1,4 +1,4 @@
-package pl.pollub.cs.pentalearn.service.exception;
+package pl.pollub.cs.test.service.exception;
 
 /**
  * Created by pglg on 26-04-2016.

@@ -1,7 +1,7 @@
 package pl.pollub.cs.pentalearn.controller;
 
 import pl.pollub.cs.pentalearn.domain.User;
-import pl.pollub.cs.pentalearn.repository.CategoryRepository;
+import pl.pollub.cs.test.repository.CategoryRepository;
 import pl.pollub.cs.pentalearn.service.UserService;
 import pl.pollub.cs.pentalearn.util.UserUtil;
 import org.junit.Before;

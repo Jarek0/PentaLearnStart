@@ -1,14 +1,15 @@
-package pl.pollub.cs.pentalearn.service;
+package pl.pollub.cs.test.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pl.pollub.cs.pentalearn.domain.Category;
-import pl.pollub.cs.pentalearn.repository.CategoryRepository;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCategory;
-import pl.pollub.cs.pentalearn.service.exception.CategoryAlreadyExistException;
+import pl.pollub.cs.pentalearn.service.UserServiceImpl;
+import pl.pollub.cs.test.service.exception.NoSuchCategory;
+import pl.pollub.cs.test.service.exception.CategoryAlreadyExistException;
+import pl.pollub.cs.test.domain.Category;
+import pl.pollub.cs.test.repository.CategoryRepository;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

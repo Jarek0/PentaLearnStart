@@ -1,4 +1,4 @@
-package pl.pollub.cs.pentalearn.controller;
+package pl.pollub.cs.test.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import pl.pollub.cs.pentalearn.domain.Category;
 import pl.pollub.cs.pentalearn.domain.QuestionCategoryCreateForm;
-import pl.pollub.cs.pentalearn.service.CategoryService;
-import pl.pollub.cs.pentalearn.service.exception.CategoryAlreadyExistException;
+import pl.pollub.cs.test.service.CategoryService;
+import pl.pollub.cs.test.service.exception.CategoryAlreadyExistException;
+import pl.pollub.cs.test.domain.Category;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

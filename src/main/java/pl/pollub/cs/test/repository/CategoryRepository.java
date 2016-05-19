@@ -1,8 +1,8 @@
-package pl.pollub.cs.pentalearn.repository;
+package pl.pollub.cs.test.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.pollub.cs.pentalearn.domain.Category;
+import pl.pollub.cs.test.domain.Category;
 
 /**
  * Created by pglg on 24-04-2016.
