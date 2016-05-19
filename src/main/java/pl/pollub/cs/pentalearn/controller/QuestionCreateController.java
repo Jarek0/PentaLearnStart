@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pollub.cs.pentalearn.domain.*;
 import pl.pollub.cs.pentalearn.service.AnswerService;
-import pl.pollub.cs.test.service.CategoryService;
 import pl.pollub.cs.pentalearn.service.QuestionService;
 
 import javax.inject.Inject;
@@ -38,11 +37,9 @@ TO POWINNO SIE LATWO NAPRAWIC.
 @Controller
 public class QuestionCreateController {
 
-
     private final QuestionService questionService;
    // private final CategoryService categoryService; unnecessary
     private final AnswerService answerService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserCreateController.class);
 
 
     @Inject
