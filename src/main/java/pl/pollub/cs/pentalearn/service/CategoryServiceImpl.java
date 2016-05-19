@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category existing = categoryRepository.findByName(category.getName());
         if (existing != null) {
             throw new CategoryAlreadyExistException(
-                    String.format("There already exists a user with id=%s", category.getId()));
+                   "There already exists a category with name="+ category.getName());
         }
         return categoryRepository.save(category);
     }

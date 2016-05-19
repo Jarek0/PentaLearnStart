@@ -25,11 +25,11 @@ public class Chapter {
     private Course course;
 
     @NotNull
-    @OneToMany(mappedBy = "chapter",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "chapter",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<Lecture> lectures=new ArrayList<>();
 
     @NotNull
-    @OneToMany(mappedBy = "chapter",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "chapter",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<Exercise> exercises=new ArrayList<>();
 
     @NotNull
@@ -42,10 +42,11 @@ public class Chapter {
 
     private Chapter(){}
 
-    public Chapter(Course course) {
+    public Chapter(String name, String description, Course course) {
+        this.name = name;
+        this.description = description;
         this.course = course;
     }
-
 
     public void addLecture(Lecture lecture){
         this.lectures.add(lecture);

@@ -11,6 +11,7 @@ import pl.pollub.cs.pentalearn.repository.CategoryRepository;
 import pl.pollub.cs.pentalearn.repository.ChapterRepository;
 import pl.pollub.cs.pentalearn.service.exception.CategoryAlreadyExistException;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchCategory;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchChapter;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -38,11 +39,41 @@ public class ChapterServiceImpl implements ChapterService {
         return (List<Chapter>) chapterRepository.findAll();
     }
 
+    @Override
+    @Transactional
+    public Chapter save(@NotNull @Valid Chapter chapter) {
+       return chapterRepository.save(chapter);
+    }
+
     //Added method here - WN
     @Override
     @Transactional(readOnly = true)
     public List<Chapter> getChaptersByCourseId(long courseId) {
         return chapterRepository.getChaptersByCourseId(courseId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Chapter getById(Long id) throws NoSuchChapter {
+        Chapter chapter=chapterRepository.findOne(id);
+        if(chapter==null){
+            throw new NoSuchChapter("There isn't such chapter with id="+id);
+        }
+        else{
+            return chapter;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Chapter update(Chapter chapter) {
+        return chapterRepository.save(chapter);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Chapter chapter) {
+         chapterRepository.delete(chapter);
     }
 
 }

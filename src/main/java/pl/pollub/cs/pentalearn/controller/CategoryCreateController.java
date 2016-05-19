@@ -1,12 +1,11 @@
 package pl.pollub.cs.pentalearn.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pollub.cs.pentalearn.domain.Category;
 import pl.pollub.cs.pentalearn.domain.QuestionCategoryCreateForm;
@@ -14,12 +13,15 @@ import pl.pollub.cs.pentalearn.service.CategoryService;
 import pl.pollub.cs.pentalearn.service.exception.CategoryAlreadyExistException;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
  * Created by pglg on 24-04-2016.
  */
-@Controller
+@RestController
+@RequestMapping(value = "/api/categories")
 public class CategoryCreateController {
 
     private final CategoryService categoryService;
@@ -51,5 +53,15 @@ public class CategoryCreateController {
         }
         return "redirect:/question_category_list.html";
     }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addCategory(@Valid @RequestBody Category category,HttpServletRequest httpServletRequest,
+                            HttpServletResponse httpServletResponse) throws CategoryAlreadyExistException {
+
+            categoryService.save(category);
+    }
+
+
 
 }

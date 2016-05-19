@@ -24,7 +24,7 @@ public class Category {
     private String name;
 
     @NotNull
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<Course> courses=new ArrayList<>();
 
     public Category(String name) {

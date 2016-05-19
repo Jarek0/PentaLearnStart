@@ -24,7 +24,7 @@ public class Course {
     private Long id;
 
     @NotNull
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Chapter> chapters=new ArrayList<>();
 
     @NotNull

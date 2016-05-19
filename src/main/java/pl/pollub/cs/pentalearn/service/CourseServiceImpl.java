@@ -50,7 +50,7 @@ public class CourseServiceImpl implements CourseService {
             return existing;
         }
         else{
-            throw new NoSuchCourse("There isn't such category of question");
+            throw new NoSuchCourse("There isn't such course");
         }
     }
 
