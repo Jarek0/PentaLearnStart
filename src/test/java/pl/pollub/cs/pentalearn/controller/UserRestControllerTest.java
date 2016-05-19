@@ -22,14 +22,11 @@ public class UserRestControllerTest {
     @Mock
     private UserService userService;
 
-    @Mock
-    private CategoryRepository categoryRepository;
-
     private UserRestController userRestController;
 
     @Before
     public void setUp() throws Exception {
-        userRestController = new UserRestController(userService, categoryRepository);
+        userRestController = new UserRestController(userService);
     }
 
     @Test

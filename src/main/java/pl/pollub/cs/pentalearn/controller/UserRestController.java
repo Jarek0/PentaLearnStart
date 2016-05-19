@@ -18,12 +18,10 @@ public class UserRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRestController.class);
     private final UserService userService;
-    private CategoryRepository categoryRepository;
 
     @Inject
-    public UserRestController(final UserService userService, CategoryRepository categoryRepository) {
+    public UserRestController(final UserService userService) {
         this.userService = userService;
-        this.categoryRepository = categoryRepository;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)

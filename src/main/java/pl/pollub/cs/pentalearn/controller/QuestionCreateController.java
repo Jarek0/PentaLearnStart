@@ -31,7 +31,7 @@ NAPISANIEM JSP (DOSC ROZBUDOWANEGO) I POBRANIEM TEGO OD URZYTKOWNIKA. PRZY ZMIAN
 TO POWINNO SIE LATWO NAPRAWIC.
  */
 
-
+// WN - RACZEJ TA KLASA DO WYRZUCENIA IDZIE, POKOMENTOWAŁEM ŻEBY SIĘ SKOMPILOWA
 
 
 
@@ -40,17 +40,24 @@ public class QuestionCreateController {
 
 
     private final QuestionService questionService;
-    private final CategoryService categoryService;
+   // private final CategoryService categoryService; unnecessary
     private final AnswerService answerService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserCreateController.class);
 
 
     @Inject
+    public QuestionCreateController(QuestionService questionService, AnswerService answerService) {
+        this.questionService = questionService;
+        this.answerService = answerService;
+    }
+
+    //ZOSTAWIAM STARY KONSTRUKTOR NARAZIE
+   /* @Inject
     public QuestionCreateController(QuestionService questionService, CategoryService categoryService, AnswerService answerService) {
         this.questionService = questionService;
         this.categoryService = categoryService;
         this.answerService = answerService;
-    }
+    } */
 
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
@@ -60,7 +67,7 @@ public class QuestionCreateController {
 
     public ModelAndView getQuestionCreateView(QuestionCreateForm questionCreateForm) {
         ModelMap model = new ModelMap();
-        model.addAttribute("questionCategories", categoryService.getList());
+     //   model.addAttribute("questionCategories", categoryService.getList());
         model.addAttribute("form",questionCreateForm);
         return new ModelAndView("question_create", model);
     }
@@ -83,7 +90,7 @@ public class QuestionCreateController {
         if (result.hasErrors()) {
 
             ModelMap model = new ModelMap();
-            model.addAttribute("questionCategories", categoryService.getList());
+           // model.addAttribute("questionCategories", categoryService.getList());
             model.addAttribute("form");
 
             return new ModelAndView("question_create", model);

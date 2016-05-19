@@ -11,5 +11,4 @@ import java.util.List;
  */
 @Repository
 public interface CourseRepository extends CrudRepository<Course,Long> {
-    List<Course> getCoursesByCategoryId(long id);
 }
