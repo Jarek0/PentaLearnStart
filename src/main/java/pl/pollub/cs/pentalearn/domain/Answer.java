@@ -14,10 +14,13 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private Boolean correct;
+
     @NotNull
     @Size(max=64)
     private String answerText;
+
     @NotNull
     @ManyToOne
     private Question question;

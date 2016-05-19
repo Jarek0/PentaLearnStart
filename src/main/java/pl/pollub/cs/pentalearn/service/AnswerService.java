@@ -9,5 +9,7 @@ import pl.pollub.cs.pentalearn.service.exception.NoSuchAnswer;
 public interface AnswerService {
     Answer save(Answer answer);
     Answer getById(Long id) throws NoSuchAnswer;
+    Answer update(Answer answer);
+    void delete(Answer answer);
 
 }

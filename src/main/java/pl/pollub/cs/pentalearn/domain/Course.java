@@ -28,8 +28,8 @@ public class Course {
     private List<Chapter> chapters=new ArrayList<>();
 
     @NotNull
-    @ManyToOne
-    private Category category;
+    @Size(max=400)
+    private String category;
 
     @NotNull
     @Size(max = 64,min = 4)
@@ -39,7 +39,7 @@ public class Course {
     @Size(max = 64)
     private String description;
 
-    public Course(String name, String description, Category category) {
+    public Course(String name, String description, String category) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -76,11 +76,11 @@ public class Course {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }

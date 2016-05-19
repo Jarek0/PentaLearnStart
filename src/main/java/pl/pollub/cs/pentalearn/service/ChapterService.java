@@ -11,8 +11,9 @@ import java.util.List;
 public interface ChapterService {
     List<Chapter> getList();
     Chapter save(Chapter chapter);
-    List<Chapter> getChaptersByCourseId(long courseId);
-    Chapter getById(Long id) throws NoSuchChapter;
     Chapter update(Chapter chapter);
     void delete(Chapter chapter);
+    List<Chapter> getChaptersByCourseId(long courseId);
+    Chapter getById(Long id) throws NoSuchChapter;
+
 }

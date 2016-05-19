@@ -25,7 +25,7 @@ public class Question {
     private String questionText;
 
     @NotNull
-    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Answer> answers=new ArrayList<>();
 
     private Question(){}
@@ -58,5 +58,9 @@ public class Question {
 
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 }

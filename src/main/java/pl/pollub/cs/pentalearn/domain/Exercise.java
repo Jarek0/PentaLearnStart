@@ -29,7 +29,7 @@ public class Exercise {
     private String title;
 
     @NotNull
-    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<Question>questions=new ArrayList<>();
 
     private Exercise(){}

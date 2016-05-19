@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface CourseService {
     List<Course> getList();
-    List<Course> getCoursesByCategoryId(long id);
     Course getById(Long id) throws NoSuchCourse;
+    Course save(Course course);
+    Course update(Course course);
+    void delete(Course course);
 }
