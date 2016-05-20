@@ -1,7 +1,6 @@
 package pl.pollub.cs.pentalearn.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import pl.pollub.cs.test.domain.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
