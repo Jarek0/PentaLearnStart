@@ -1,20 +1,17 @@
 package pl.pollub.cs.pentalearn.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.domain.createForm.CourseCreateForm;
-import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.CourseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCourse;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
+import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +34,7 @@ public class CourseController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Course> getAllCourses(){
+    public List<Course> getAllCourses() throws TableIsEmptyException {
         return courseService.getAll();
     }
 
@@ -55,7 +52,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public void updateCourse(@PathVariable Long courseId,@Valid @RequestBody CourseCreateForm courseCreateForm,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchCourse {
+                              HttpServletResponse httpServletResponse) throws NoSuchCourseException {
 
         Course course = courseService.getById(courseId);
         course.setName(courseCreateForm.getName());
@@ -68,7 +65,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteCourse(@PathVariable Long courseId,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchCourse {
+                              HttpServletResponse httpServletResponse) throws NoSuchCourseException {
 
         Course course = courseService.getById(courseId);
         courseService.delete(course);

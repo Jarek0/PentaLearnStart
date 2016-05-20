@@ -4,14 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.*;
 import pl.pollub.cs.pentalearn.domain.createForm.AnswerCreateForm;
-import pl.pollub.cs.pentalearn.domain.createForm.LectureCreateForm;
 import pl.pollub.cs.pentalearn.domain.createForm.QuestionCreateForm;
 import pl.pollub.cs.pentalearn.service.AnswerService;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
 import pl.pollub.cs.pentalearn.service.QuestionService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExercise;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchLecture;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestion;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestionException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -39,14 +37,15 @@ public class QuestionController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Question> showQuestionsByExerciseId(@PathVariable long exerciseId) throws NoSuchExercise{;
+    public List<Question> showQuestionsByExerciseId(@PathVariable long exerciseId) throws NoSuchExerciseException {
         return questionService.getQuestionsByExerciseId(exerciseId);
     }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void addQuestion(@PathVariable Long exerciseId, @Valid @RequestBody QuestionCreateForm questionCreateForm,
                            HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws  NoSuchExercise {
+                           HttpServletResponse httpServletResponse) throws NoSuchExerciseException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
         Question question = new Question(questionCreateForm.getQuestionText(),exercise);
@@ -61,7 +60,7 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     public void updateQuestion(@PathVariable Long questionId,@Valid @RequestBody QuestionCreateForm questionCreateForm,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchQuestion {
+                              HttpServletResponse httpServletResponse) throws NoSuchQuestionException {
 
         Question question=questionService.getById(questionId);
         question.setQuestionText(questionCreateForm.getQuestionText());

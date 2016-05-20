@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import pl.pollub.cs.pentalearn.domain.Answer;
 import pl.pollub.cs.pentalearn.repository.AnswerRepository;
 import pl.pollub.cs.pentalearn.service.AnswerService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchAnswer;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchAnswerException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 @Service
 @Validated
 public class AnswerServiceImpl implements AnswerService {
-
     private final AnswerRepository answerRepository;
 
     @Inject
@@ -34,13 +33,13 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     @Transactional(readOnly = true)
-    public Answer getById(@NotNull @Valid Long id) throws NoSuchAnswer {
+    public Answer getById(@NotNull @Valid Long id) throws NoSuchAnswerException {
         Answer existing=answerRepository.findOne(id);
         if(existing!=null){
             return existing;
         }
         else{
-            throw new NoSuchAnswer("There isn't such answer id: " + id);
+            throw new NoSuchAnswerException(id);
         }
     }
 
@@ -55,6 +54,4 @@ public class AnswerServiceImpl implements AnswerService {
     public void delete(Answer answer) {
          answerRepository.delete(answer);
     }
-
-
 }
