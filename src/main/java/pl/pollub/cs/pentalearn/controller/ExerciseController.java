@@ -36,7 +36,7 @@ public class ExerciseController {
         this.chapterService = chapterService;
     }
 
-    //TODO think about return one exercise or many
+    //TODO think about return one or many exercises
     @RequestMapping(method = RequestMethod.GET)
     public List<Exercise> showExerciseByChapterId(@PathVariable long chapterId){
         return exerciseService.getExercisesByChapterId(chapterId);
