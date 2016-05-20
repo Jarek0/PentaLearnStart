@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import pl.pollub.cs.pentalearn.domain.Question;
 import pl.pollub.cs.pentalearn.repository.QuestionRepository;
 import pl.pollub.cs.pentalearn.service.QuestionService;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchExercise;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestion;
 
 import javax.inject.Inject;
@@ -56,7 +57,16 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional(readOnly = true)
     public Question getById(Long id) throws NoSuchQuestion {
         Question question=questionRepository.findOne(id);
-        if(question==null) throw new NoSuchQuestion("There is not such question with id="+id);
+        if(question==null) throw new NoSuchQuestion("There is not such question with id= "+id);
         else return question;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Question> getQuestionsByExerciseId(long exerciseId) throws NoSuchExercise{
+        List<Question> questions = questionRepository.getQuestionsByExerciseId(exerciseId);
+        if(questions.size() == 0)
+            throw new NoSuchExercise("There is no exercises by id: " + exerciseId);
+        return questions;
     }
 }

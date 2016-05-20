@@ -64,7 +64,7 @@ public class LectureServiceImpl implements LectureService {
     @Transactional(readOnly = true)
     public Lecture getById(Long id) throws NoSuchLecture {
         Lecture lecture=lectureRepository.findOne(id);
-        if(lecture==null) throw new NoSuchLecture("There is not such lecture with id="+id);
+        if(lecture==null) throw new NoSuchLecture("There is not such lecture with id= "+id);
         else return lecture;
     }
 

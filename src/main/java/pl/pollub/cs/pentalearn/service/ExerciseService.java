@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ExerciseService {
     List<Exercise> getList();
-    Exercise getExerciseByChapterId(long chapterId);
+    List<Exercise> getExercisesByChapterId(long chapterId);
     Exercise save(Exercise exercise);
     Exercise update(Exercise exercise);
     void delete(Exercise exercise);

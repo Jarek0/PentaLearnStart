@@ -14,13 +14,19 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
+/*
+* Strategy: User calls for only ONE Question when 'click' next,
+ * controller will return next Question.
+ * If there is last question will be check exercise
+ * and save result save to user DB //TODO IMPLEMENT
+ * also will return result to user //TODO IMPLEMENT
+ */
 
 @RestController
-@RequestMapping(value = "/api/chapters/{chapterId}/exercise")
+@RequestMapping(value = "/api/chapters/{chapterId}/exercises")
 public class ExerciseController {
-
-
     private final ExerciseService exerciseService;
     private final ChapterService chapterService;
 
@@ -30,10 +36,10 @@ public class ExerciseController {
         this.chapterService = chapterService;
     }
 
-    //DO POPRAWY BO NIE MOZE WURZUCIC WIECEJ NIZ JEDEN
+    //TODO think about return one exercise or many
     @RequestMapping(method = RequestMethod.GET)
-    public Exercise showExerciseByChapterId(@PathVariable long chapterId){
-        return exerciseService.getExerciseByChapterId(chapterId);
+    public List<Exercise> showExerciseByChapterId(@PathVariable long chapterId){
+        return exerciseService.getExercisesByChapterId(chapterId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -42,10 +48,8 @@ public class ExerciseController {
                             HttpServletRequest httpServletRequest,
                             HttpServletResponse httpServletResponse) throws NoSuchChapter  {
 
-
-
-        Chapter chapter=chapterService.getById(chapterId);
-        Exercise exercise=new Exercise(chapter,exerciseCreateForm.getTitle());
+        Chapter chapter = chapterService.getById(chapterId);
+        Exercise exercise = new Exercise(chapter,exerciseCreateForm.getTitle());
         exerciseService.save(exercise);
     }
 
@@ -55,7 +59,7 @@ public class ExerciseController {
                               HttpServletRequest httpServletRequest,
                               HttpServletResponse httpServletResponse) throws NoSuchExercise {
 
-        Exercise exercise=exerciseService.getById(exerciseId);
+        Exercise exercise = exerciseService.getById(exerciseId);
         exercise.setTitle(exerciseCreateForm.getTitle());
         exerciseService.update(exercise);
     }
@@ -66,7 +70,7 @@ public class ExerciseController {
                               HttpServletRequest httpServletRequest,
                               HttpServletResponse httpServletResponse) throws NoSuchExercise {
 
-        Exercise exercise=exerciseService.getById(exerciseId);
+        Exercise exercise = exerciseService.getById(exerciseId);
         exerciseService.delete(exercise);
 
     }

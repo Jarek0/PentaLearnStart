@@ -13,12 +13,6 @@ import pl.pollub.cs.pentalearn.service.exception.*;
 @ControllerAdvice
 public class CentralControllerHandler {
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({CategoryAlreadyExistException.class})
-    public ResponseEntity<String> handleCategoryAlreadyExist(CategoryAlreadyExistException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-    }
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({NoSuchCourse.class})
     public ResponseEntity<String> handleNoSuchCourse(NoSuchCourse e){

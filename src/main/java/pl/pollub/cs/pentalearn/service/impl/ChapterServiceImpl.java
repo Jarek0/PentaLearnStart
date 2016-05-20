@@ -5,14 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pl.pollub.cs.pentalearn.domain.Category;
 import pl.pollub.cs.pentalearn.domain.Chapter;
-import pl.pollub.cs.pentalearn.repository.CategoryRepository;
 import pl.pollub.cs.pentalearn.repository.ChapterRepository;
 import pl.pollub.cs.pentalearn.service.ChapterService;
-import pl.pollub.cs.pentalearn.service.exception.CategoryAlreadyExistException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCategory;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchChapter;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchCourse;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -44,7 +41,10 @@ public class ChapterServiceImpl implements ChapterService {
     //Added method here - WN
     @Override
     @Transactional(readOnly = true)
-    public List<Chapter> getChaptersByCourseId(long courseId) {
+    public List<Chapter> getChaptersByCourseId(long courseId) throws NoSuchCourse{
+        List<Chapter> chapters =  chapterRepository.getChaptersByCourseId(courseId);
+        if(chapters.size() == 0)
+            throw new NoSuchCourse("No such course by ID: " + courseId);
         return chapterRepository.getChaptersByCourseId(courseId);
     }
 
@@ -53,7 +53,7 @@ public class ChapterServiceImpl implements ChapterService {
     public Chapter getById(Long id) throws NoSuchChapter {
         Chapter chapter=chapterRepository.findOne(id);
         if(chapter==null){
-            throw new NoSuchChapter("There isn't such chapter with id="+id);
+            throw new NoSuchChapter("There isn't such chapter with id= "+id);
         }
         else{
             return chapter;

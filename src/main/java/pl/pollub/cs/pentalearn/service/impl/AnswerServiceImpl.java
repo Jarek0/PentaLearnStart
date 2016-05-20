@@ -40,7 +40,7 @@ public class AnswerServiceImpl implements AnswerService {
             return existing;
         }
         else{
-            throw new NoSuchAnswer("There isn't such answer");
+            throw new NoSuchAnswer("There isn't such answer id: " + id);
         }
     }
 

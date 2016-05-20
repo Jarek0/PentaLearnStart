@@ -1,5 +1,7 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -58,6 +60,7 @@ public class Answer {
         this.id = id;
     }
 
+    @JsonIgnore
     public Question getQuestion() {
         return question;
     }

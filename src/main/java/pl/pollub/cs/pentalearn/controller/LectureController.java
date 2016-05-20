@@ -24,7 +24,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/api/chapters/{chapterId}/lectures")
 public class LectureController {
-
     private final LectureService lectureService;
     private final ChapterService chapterService;
 
@@ -69,6 +68,5 @@ public class LectureController {
 
         Lecture lecture=lectureService.getById(lectureId);
         lectureService.delete(lecture);
-
     }
 }

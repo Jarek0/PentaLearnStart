@@ -33,7 +33,7 @@ public class ChapterController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Chapter> showChaptersByCourseId(@PathVariable Long courseId){
+    public List<Chapter> showChaptersByCourseId(@PathVariable Long courseId) throws NoSuchCourse{
          return chapterService.getChaptersByCourseId(courseId);
     }
 

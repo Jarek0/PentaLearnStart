@@ -1,6 +1,7 @@
 package pl.pollub.cs.pentalearn.service;
 
 import pl.pollub.cs.pentalearn.domain.Question;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchExercise;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestion;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface QuestionService {
     Question update(Question question);
     void delete(Question question);
     Question getById(Long id)throws NoSuchQuestion;
+    List<Question> getQuestionsByExerciseId(long exerciseId) throws NoSuchExercise;
 }

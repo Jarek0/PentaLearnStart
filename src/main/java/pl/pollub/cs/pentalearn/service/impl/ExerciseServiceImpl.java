@@ -38,8 +38,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     //added method here -WN
     @Override
     @Transactional(readOnly = true)
-    public Exercise getExerciseByChapterId(long chapterId) {
-        return exerciseRepository.getExerciseByChapterId(chapterId);
+    public List<Exercise> getExercisesByChapterId(long chapterId) {
+        return exerciseRepository.getExercisesByChapterId(chapterId);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public Exercise getById(Long id) throws NoSuchExercise {
         Exercise exercise=exerciseRepository.findOne(id);
         if(exercise==null){
-            throw new NoSuchExercise("There isn't such exercise with id="+id);
+            throw new NoSuchExercise("There isn't such exercise with id= "+id);
         }
         else return exercise;
     }

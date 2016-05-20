@@ -7,7 +7,6 @@ import pl.pollub.cs.pentalearn.domain.createForm.AnswerCreateForm;
 import pl.pollub.cs.pentalearn.domain.createForm.LectureCreateForm;
 import pl.pollub.cs.pentalearn.domain.createForm.QuestionCreateForm;
 import pl.pollub.cs.pentalearn.service.AnswerService;
-import pl.pollub.cs.pentalearn.service.CategoryService;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
 import pl.pollub.cs.pentalearn.service.QuestionService;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchExercise;
@@ -18,44 +17,42 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by pglg on 25-04-2016.
  */
 
-
-
-
-
-
 @RestController
 @RequestMapping(value = "/api/exercises/{exerciseId}/questions")
 public class QuestionController {
-
-
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final ExerciseService exerciseService;
 
-
     @Inject
-    public QuestionController(QuestionService questionService, CategoryService categoryService, AnswerService answerService, ExerciseService exerciseService) {
+    public QuestionController(QuestionService questionService, AnswerService answerService,
+                              ExerciseService exerciseService) {
         this.questionService = questionService;
         this.exerciseService = exerciseService;
         this.answerService = answerService;
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Question> showQuestionsByExerciseId(@PathVariable long exerciseId) throws NoSuchExercise{;
+        return questionService.getQuestionsByExerciseId(exerciseId);
+    }
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void addQuestion(@PathVariable Long exerciseId, @Valid @RequestBody QuestionCreateForm questionCreateForm,
                            HttpServletRequest httpServletRequest,
                            HttpServletResponse httpServletResponse) throws  NoSuchExercise {
 
-        Exercise exercise=exerciseService.getById(exerciseId);
-        Question question=new Question(questionCreateForm.getQuestionText(),exercise);
+        Exercise exercise = exerciseService.getById(exerciseId);
+        Question question = new Question(questionCreateForm.getQuestionText(),exercise);
         questionService.save(question);
         for(AnswerCreateForm answerCreateForms: questionCreateForm.getAnswers()){
-            Answer answer=new Answer(question,answerCreateForms.getAnswerText(),answerCreateForms.getCorrect());
+            Answer answer = new Answer(question,answerCreateForms.getAnswerText(),answerCreateForms.getCorrect());
             answerService.save(answer);
         }
     }
@@ -82,10 +79,4 @@ public class QuestionController {
         }
         questionService.save(question);
     }
-
-
-
-
-
-
 }

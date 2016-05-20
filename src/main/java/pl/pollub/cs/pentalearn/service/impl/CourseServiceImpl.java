@@ -29,14 +29,11 @@ public class CourseServiceImpl implements CourseService {
         this.courseRepository = courseRepository;
     }
 
-
     @Override
     @Transactional(readOnly =true)
-    public List<Course> getList() {
+    public List<Course> getAll() {
         return (List<Course>) courseRepository.findAll();
     }
-
-    //Added method here - WN
 
     @Override
     @Transactional(readOnly = true)
@@ -46,7 +43,7 @@ public class CourseServiceImpl implements CourseService {
             return existing;
         }
         else{
-            throw new NoSuchCourse("There isn't such course");
+            throw new NoSuchCourse("There isn't such course: " + id);
         }
     }
 
