@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.pollub.cs.pentalearn.domain.Chapter;
 import pl.pollub.cs.pentalearn.repository.ChapterRepository;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchCourse;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -33,7 +34,10 @@ public class ChapterServiceImpl implements ChapterService {
     //Added method here - WN
     @Override
     @Transactional(readOnly = true)
-    public List<Chapter> getChaptersByCourseId(long courseId) {
+    public List<Chapter> getChaptersByCourseId(long courseId) throws NoSuchCourse{
+        List<Chapter> chapters =  chapterRepository.getChaptersByCourseId(courseId);
+        if(chapters.size() == 0)
+            throw new NoSuchCourse(courseId);
         return chapterRepository.getChaptersByCourseId(courseId);
     }
 
