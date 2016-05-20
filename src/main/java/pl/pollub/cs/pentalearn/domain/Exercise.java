@@ -68,7 +68,6 @@ public class Exercise {
         this.title = title;
     }
 
-    @JsonIgnore
     public List<Question> getQuestions() {
         return questions;
     }

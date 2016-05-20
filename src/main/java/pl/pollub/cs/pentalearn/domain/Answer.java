@@ -36,6 +36,7 @@ public class Answer {
 
     private Answer(){}
 
+    @JsonIgnore
     public Boolean getCorrect() {
         return correct;
     }
