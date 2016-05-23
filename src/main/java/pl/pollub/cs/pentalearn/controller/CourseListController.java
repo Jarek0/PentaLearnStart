@@ -36,6 +36,6 @@ public class CourseListController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Course> getAllCourses(){
-        return courseService.getAll();
+        return courseService.getList();
     }
 }
