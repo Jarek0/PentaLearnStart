@@ -5,11 +5,12 @@ import org.springframework.stereotype.Repository;
 import pl.pollub.cs.pentalearn.domain.Question;
 
 import javax.persistence.Entity;
+import java.util.List;
 
 /**
  * Created by pglg on 25-04-2016.
  */
 @Repository
 public interface QuestionRepository extends CrudRepository<Question,Long>{
-
+    List<Question> getQuestionsByExerciseId(long exerciseId);
 }

@@ -3,12 +3,12 @@ package pl.pollub.cs.pentalearn.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.domain.Exercise;
-import pl.pollub.cs.pentalearn.repository.CourseRepository;
 import pl.pollub.cs.pentalearn.repository.ExerciseRepository;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExercise;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
+import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -21,7 +21,6 @@ import java.util.List;
 @Service
 @Validated
 public class ExerciseServiceImpl implements ExerciseService {
-
     private final ExerciseRepository exerciseRepository;
 
     @Inject
@@ -30,16 +29,21 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    @Transactional(readOnly =true)
-    public List<Exercise> getList() {
-        return (List<Exercise>) exerciseRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<Exercise> getList() throws TableIsEmptyException {
+        List<Exercise> exercises = (List<Exercise>) exerciseRepository.findAll();
+        if(exercises.size() == 0)
+            throw new TableIsEmptyException("Exercise");
+        return exercises;
     }
 
-    //added method here -WN
     @Override
     @Transactional(readOnly = true)
-    public Exercise getExerciseByChapterId(long chapterId) {
-        return exerciseRepository.getExerciseByChapterId(chapterId);
+    public List<Exercise> getExercisesByChapterId(long chapterId) throws NoSuchChapterException {
+        List<Exercise> exercises = exerciseRepository.getExercisesByChapterId(chapterId);
+        if(exercises.size() == 0)
+            throw new NoSuchChapterException(chapterId);
+        return exercises;
     }
 
     @Override
@@ -62,12 +66,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Exercise getById(Long id) throws NoSuchExercise {
+    public Exercise getById(Long id) throws NoSuchExerciseException {
         Exercise exercise=exerciseRepository.findOne(id);
-        if(exercise==null){
-            throw new NoSuchExercise("There isn't such exercise with id="+id);
-        }
-        else return exercise;
+        if(exercise==null)
+            throw new NoSuchExerciseException(id);
+        return exercise;
     }
-
 }

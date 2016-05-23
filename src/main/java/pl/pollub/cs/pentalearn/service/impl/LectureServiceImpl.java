@@ -3,12 +3,12 @@ package pl.pollub.cs.pentalearn.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pl.pollub.cs.pentalearn.domain.Exercise;
 import pl.pollub.cs.pentalearn.domain.Lecture;
-import pl.pollub.cs.pentalearn.repository.ExerciseRepository;
 import pl.pollub.cs.pentalearn.repository.LectureRepository;
 import pl.pollub.cs.pentalearn.service.LectureService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchLecture;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchLectureException;
+import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -21,7 +21,6 @@ import java.util.List;
 @Service
 @Validated
 public class LectureServiceImpl implements LectureService {
-
     private final LectureRepository lectureRepository;
 
     @Inject
@@ -31,15 +30,20 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Lecture> getList() {
-        return (List<Lecture>) lectureRepository.findAll();
+    public List<Lecture> getList() throws TableIsEmptyException {
+        List<Lecture> lectures = (List<Lecture>) lectureRepository.findAll();
+        if(lectures.size() == 0)
+            throw new TableIsEmptyException("lecture");
+        return lectures;
     }
 
-    //added method here -WN
     @Override
     @Transactional(readOnly = true)
-    public Lecture getLectureByChapterId(long chapterId) {
-        return lectureRepository.getLectureByChapterId(chapterId);
+    public List<Lecture> getLecturesByChapterId(long chapterId) throws NoSuchChapterException {
+        List<Lecture> lectures = lectureRepository.getLecturesByChapterId(chapterId);
+        if(lectures.size() == 0)
+            throw new NoSuchChapterException(chapterId);
+        return lectures;
     }
 
     @Override
@@ -62,10 +66,10 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional(readOnly = true)
-    public Lecture getById(Long id) throws NoSuchLecture {
+    public Lecture getById(Long id) throws NoSuchLectureException {
         Lecture lecture=lectureRepository.findOne(id);
-        if(lecture==null) throw new NoSuchLecture("There is not such lecture with id="+id);
-        else return lecture;
+        if(lecture==null)
+            throw new NoSuchLectureException(id);
+        return lecture;
     }
-
 }

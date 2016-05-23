@@ -7,20 +7,26 @@ import pl.pollub.cs.pentalearn.domain.Exercise;
 import pl.pollub.cs.pentalearn.domain.createForm.ExerciseCreateForm;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapter;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExercise;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
+/*
+* Strategy: User calls for only ONE Question when 'click' next,
+ * controller will return next Question.
+ * If there is last question will be check exercise
+ * and save result save to user DB //TODO IMPLEMENT
+ * also will return result to user //TODO IMPLEMENT
+ */
 
 @RestController
-@RequestMapping(value = "/api/chapters/{chapterId}/exercise")
+@RequestMapping(value = "/api/chapters/{chapterId}/exercises")
 public class ExerciseController {
-
-
     private final ExerciseService exerciseService;
     private final ChapterService chapterService;
 
@@ -30,22 +36,20 @@ public class ExerciseController {
         this.chapterService = chapterService;
     }
 
-    //DO POPRAWY BO NIE MOZE WURZUCIC WIECEJ NIZ JEDEN
+    //TODO think about return one or many exercises
     @RequestMapping(method = RequestMethod.GET)
-    public Exercise showExerciseByChapterId(@PathVariable long chapterId){
-        return exerciseService.getExerciseByChapterId(chapterId);
+    public List<Exercise> showExerciseByChapterId(@PathVariable long chapterId) throws NoSuchChapterException {
+        return exerciseService.getExercisesByChapterId(chapterId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void addExercise(@PathVariable Long chapterId, @Valid @RequestBody ExerciseCreateForm exerciseCreateForm,
                             HttpServletRequest httpServletRequest,
-                            HttpServletResponse httpServletResponse) throws NoSuchChapter  {
+                            HttpServletResponse httpServletResponse) throws NoSuchChapterException {
 
-
-
-        Chapter chapter=chapterService.getById(chapterId);
-        Exercise exercise=new Exercise(chapter,exerciseCreateForm.getTitle());
+        Chapter chapter = chapterService.getById(chapterId);
+        Exercise exercise = new Exercise(chapter,exerciseCreateForm.getTitle());
         exerciseService.save(exercise);
     }
 
@@ -53,9 +57,9 @@ public class ExerciseController {
     @ResponseStatus(HttpStatus.OK)
     public void updateExercise(@PathVariable Long exerciseId,@Valid @RequestBody ExerciseCreateForm exerciseCreateForm,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchExercise {
+                              HttpServletResponse httpServletResponse) throws NoSuchExerciseException {
 
-        Exercise exercise=exerciseService.getById(exerciseId);
+        Exercise exercise = exerciseService.getById(exerciseId);
         exercise.setTitle(exerciseCreateForm.getTitle());
         exerciseService.update(exercise);
     }
@@ -64,11 +68,10 @@ public class ExerciseController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteChapter(@PathVariable Long exerciseId,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchExercise {
+                              HttpServletResponse httpServletResponse) throws NoSuchExerciseException {
 
-        Exercise exercise=exerciseService.getById(exerciseId);
+        Exercise exercise = exerciseService.getById(exerciseId);
         exerciseService.delete(exercise);
-
     }
 
 }

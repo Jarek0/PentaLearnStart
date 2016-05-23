@@ -7,8 +7,8 @@ import pl.pollub.cs.pentalearn.domain.createForm.ChapterCreateForm;
 import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.CourseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapter;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCourse;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/courses/{courseId}/chapters")
 public class ChapterController {
-
     private final ChapterService chapterService;
     private final CourseService courseService;
 
@@ -33,7 +32,7 @@ public class ChapterController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Chapter> showChaptersByCourseId(@PathVariable Long courseId){
+    public List<Chapter> showChaptersByCourseId(@PathVariable Long courseId) throws NoSuchCourseException {
          return chapterService.getChaptersByCourseId(courseId);
     }
 
@@ -41,7 +40,7 @@ public class ChapterController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addChapter(@PathVariable Long courseId,@Valid @RequestBody ChapterCreateForm chapterCreateForm,
                            HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchCourse {
+                           HttpServletResponse httpServletResponse) throws NoSuchCourseException {
 
         Course course=courseService.getById(courseId);
        Chapter chapter=new Chapter(chapterCreateForm.getName(),chapterCreateForm.getDescription(), course);
@@ -53,7 +52,7 @@ public class ChapterController {
     @ResponseStatus(HttpStatus.OK)
     public void updateChapter(@PathVariable Long chapterId,@Valid @RequestBody ChapterCreateForm chapterCreateForm,
                            HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchChapter {
+                           HttpServletResponse httpServletResponse) throws NoSuchChapterException {
 
         Chapter chapter=chapterService.getById(chapterId);
         chapter.setDescription(chapterCreateForm.getDescription());
@@ -65,12 +64,10 @@ public class ChapterController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteChapter(@PathVariable Long chapterId,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchChapter {
+                              HttpServletResponse httpServletResponse) throws NoSuchChapterException {
 
         Chapter chapter=chapterService.getById(chapterId);
 
         chapterService.delete(chapter);
     }
-
-
 }

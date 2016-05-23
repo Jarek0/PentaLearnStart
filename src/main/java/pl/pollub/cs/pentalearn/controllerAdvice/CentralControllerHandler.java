@@ -13,46 +13,39 @@ import pl.pollub.cs.pentalearn.service.exception.*;
 @ControllerAdvice
 public class CentralControllerHandler {
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({CategoryAlreadyExistException.class})
-    public ResponseEntity<String> handleCategoryAlreadyExist(CategoryAlreadyExistException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-    }
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchCourse.class})
-    public ResponseEntity<String> handleNoSuchCourse(NoSuchCourse e){
+    @ExceptionHandler({NoSuchCourseException.class})
+    public ResponseEntity<String> handleNoSuchCourse(NoSuchCourseException e){
         return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchChapter.class})
-    public ResponseEntity<String> handleNoSuchChapter(NoSuchChapter e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchAnswer.class})
-    public ResponseEntity<String> handleNoSuchAnswer(NoSuchAnswer e){
+    @ExceptionHandler({NoSuchChapterException.class})
+    public ResponseEntity<String> handleNoSuchChapter(NoSuchChapterException e){
         return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchExercise.class})
-    public ResponseEntity<String> handleNoSuchExercise(NoSuchExercise e){
+    @ExceptionHandler({NoSuchAnswerException.class})
+    public ResponseEntity<String> handleNoSuchAnswer(NoSuchAnswerException e){
         return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchLecture.class})
-    public ResponseEntity<String> handleNoSuchLecture(NoSuchLecture e){
+    @ExceptionHandler({NoSuchExerciseException.class})
+    public ResponseEntity<String> handleNoSuchExercise(NoSuchExerciseException e){
         return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchQuestion.class})
-    public ResponseEntity<String> handleNoSuchQuestion(NoSuchQuestion e){
+    @ExceptionHandler({NoSuchLectureException.class})
+    public ResponseEntity<String> handleNoSuchLecture(NoSuchLectureException e){
+        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NoSuchQuestionException.class})
+    public ResponseEntity<String> handleNoSuchQuestion(NoSuchQuestionException e){
         return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
@@ -62,4 +55,9 @@ public class CentralControllerHandler {
         return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({TableIsEmptyException.class})
+    public ResponseEntity<String> tableIsEmpty(TableIsEmptyException e){
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }

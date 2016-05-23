@@ -1,5 +1,7 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,6 +41,7 @@ public class Question {
         this.answers = answers;
     }
 
+    @JsonIgnore
     public Exercise getExercise() {
         return exercise;
     }
@@ -50,7 +53,6 @@ public class Question {
     public Long getId() {
         return id;
     }
-
 
     public String getQuestionText() {
         return questionText;

@@ -13,7 +13,6 @@ import java.util.List;
  * There are two parts of class:
  * lecture is responsible for learning,
  * if user ends learn, exercise will appear.
- * //TODO add list of courses and corresponding exercises, e.q chapter(?)
  * Created by Wojciech on 2016-04-30.
  */
 @Entity
@@ -24,11 +23,11 @@ public class Course {
     private Long id;
 
     @NotNull
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Chapter> chapters=new ArrayList<>();
 
     @NotNull
-    @Size(max=400)
+    @Size(max = 32)
     private String category;
 
     @NotNull
