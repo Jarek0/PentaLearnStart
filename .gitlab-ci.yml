@@ -4,4 +4,5 @@ production:
   - ruby -v
   - which ruby
   - gem install --user-install dpl
+  - export PATH=$PATH:/home/gitlab-runner/.gem/ruby/2.1.0/bin
   - dpl --provider=heroku --app=pentalearn --api-key=$HEROKU_PRODUCTION_API_KEY
