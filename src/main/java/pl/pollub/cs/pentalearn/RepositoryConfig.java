@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 import pl.pollub.cs.pentalearn.domain.Answer;
+import pl.pollub.cs.pentalearn.domain.Course;
 
 import java.util.ArrayList;
 import java.util.List;
