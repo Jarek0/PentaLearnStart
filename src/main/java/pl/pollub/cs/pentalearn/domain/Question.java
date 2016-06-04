@@ -30,6 +30,18 @@ public class Question {
     @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Answer> answers=new ArrayList<>();
 
+    @NotNull
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private List<AnswerSet> answerSets = new ArrayList<>();
+
+    public String getCorrectAnswers(){
+        StringBuilder sb = new StringBuilder();
+        for (Answer answer: answers) {
+            if(answer.getCorrect() == true) sb.append(answer.getAnswerText()); sb.append(", ");
+        }
+        return sb.toString();
+    }
+
     private Question(){}
 
     public Question(String questionText,Exercise exercise) {
@@ -64,5 +76,13 @@ public class Question {
 
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
+    }
+
+    public List<AnswerSet> getAnswerSets() {
+        return answerSets;
+    }
+
+    public void setAnswerSets(List<AnswerSet> answerSets) {
+        this.answerSets = answerSets;
     }
 }
