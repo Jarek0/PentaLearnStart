@@ -49,6 +49,12 @@ public class CentralControllerHandler {
         return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NoSuchUserExerciseException.class})
+    public ResponseEntity<String> handleNoSuchUserExercise(NoSuchUserExerciseException e){
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({Exception.class})
     public ResponseEntity<String> handleException(Exception e){
@@ -60,4 +66,6 @@ public class CentralControllerHandler {
     public ResponseEntity<String> tableIsEmpty(TableIsEmptyException e){
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+
 }

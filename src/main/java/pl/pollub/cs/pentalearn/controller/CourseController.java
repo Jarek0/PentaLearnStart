@@ -23,7 +23,10 @@ import java.util.List;
  * Controllers tree:
  *                   --> Lecture
  * Course -> Chapter |
- *                   --> Exercise --> Question --> /Answer/ (?) Maybe
+ *                   --> Exercise --> Question
+ *                             |       |
+ *                             V       V
+ *                           UserExercise
  * ------------------------------------------------------------------------
  * Created by Wojciech on 2016-04-30.
  */
