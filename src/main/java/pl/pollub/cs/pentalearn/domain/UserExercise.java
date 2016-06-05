@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Wojciech on 2016-06-04.
  */
 @Entity
-public class UserTest {
+public class UserExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,14 +21,14 @@ public class UserTest {
     private Exercise exercise;
 
     @NotNull
-    @OneToMany(mappedBy = "userTest",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<AnswerSet> answerSets = new ArrayList<>();
 
-    public UserTest(Exercise exercise){
+    public UserExercise(Exercise exercise){
         this.exercise = exercise;
     }
 
-    private UserTest() {
+    private UserExercise() {
     }
 
     public Exercise getExercise() {
@@ -47,5 +47,15 @@ public class UserTest {
         this.answerSets = answerSets;
     }
 
+    public void addToAnswerSets(AnswerSet answerSet){
+        answerSets.add(answerSet);
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

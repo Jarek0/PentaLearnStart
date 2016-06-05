@@ -12,5 +12,9 @@ import java.util.List;
  */
 @Repository
 public interface ChapterRepository extends CrudRepository<Chapter,Long> {
+
     List<Chapter> getChaptersByCourseId(long courseId);
+
+
+
 }

@@ -34,7 +34,7 @@ public class Exercise {
 
     @NotNull
     @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<UserTest> userTests = new ArrayList<>();
+    private List<UserExercise> userExercises = new ArrayList<>();
 
 
     private Exercise(){}
@@ -82,11 +82,11 @@ public class Exercise {
     }
 
     @JsonIgnore
-    public List<UserTest> getUserTests() {
-        return userTests;
+    public List<UserExercise> getUserExercises() {
+        return userExercises;
     }
 
-    public void setUserTests(List<UserTest> userTests) {
-        this.userTests = userTests;
+    public void setUserExercises(List<UserExercise> userExercises) {
+        this.userExercises = userExercises;
     }
 }

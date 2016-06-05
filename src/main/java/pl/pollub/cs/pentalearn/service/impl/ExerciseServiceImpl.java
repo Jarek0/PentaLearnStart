@@ -41,8 +41,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Transactional(readOnly = true)
     public List<Exercise> getExercisesByChapterId(long chapterId) throws NoSuchChapterException {
         List<Exercise> exercises = exerciseRepository.getExercisesByChapterId(chapterId);
-        if(exercises.size() == 0)
-            throw new NoSuchChapterException(chapterId);
+       // if(exercises.size() == 0)
+           // throw new NoSuchChapterException(chapterId);
         return exercises;
     }
 
