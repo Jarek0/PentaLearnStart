@@ -20,7 +20,7 @@ public class Lecture {
     private Chapter chapter;
 
     @NotNull
-    @Lob //unlimited size
+    @Size(min=10,max=2000)
     private String content;
 
     private Lecture(){}
