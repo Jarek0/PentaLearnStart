@@ -20,7 +20,7 @@ public class Lecture {
     private Chapter chapter;
 
     @NotNull
-    @Size(min=10,max=500)
+    @Size(min=10,max=2000)
     private String content;
 
     private Lecture(){}
