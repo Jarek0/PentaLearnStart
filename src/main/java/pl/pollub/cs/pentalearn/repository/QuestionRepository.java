@@ -12,5 +12,4 @@ import java.util.List;
  */
 @Repository
 public interface QuestionRepository extends CrudRepository<Question,Long>{
-    List<Question> getQuestionsByExerciseId(long exerciseId);
 }

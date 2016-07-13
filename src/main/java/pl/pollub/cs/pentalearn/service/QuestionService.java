@@ -1,9 +1,9 @@
 package pl.pollub.cs.pentalearn.service;
 
 import pl.pollub.cs.pentalearn.domain.Question;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestionException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import java.util.List;
 
@@ -15,6 +15,6 @@ public interface QuestionService {
     List<Question> getList() throws TableIsEmptyException;
     Question update(Question question);
     void delete(Question question);
-    Question getById(Long id)throws NoSuchQuestionException;
-    List<Question> getQuestionsByExerciseId(long exerciseId) throws NoSuchExerciseException;
+    Question getById(Long id)throws NoSuchObjectException;
+    List<Question> getQuestionsByExerciseId(long exerciseId) throws NoSuchObjectException, ObjectHasNoItemsInTableException;
 }

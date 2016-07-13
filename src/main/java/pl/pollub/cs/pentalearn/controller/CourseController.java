@@ -1,16 +1,13 @@
 package pl.pollub.cs.pentalearn.controller;
 
-import org.reflections.serializers.JsonSerializer;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.pollub.cs.pentalearn.domain.AnswerSet;
 import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.domain.createForm.CourseCreateForm;
 import pl.pollub.cs.pentalearn.service.AnswerSetService;
 import pl.pollub.cs.pentalearn.service.CourseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchAnswerException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +59,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public void updateCourse(@PathVariable Long courseId,@Valid @RequestBody CourseCreateForm courseCreateForm,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchCourseException {
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Course course = courseService.getById(courseId);
         course.setName(courseCreateForm.getName());
@@ -75,7 +72,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteCourse(@PathVariable Long courseId,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchCourseException {
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Course course = courseService.getById(courseId);
         courseService.delete(course);

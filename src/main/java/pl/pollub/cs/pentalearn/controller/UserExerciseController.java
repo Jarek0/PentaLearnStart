@@ -6,9 +6,7 @@ import pl.pollub.cs.pentalearn.service.AnswerSetService;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
 import pl.pollub.cs.pentalearn.service.QuestionService;
 import pl.pollub.cs.pentalearn.service.UserExerciseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestionException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchUserExerciseException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -34,7 +32,7 @@ public class UserExerciseController {
 
     //Create userTest and send Exercise (Test)
     @RequestMapping(value = "exercises/{exerciseId}/start", method = RequestMethod.GET)
-    public UserExercise startExerciseById(@PathVariable Long exerciseId) throws NoSuchExerciseException{
+    public UserExercise startExerciseById(@PathVariable Long exerciseId) throws NoSuchObjectException{
         Exercise exercise=exerciseService.getById(exerciseId);
         UserExercise userExercise = new UserExercise(exercise);
         userExerciseService.save(userExercise);
@@ -44,7 +42,7 @@ public class UserExerciseController {
     //id of question cant be in answerSet
     @RequestMapping(value = "userExercises/{userExerciseId}/{questionId}", method = RequestMethod.POST)
     public void addUserAnswer(@PathVariable Long userExerciseId ,@PathVariable Long questionId ,@Valid @RequestBody AnswerSet answerSet)
-            throws NoSuchUserExerciseException, NoSuchQuestionException {
+            throws NoSuchObjectException {
         UserExercise exercise=userExerciseService.getById(userExerciseId);
         Question question=questionService.getById(questionId);
 
@@ -58,7 +56,7 @@ public class UserExerciseController {
     //zakładam że nie było śmieszka i test rozwiązany do końca
     //zwraca string. nic lepszego nei wymyśliłem
     @RequestMapping(value = "userExercises/{userExerciseId}/stop",method = RequestMethod.GET)
-    public String  showResults(@PathVariable Long userExerciseId)  throws NoSuchUserExerciseException{
+    public String  showResults(@PathVariable Long userExerciseId)  throws NoSuchObjectException {
        /* StringBuilder sb = new StringBuilder();
         UserExercise userExercise = userExerciseService.findById(userExerciseId);
         List<AnswerSet> answerSet = userExercise.getAnswerSets();

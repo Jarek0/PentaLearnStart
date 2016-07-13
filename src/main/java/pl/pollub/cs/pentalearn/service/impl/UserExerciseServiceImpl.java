@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import pl.pollub.cs.pentalearn.domain.UserExercise;
 import pl.pollub.cs.pentalearn.repository.UserExerciseRepository;
 import pl.pollub.cs.pentalearn.service.UserExerciseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchUserExerciseException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -28,10 +28,10 @@ public class UserExerciseServiceImpl implements UserExerciseService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserExercise getById(Long id) throws NoSuchUserExerciseException {
+    public UserExercise getById(Long id) throws NoSuchObjectException {
         UserExercise userExercise = userExerciseRepository.findOne(id);
         if(userExercise == null)
-            throw new NoSuchUserExerciseException(id);
+            throw new NoSuchObjectException(id);
         return userExercise;
     }
 

@@ -6,8 +6,8 @@ import org.springframework.validation.annotation.Validated;
 import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.repository.CourseRepository;
 import pl.pollub.cs.pentalearn.service.CourseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -38,10 +38,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Course getById(@NotNull @Valid final Long id) throws NoSuchCourseException {
+    public Course getById(@NotNull @Valid final Long id) throws NoSuchObjectException {
         Course existing = courseRepository.findOne(id);
         if(existing == null)
-            throw new NoSuchCourseException(id);
+            throw new NoSuchObjectException(id);
         return existing;
     }
 

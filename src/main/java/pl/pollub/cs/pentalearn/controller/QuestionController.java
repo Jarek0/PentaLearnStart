@@ -6,8 +6,8 @@ import pl.pollub.cs.pentalearn.domain.*;
 import pl.pollub.cs.pentalearn.service.AnswerSetService;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
 import pl.pollub.cs.pentalearn.service.QuestionService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestionException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +35,8 @@ public class QuestionController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Question> showQuestionsByExerciseId(@PathVariable long exerciseId) throws NoSuchExerciseException {
+    public List<Question> showQuestionsByExerciseId(@PathVariable long exerciseId)
+            throws NoSuchObjectException, ObjectHasNoItemsInTableException {
         return questionService.getQuestionsByExerciseId(exerciseId);
     }
 
@@ -44,7 +45,7 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addQuestion(@PathVariable Long exerciseId, @Valid @RequestBody Question question,
                            HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchExerciseException {
+                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
         Question question1=new Question(question.getCorrectAnswerSet(),question.getQuestionText(),exercise);
@@ -55,7 +56,7 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     public void addAnswerSetToQuestion(@PathVariable Long questionId,@Valid @RequestBody AnswerSet answerSet,
                                HttpServletRequest httpServletRequest,
-                               HttpServletResponse httpServletResponse) throws NoSuchQuestionException, NoSuchExerciseException{
+                               HttpServletResponse httpServletResponse) throws NoSuchObjectException{
 
         Question question=questionService.getById(questionId);
         List<String> texts=answerSet.getTexts();
@@ -76,7 +77,7 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     public void updateQuestion(@PathVariable Long questionId,@PathVariable Long exerciseId,@Valid @RequestBody Question question,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchQuestionException, NoSuchExerciseException {
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
         Question question1=questionService.getById(questionId);

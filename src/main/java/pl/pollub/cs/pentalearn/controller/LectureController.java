@@ -7,8 +7,8 @@ import pl.pollub.cs.pentalearn.domain.Lecture;
 import pl.pollub.cs.pentalearn.domain.createForm.LectureCreateForm;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.LectureService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchLectureException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class LectureController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Lecture> showLecturesByChapterId(@PathVariable Long chapterId) throws NoSuchChapterException {
+    public List<Lecture> showLecturesByChapterId(@PathVariable Long chapterId) throws ObjectHasNoItemsInTableException, NoSuchObjectException {
         return lectureService.getLecturesByChapterId(chapterId);
     }
 
@@ -40,7 +40,7 @@ public class LectureController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addLecture(@PathVariable Long chapterId, @Valid @RequestBody LectureCreateForm lectureCreateForm,
                            HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchChapterException {
+                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter=chapterService.getById(chapterId);
         Lecture lecture=new Lecture(chapter,lectureCreateForm.getContent());
@@ -51,7 +51,7 @@ public class LectureController {
     @ResponseStatus(HttpStatus.OK)
     public void updateLecture(@PathVariable Long lectureId,@Valid @RequestBody LectureCreateForm lectureCreateForm,
                                HttpServletRequest httpServletRequest,
-                               HttpServletResponse httpServletResponse) throws NoSuchLectureException {
+                               HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Lecture lecture=lectureService.getById(lectureId);
         lecture.setContent(lectureCreateForm.getContent());
@@ -62,7 +62,7 @@ public class LectureController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteLecture(@PathVariable Long lectureId,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchLectureException {
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Lecture lecture=lectureService.getById(lectureId);
         lectureService.delete(lecture);

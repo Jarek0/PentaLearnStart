@@ -3,11 +3,10 @@ package pl.pollub.cs.pentalearn.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pl.pollub.cs.pentalearn.domain.Answer;
 import pl.pollub.cs.pentalearn.domain.AnswerSet;
 import pl.pollub.cs.pentalearn.repository.AnswerSetRepository;
 import pl.pollub.cs.pentalearn.service.AnswerSetService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchAnswerException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -34,14 +33,10 @@ public class AnswerSetServiceImpl implements AnswerSetService {
 
     @Override
     @Transactional(readOnly = true)
-    public AnswerSet getById(@NotNull @Valid Long id) throws NoSuchAnswerException {
+    public AnswerSet getById(@NotNull @Valid Long id) throws NoSuchObjectException {
         AnswerSet existing= answerSetRepository.findOne(id);
-        if(existing!=null){
-            return existing;
-        }
-        else{
-            throw new NoSuchAnswerException(id);
-        }
+        if(existing == null) throw new NoSuchObjectException(id);
+        return existing;
     }
 
     @Override
