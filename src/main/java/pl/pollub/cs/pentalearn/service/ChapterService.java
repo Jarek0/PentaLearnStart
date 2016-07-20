@@ -1,9 +1,9 @@
 package pl.pollub.cs.pentalearn.service;
 
 import pl.pollub.cs.pentalearn.domain.Chapter;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface ChapterService {
     Chapter save(Chapter chapter);
     Chapter update(Chapter chapter);
     void delete(Chapter chapter);
-    List<Chapter> getChaptersByCourseId(long courseId) throws NoSuchCourseException;
-    Chapter getById(Long id) throws NoSuchChapterException;
+    List<Chapter> getChaptersByCourseId(long courseId) throws NoSuchObjectException, ObjectHasNoItemsInTableException;
+    Chapter getById(Long id) throws NoSuchObjectException;
 
 }

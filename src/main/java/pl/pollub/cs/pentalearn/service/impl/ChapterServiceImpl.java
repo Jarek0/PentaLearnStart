@@ -4,12 +4,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.pollub.cs.pentalearn.domain.Chapter;
+import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.repository.ChapterRepository;
 import pl.pollub.cs.pentalearn.repository.CourseRepository;
 import pl.pollub.cs.pentalearn.service.ChapterService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -42,19 +43,31 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Chapter> getChaptersByCourseId(long courseId) throws NoSuchCourseException {
-        List<Chapter> chapters =  chapterRepository.getChaptersByCourseId(courseId);
-        //if(cour )
-           // throw new NoSuchCourseException(courseId);
-        return chapterRepository.getChaptersByCourseId(courseId);
+    public List<Chapter> getChaptersByCourseId(long courseId) throws NoSuchObjectException, ObjectHasNoItemsInTableException {
+        List<Chapter> chapters;
+
+        chapters = getChaptersIfCourseExist(courseId);
+        CheckIfArrayIsEmpty(chapters, courseId);
+        return chapters;
     }
+
+    private List<Chapter> getChaptersIfCourseExist(long courseId) throws NoSuchObjectException{
+        Course course = courseRepository.findOne(courseId);
+        if(course == null) throw new NoSuchObjectException(courseId);
+        return course.getChapters();
+    }
+
+    private void CheckIfArrayIsEmpty(List<Chapter> chapters, long courseId) throws ObjectHasNoItemsInTableException{
+        if(chapters.size() == 0) throw new ObjectHasNoItemsInTableException(courseId);
+    }
+
 
     @Override
     @Transactional(readOnly = true)
-    public Chapter getById(Long id) throws NoSuchChapterException {
+    public Chapter getById(Long id) throws NoSuchObjectException {
         Chapter chapter=chapterRepository.findOne(id);
         if(chapter == null)
-            throw new NoSuchChapterException(id);
+            throw new NoSuchObjectException(id);
         return chapter;
     }
 

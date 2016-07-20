@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.Chapter;
 import pl.pollub.cs.pentalearn.domain.createForm.ChapterCreateForm;
 import pl.pollub.cs.pentalearn.domain.Course;
-import pl.pollub.cs.pentalearn.service.AnswerSetService;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.CourseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +33,7 @@ public class ChapterController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Chapter> showChaptersByCourseId(@PathVariable Long courseId) throws NoSuchCourseException {
+    public List<Chapter> showChaptersByCourseId(@PathVariable Long courseId) throws NoSuchObjectException, ObjectHasNoItemsInTableException {
          return chapterService.getChaptersByCourseId(courseId);
     }
 
@@ -42,7 +41,7 @@ public class ChapterController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addChapter(@PathVariable Long courseId,@Valid @RequestBody ChapterCreateForm chapterCreateForm,
                            HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchCourseException {
+                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Course course=courseService.getById(courseId);
        Chapter chapter=new Chapter(chapterCreateForm.getName(),chapterCreateForm.getDescription(), course);
@@ -54,7 +53,7 @@ public class ChapterController {
     @ResponseStatus(HttpStatus.OK)
     public void updateChapter(@PathVariable Long chapterId,@Valid @RequestBody ChapterCreateForm chapterCreateForm,
                            HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchChapterException {
+                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter=chapterService.getById(chapterId);
         chapter.setDescription(chapterCreateForm.getDescription());
@@ -66,7 +65,7 @@ public class ChapterController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteChapter(@PathVariable Long chapterId,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchChapterException {
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter=chapterService.getById(chapterId);
 

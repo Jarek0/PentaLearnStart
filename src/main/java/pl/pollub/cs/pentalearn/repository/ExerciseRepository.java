@@ -11,5 +11,4 @@ import java.util.List;
  */
 @Repository
 public interface ExerciseRepository extends CrudRepository<Exercise,Long> {
-    List<Exercise> getExercisesByChapterId(long chapterId);
 }

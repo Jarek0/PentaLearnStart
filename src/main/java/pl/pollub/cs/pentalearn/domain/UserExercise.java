@@ -17,7 +17,7 @@ public class UserExercise {
     private Long id;
 
     @NotNull
-    @ManyToOne  //JESZCZE EXERCISE, DECYZJE POZOSTAWIAM TOBIE
+    @ManyToOne
     private Exercise exercise;
 
     @NotNull

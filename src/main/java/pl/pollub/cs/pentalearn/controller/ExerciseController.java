@@ -7,8 +7,8 @@ import pl.pollub.cs.pentalearn.domain.Exercise;
 import pl.pollub.cs.pentalearn.domain.createForm.ExerciseCreateForm;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +38,8 @@ public class ExerciseController {
 
     //TODO think about return one or many exercises
     @RequestMapping(method = RequestMethod.GET)
-    public List<Exercise> showExerciseByChapterId(@PathVariable long chapterId) throws NoSuchChapterException {
+    public List<Exercise> showExerciseByChapterId(@PathVariable long chapterId)
+            throws NoSuchObjectException, ObjectHasNoItemsInTableException {
         return exerciseService.getExercisesByChapterId(chapterId);
     }
 
@@ -46,7 +47,7 @@ public class ExerciseController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addExercise(@PathVariable Long chapterId, @Valid @RequestBody ExerciseCreateForm exerciseCreateForm,
                             HttpServletRequest httpServletRequest,
-                            HttpServletResponse httpServletResponse) throws NoSuchChapterException {
+                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter = chapterService.getById(chapterId);
         Exercise exercise = new Exercise(chapter,exerciseCreateForm.getTitle());
@@ -57,7 +58,7 @@ public class ExerciseController {
     @ResponseStatus(HttpStatus.OK)
     public void updateExercise(@PathVariable Long exerciseId,@Valid @RequestBody ExerciseCreateForm exerciseCreateForm,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchExerciseException {
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
         exercise.setTitle(exerciseCreateForm.getTitle());
@@ -68,7 +69,7 @@ public class ExerciseController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteChapter(@PathVariable Long exerciseId,
                               HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchExerciseException {
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
         exerciseService.delete(exercise);

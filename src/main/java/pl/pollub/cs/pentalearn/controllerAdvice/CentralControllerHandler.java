@@ -13,42 +13,6 @@ import pl.pollub.cs.pentalearn.service.exception.*;
 @ControllerAdvice
 public class CentralControllerHandler {
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchCourseException.class})
-    public ResponseEntity<String> handleNoSuchCourse(NoSuchCourseException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchChapterException.class})
-    public ResponseEntity<String> handleNoSuchChapter(NoSuchChapterException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchAnswerException.class})
-    public ResponseEntity<String> handleNoSuchAnswer(NoSuchAnswerException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchExerciseException.class})
-    public ResponseEntity<String> handleNoSuchExercise(NoSuchExerciseException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchLectureException.class})
-    public ResponseEntity<String> handleNoSuchLecture(NoSuchLectureException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchQuestionException.class})
-    public ResponseEntity<String> handleNoSuchQuestion(NoSuchQuestionException e){
-        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({Exception.class})
     public ResponseEntity<String> handleException(Exception e){
@@ -56,8 +20,22 @@ public class CentralControllerHandler {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NoSuchObjectException.class})
+    public ResponseEntity<String> handleNoSuchObject(NoSuchObjectException e){
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({ObjectHasNoItemsInTableException.class})
+    public ResponseEntity<String> handleObjectHasNoItemsInTable(ObjectHasNoItemsInTableException e){
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({TableIsEmptyException.class})
     public ResponseEntity<String> tableIsEmpty(TableIsEmptyException e){
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+
 }

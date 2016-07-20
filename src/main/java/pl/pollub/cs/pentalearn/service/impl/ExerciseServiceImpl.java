@@ -3,12 +3,14 @@ package pl.pollub.cs.pentalearn.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import pl.pollub.cs.pentalearn.domain.Chapter;
 import pl.pollub.cs.pentalearn.domain.Exercise;
+import pl.pollub.cs.pentalearn.repository.ChapterRepository;
 import pl.pollub.cs.pentalearn.repository.ExerciseRepository;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchChapterException;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchExerciseException;
+import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -22,10 +24,12 @@ import java.util.List;
 @Validated
 public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
+    private final ChapterRepository chapterRepository;
 
     @Inject
-    public ExerciseServiceImpl(final ExerciseRepository exerciseRepository) {
+    public ExerciseServiceImpl(final ExerciseRepository exerciseRepository, final ChapterRepository chapterRepository) {
         this.exerciseRepository = exerciseRepository;
+        this.chapterRepository = chapterRepository;
     }
 
     @Override
@@ -39,12 +43,23 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Exercise> getExercisesByChapterId(long chapterId) throws NoSuchChapterException {
-        List<Exercise> exercises = exerciseRepository.getExercisesByChapterId(chapterId);
-       // if(exercises.size() == 0)
-           // throw new NoSuchChapterException(chapterId);
+    public List<Exercise> getExercisesByChapterId(long chapterId) throws NoSuchObjectException, ObjectHasNoItemsInTableException {
+        List<Exercise> exercises;
+        exercises = getExercisesIfChapterExist(chapterId);
+        CheckIfArrayIsEmpty(exercises, chapterId);
         return exercises;
     }
+
+    private List<Exercise> getExercisesIfChapterExist(long chapterId) throws NoSuchObjectException{
+        Chapter chapter = chapterRepository.findOne(chapterId);
+        if(chapter == null) throw new NoSuchObjectException(chapterId);
+        return chapter.getExercises();
+    }
+
+    private void CheckIfArrayIsEmpty(List<Exercise> exercises, long chapterId) throws ObjectHasNoItemsInTableException{
+        if(exercises.size() == 0) throw new ObjectHasNoItemsInTableException(chapterId);
+    }
+
 
     @Override
     @Transactional
@@ -66,10 +81,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Exercise getById(Long id) throws NoSuchExerciseException {
+    public Exercise getById(Long id) throws NoSuchObjectException {
         Exercise exercise=exerciseRepository.findOne(id);
         if(exercise==null)
-            throw new NoSuchExerciseException(id);
+            throw new NoSuchObjectException(id);
         return exercise;
     }
 }
