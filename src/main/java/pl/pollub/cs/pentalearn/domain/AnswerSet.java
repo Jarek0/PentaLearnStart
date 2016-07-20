@@ -49,11 +49,16 @@ public class AnswerSet implements Serializable{
     private AnswerSet() {
     }
 
-    public AnswerSet(UserExercise userExercise, List<String> texts, List<String> answers, Question question) {
-        this.userExercise = userExercise;
+    public AnswerSet(List<String> texts, List<String> answers, Question question) {
         this.texts = texts;
         this.answers = answers;
         this.question = question;
+    }
+
+    public AnswerSet(UserExercise userExercise, List<String> texts, List<String> answers) {
+        this.userExercise = userExercise;
+        this.texts = texts;
+        this.answers = answers;
     }
 
     public Question getQuestion() {

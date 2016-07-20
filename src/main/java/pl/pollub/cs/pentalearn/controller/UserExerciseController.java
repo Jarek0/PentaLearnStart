@@ -48,7 +48,7 @@ public class UserExerciseController {
 
         //dont have question because in this case we dont have to make additional field in
         //Question that will represent user answers. maybe it will be change in the future
-        AnswerSet answerSet1=new AnswerSet(exercise,answerSet.getTexts(),answerSet.getAnswers(),null);
+        AnswerSet answerSet1=new AnswerSet(exercise,answerSet.getTexts(),answerSet.getAnswers());
         answerSetService.save(answerSet1);
 
     }

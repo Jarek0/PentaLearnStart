@@ -62,7 +62,7 @@ public class QuestionController {
         List<String> answers=answerSet.getAnswers();
         AnswerSet currentAnswerSet=question.getCorrectAnswerSet();
         if(currentAnswerSet==null){
-            answerSetService.save( new AnswerSet(null,texts,answers,question));
+            answerSetService.save( new AnswerSet(texts,answers,question));
         }
         else{ //do update because it is one to one relationship
             currentAnswerSet.setAnswers(answers);
@@ -82,7 +82,7 @@ public class QuestionController {
         Question question1=questionService.getById(questionId);
 
         question1.setQuestionText(question.getQuestionText());
-        AnswerSet answerSet=new AnswerSet(null,question.getCorrectAnswerSet().getTexts(),question.getCorrectAnswerSet().getAnswers(),question1);
+        AnswerSet answerSet=new AnswerSet(question.getCorrectAnswerSet().getTexts(),question.getCorrectAnswerSet().getAnswers(),question1);
 
         question1.setCorrectAnswerSet(question.getCorrectAnswerSet());
         question1.setExercise(exercise);
