@@ -67,8 +67,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional(readOnly = true)
     public List<Question> getQuestionsByExerciseId(long exerciseId) throws NoSuchExerciseException {
         List<Question> questions = questionRepository.getQuestionsByExerciseId(exerciseId);
-        if(questions.size() == 0)
-            throw new NoSuchExerciseException(exerciseId);
+       // if(questions.size() == 0)
+         //   throw new NoSuchExerciseException(exerciseId);
         return questions;
     }
 }

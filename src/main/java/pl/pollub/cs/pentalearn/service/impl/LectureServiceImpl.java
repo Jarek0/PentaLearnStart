@@ -41,8 +41,8 @@ public class LectureServiceImpl implements LectureService {
     @Transactional(readOnly = true)
     public List<Lecture> getLecturesByChapterId(long chapterId) throws NoSuchChapterException {
         List<Lecture> lectures = lectureRepository.getLecturesByChapterId(chapterId);
-        if(lectures.size() == 0)
-            throw new NoSuchChapterException(chapterId);
+       // if(lectures.size() == 0)
+          //  throw new NoSuchChapterException(chapterId);
         return lectures;
     }
 

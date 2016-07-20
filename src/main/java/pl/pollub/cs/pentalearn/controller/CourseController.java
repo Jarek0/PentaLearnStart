@@ -1,10 +1,14 @@
 package pl.pollub.cs.pentalearn.controller;
 
+import org.reflections.serializers.JsonSerializer;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.pollub.cs.pentalearn.domain.AnswerSet;
 import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.domain.createForm.CourseCreateForm;
+import pl.pollub.cs.pentalearn.service.AnswerSetService;
 import pl.pollub.cs.pentalearn.service.CourseService;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchAnswerException;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchCourseException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
 
@@ -27,16 +31,19 @@ import java.util.List;
 @RequestMapping(value = "/api/courses")
 public class CourseController {
     private final CourseService courseService;
+    private final AnswerSetService answerSetService;
 
     @Inject
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, AnswerSetService answerSetService) {
         this.courseService = courseService;
+        this.answerSetService = answerSetService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Course> getAllCourses() throws TableIsEmptyException {
         return courseService.getAll();
     }
+
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)

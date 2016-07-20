@@ -1,6 +1,7 @@
 package pl.pollub.cs.pentalearn.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,27 +19,36 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     @ManyToOne
+    @JsonIgnore
     private Exercise exercise;
 
     @NotNull
     @Size(max = 64)
     private String questionText;
 
-    @NotNull
+   /* @NotNull
     @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private List<Answer> answers=new ArrayList<>();
+    private List<Answer> answers=new ArrayList<>();*/
+
+    @OneToOne(mappedBy = "question")
+    @JsonIgnore
+    private AnswerSet correctAnswerSet;
+
+   /* public String getCorrectAnswers(){
+        StringBuilder sb = new StringBuilder();
+        for (Answer answer: answers) {
+            if(answer.getCorrect() == true) sb.append(answer.getAnswerText()); sb.append(", ");
+        }
+        return sb.toString();
+    }*/
 
     private Question(){}
 
-    public Question(String questionText,Exercise exercise) {
+    public Question(AnswerSet correctAnswerSet, String questionText,Exercise exercise) {
+        this.correctAnswerSet = correctAnswerSet;
         this.questionText = questionText;
         this.exercise=exercise;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
     }
 
     @JsonIgnore
@@ -58,11 +68,21 @@ public class Question {
         return questionText;
     }
 
-    public List<Answer> getAnswers() {
-        return answers;
-    }
 
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public AnswerSet getCorrectAnswerSet() {
+        return correctAnswerSet;
+    }
+
+    public void setCorrectAnswerSet(AnswerSet correctAnswerSet) {
+        this.correctAnswerSet = correctAnswerSet;
+    }
+
 }

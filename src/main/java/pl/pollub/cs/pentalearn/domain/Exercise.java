@@ -32,6 +32,11 @@ public class Exercise {
     @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<Question>questions=new ArrayList<>();
 
+    @NotNull
+    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<UserExercise> userExercises = new ArrayList<>();
+
+
     private Exercise(){}
 
     public Exercise(Chapter chapter, String title) {
@@ -74,5 +79,14 @@ public class Exercise {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    @JsonIgnore
+    public List<UserExercise> getUserExercises() {
+        return userExercises;
+    }
+
+    public void setUserExercises(List<UserExercise> userExercises) {
+        this.userExercises = userExercises;
     }
 }
