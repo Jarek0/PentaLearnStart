@@ -37,5 +37,24 @@ public class CentralControllerHandler {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler({IncompatibleAnswerSetException.class})
+    public ResponseEntity<String> incompatibleAnswerSet(IncompatibleAnswerSetException e){
+        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE );
+    }
+
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler({InvalidAnswerSetException.class})
+    public ResponseEntity<String> invalidAnswerSet(InvalidAnswerSetException e){
+        return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE );
+    }
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler({NoCorrectAnswerSetAssignedToQuestionException.class})
+    public ResponseEntity<String> questionWithoutCorrectAnswerSet(NoCorrectAnswerSetAssignedToQuestionException e){
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
 
 }
