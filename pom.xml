@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>src.main.java.pl.pollub.cs.pentalearn</groupId>
-    <artifactId>Application.java</artifactId>
+    <groupId>pl.cs.pollub.pentalearn</groupId>
+    <artifactId>pentalearn</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>src.main.java.pl.pollub.cs.pentalearn</packaging>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -49,7 +49,7 @@
 
         <!-- Jasper -->
 
-       <dependency>
+        <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
             <scope>provided</scope>
@@ -64,7 +64,7 @@
 
         <!-- HSQLDB -->
 
-       <dependency>
+        <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <scope>runtime</scope>
@@ -130,6 +130,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.4.0.RELEASE</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
