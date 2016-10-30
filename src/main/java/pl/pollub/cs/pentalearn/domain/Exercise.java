@@ -8,11 +8,6 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Wojciech on 2016-04-24.
- * Main Exercise class responsible for multiply choice test
- * Exercise contains Question, and Task contains Answer
- */
 @Entity
 public class Exercise {
 
@@ -29,11 +24,11 @@ public class Exercise {
     private String title;
 
     @NotNull
-    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Question.class)
     private List<Question>questions=new ArrayList<>();
 
     @NotNull
-    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = UserExercise.class)
     private List<UserExercise> userExercises = new ArrayList<>();
 
 

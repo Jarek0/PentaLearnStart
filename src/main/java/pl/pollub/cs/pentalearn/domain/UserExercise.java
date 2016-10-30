@@ -1,6 +1,12 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.aspectj.weaver.ast.Test;
+import pl.pollub.cs.pentalearn.serializer.PrivateSerializer;
+import pl.pollub.cs.pentalearn.serializer.PublicSerializer;
+import pl.pollub.cs.pentalearn.serializer.Views;
+import pl.pollub.cs.pentalearn.service.exception.NoCorrectAnswerSetAssignedToQuestionException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,17 +24,31 @@ public class UserExercise {
 
     @NotNull
     @ManyToOne
+    @JsonSerialize(using = PublicSerializer.class)
     private Exercise exercise;
 
     @NotNull
     @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @JsonSerialize(using = PrivateSerializer.class)
     private List<AnswerSet> answerSets = new ArrayList<>();
 
-    public UserExercise(Exercise exercise){
-        this.exercise = exercise;
+    public UserExercise(Exercise exercise) throws NoCorrectAnswerSetAssignedToQuestionException {
+        if(!isQuestionWithoutCorrectAnswerSet(exercise))
+            this.exercise = exercise;
+        else throw new NoCorrectAnswerSetAssignedToQuestionException();
     }
 
     private UserExercise() {
+    }
+    private boolean isQuestionWithoutCorrectAnswerSet(Exercise exercise){
+        boolean result=false;
+        for(Question question:exercise.getQuestions()){
+            if(question.getCorrectAnswerSet()==null){
+                result=true;
+                break;
+            }
+        }
+        return result;
     }
 
     public Exercise getExercise() {
@@ -39,6 +59,7 @@ public class UserExercise {
         this.exercise = test;
     }
 
+    @JsonSerialize(using = PrivateSerializer.class)
     public List<AnswerSet> getAnswerSets() {
         return answerSets;
     }

@@ -1,16 +1,19 @@
 package pl.pollub.cs.pentalearn.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.*;
-import pl.pollub.cs.pentalearn.service.AnswerSetService;
-import pl.pollub.cs.pentalearn.service.ExerciseService;
-import pl.pollub.cs.pentalearn.service.QuestionService;
-import pl.pollub.cs.pentalearn.service.UserExerciseService;
+import pl.pollub.cs.pentalearn.serializer.Views;
+import pl.pollub.cs.pentalearn.service.*;
+import pl.pollub.cs.pentalearn.service.exception.IncompatibleAnswerSetException;
+import pl.pollub.cs.pentalearn.service.exception.InvalidAnswerSetException;
+import pl.pollub.cs.pentalearn.service.exception.NoCorrectAnswerSetAssignedToQuestionException;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Created by Wojciech on 2016-06-04.
@@ -22,59 +25,96 @@ public class UserExerciseController {
     private final UserExerciseService userExerciseService;
     private final QuestionService questionService;
     private final AnswerSetService answerSetService;
+    private final UserExerciseResultService userExerciseResultService;
     @Inject
-    UserExerciseController(ExerciseService exerciseService, UserExerciseService userExerciseService, QuestionService questionService, AnswerSetService answerSetService){
+    UserExerciseController(ExerciseService exerciseService, UserExerciseService userExerciseService, QuestionService questionService, AnswerSetService answerSetService, UserExerciseResultService userExerciseResultService){
         this.exerciseService = exerciseService;
         this.userExerciseService = userExerciseService;
         this.questionService = questionService;
         this.answerSetService = answerSetService;
+        this.userExerciseResultService = userExerciseResultService;
     }
 
-    //Create userTest and send Exercise (Test)
     @RequestMapping(value = "exercises/{exerciseId}/start", method = RequestMethod.GET)
-    public UserExercise startExerciseById(@PathVariable Long exerciseId) throws NoSuchObjectException{
+    public UserExercise startExerciseById(@PathVariable Long exerciseId) throws NoSuchObjectException, NoCorrectAnswerSetAssignedToQuestionException, JsonProcessingException {
         Exercise exercise=exerciseService.getById(exerciseId);
         UserExercise userExercise = new UserExercise(exercise);
         userExerciseService.save(userExercise);
         return userExercise;
     }
 
-    //id of question cant be in answerSet
+    @RequestMapping(value = "userExercises/{userExerciseId}", method = RequestMethod.GET)
+    public UserExercise getUserExercise(@PathVariable Long userExerciseId) throws NoSuchObjectException, JsonProcessingException {
+
+        return userExerciseService.getById(userExerciseId);
+    }
+
     @RequestMapping(value = "userExercises/{userExerciseId}/{questionId}", method = RequestMethod.POST)
     public void addUserAnswer(@PathVariable Long userExerciseId ,@PathVariable Long questionId ,@Valid @RequestBody AnswerSet answerSet)
-            throws NoSuchObjectException {
+            throws NoSuchObjectException, InvalidAnswerSetException, IncompatibleAnswerSetException {
         UserExercise exercise=userExerciseService.getById(userExerciseId);
         Question question=questionService.getById(questionId);
 
-        //dont have question because in this case we dont have to make additional field in
-        //Question that will represent user answers. maybe it will be change in the future
-        AnswerSet answerSet1=new AnswerSet(exercise,answerSet.getTexts(),answerSet.getAnswers(),null);
-        answerSetService.save(answerSet1);
+        AnswerSet answerSet1=new AnswerSet(answerSet.getTexts(),answerSet.getAnswers(),answerSet.getMultiSelectAllowed(),question,exercise);
+
+        if(AnswerSet.isAnswerSetsCompatible(answerSet1,question.getCorrectAnswerSet())){
+            AnswerSet currentAnswerSet=getAnswerSetForQuestionInUserExercise(exercise,question);
+            if(currentAnswerSet==null) answerSetService.save(answerSet1);
+            else{
+                currentAnswerSet.setTexts(answerSet1.getTexts());
+                currentAnswerSet.setAnswers(answerSet1.getAnswers());
+                currentAnswerSet.setMultiSelectAllowed(answerSet1.getMultiSelectAllowed());
+                currentAnswerSet.setQuestion(answerSet1.getQuestion());
+                currentAnswerSet.setUserExercise(answerSet1.getUserExercise());
+                answerSetService.save(currentAnswerSet);
+            }
+        }
+        else throw new IncompatibleAnswerSetException();
 
     }
-
-    //zakładam że nie było śmieszka i test rozwiązany do końca
-    //zwraca string. nic lepszego nei wymyśliłem
-    @RequestMapping(value = "userExercises/{userExerciseId}/stop",method = RequestMethod.GET)
-    public String  showResults(@PathVariable Long userExerciseId)  throws NoSuchObjectException {
-       /* StringBuilder sb = new StringBuilder();
-        UserExercise userExercise = userExerciseService.findById(userExerciseId);
-        List<AnswerSet> answerSet = userExercise.getAnswerSets();
-        for (int i=0; i<answerSet.size(); i++){
-            sb.append("QustionId: "); sb.append(answerSet.get(i).getQuestion().getId()); sb.append(", ");
-            sb.append("CorrectAnswer: "); sb.append(answerSet.get(i).getQuestion().getCorrectAnswers()); sb.append(", ");
-            sb.append("UserAnswer: "); sb.append(answerSet.get(i).getUserAnswers()); sb.append(", ");
-        }*/
-
-        StringBuilder sb = new StringBuilder();
-        UserExercise userExercise = userExerciseService.getById(userExerciseId);
-        List<AnswerSet> answerSet = userExercise.getAnswerSets();
-        for (int i=0; i<answerSet.size(); i++){
-           sb.append(String.valueOf(answerSet.get(i).check()));
-            sb.append(" ,");
+    private AnswerSet getAnswerSetForQuestionInUserExercise(UserExercise userExercise, Question question){
+        for(AnswerSet s :userExercise.getAnswerSets() ){
+            if(s.getQuestion().getId()==question.getId()){
+                return s;
+            }
         }
+        return  null;
+    }
 
-        return sb.toString();
+    @RequestMapping(value = "userExercises/{userExerciseId}/stop",method = RequestMethod.GET)
+    public UserExerciseResult stopExercise(@PathVariable Long userExerciseId)  throws NoSuchObjectException {
+        //TODO: ADD SOME SPECIAL THINGS(CAN NOT DO IT NOW BECAUSE THE LACK OF SPRING SECURITY
+        return getResultFromExercise(userExerciseId);
+
+    }
+    @RequestMapping(value = "userExercises/{userExerciseId}/result",method = RequestMethod.GET)
+    public UserExerciseResult getResultFromExercise(@PathVariable Long userExerciseId) throws NoSuchObjectException {
+
+        double exerciseMadePercentage;
+        double correctAnswersInMadeExercisePercentage;
+        double finalExerciseResult;
+        double answeredQuestions=0;
+        double questionsInExercise;
+
+        double correctAnswerSum=0;
+
+
+        UserExercise userExercise = userExerciseService.getById(userExerciseId);
+        Exercise exercise=userExercise.getExercise();
+
+        questionsInExercise=exercise.getQuestions().size();
+
+        for(AnswerSet set:userExercise.getAnswerSets()){
+            answeredQuestions++;
+            correctAnswerSum+=AnswerSet.matchLevel(set,set.getQuestion().getCorrectAnswerSet());
+        }
+        exerciseMadePercentage=((double)answeredQuestions/questionsInExercise)*100;
+        correctAnswersInMadeExercisePercentage=((double)correctAnswerSum/answeredQuestions)*100;
+        finalExerciseResult=((double)correctAnswerSum/questionsInExercise)*100;
+
+        UserExerciseResult result= new  UserExerciseResult(exerciseMadePercentage,correctAnswersInMadeExercisePercentage,finalExerciseResult);
+        userExerciseResultService.save(result);
+        return result;
 
     }
 }

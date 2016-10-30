@@ -1,6 +1,9 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
@@ -27,28 +30,19 @@ public class Question {
     @Size(max = 64)
     private String questionText;
 
-   /* @NotNull
-    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private List<Answer> answers=new ArrayList<>();*/
-
     @OneToOne(mappedBy = "question")
-    @JsonIgnore
     private AnswerSet correctAnswerSet;
-
-   /* public String getCorrectAnswers(){
-        StringBuilder sb = new StringBuilder();
-        for (Answer answer: answers) {
-            if(answer.getCorrect() == true) sb.append(answer.getAnswerText()); sb.append(", ");
-        }
-        return sb.toString();
-    }*/
 
     private Question(){}
 
-    public Question(AnswerSet correctAnswerSet, String questionText,Exercise exercise) {
-        this.correctAnswerSet = correctAnswerSet;
+    public Question( String questionText,Exercise exercise) {
         this.questionText = questionText;
         this.exercise=exercise;
+    }
+
+    @JsonCreator
+    public Question(@JsonProperty("questionText") String questionText) {
+        this.questionText = questionText;
     }
 
     @JsonIgnore
