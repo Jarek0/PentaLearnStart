@@ -1,6 +1,11 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.aspectj.weaver.ast.Test;
+import pl.pollub.cs.pentalearn.serializer.PrivateSerializer;
+import pl.pollub.cs.pentalearn.serializer.PublicSerializer;
+import pl.pollub.cs.pentalearn.serializer.Views;
 import pl.pollub.cs.pentalearn.service.exception.NoCorrectAnswerSetAssignedToQuestionException;
 
 import javax.persistence.*;
@@ -19,10 +24,12 @@ public class UserExercise {
 
     @NotNull
     @ManyToOne
+    @JsonSerialize(using = PublicSerializer.class)
     private Exercise exercise;
 
     @NotNull
     @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @JsonSerialize(using = PrivateSerializer.class)
     private List<AnswerSet> answerSets = new ArrayList<>();
 
     public UserExercise(Exercise exercise) throws NoCorrectAnswerSetAssignedToQuestionException {
@@ -52,6 +59,7 @@ public class UserExercise {
         this.exercise = test;
     }
 
+    @JsonSerialize(using = PrivateSerializer.class)
     public List<AnswerSet> getAnswerSets() {
         return answerSets;
     }

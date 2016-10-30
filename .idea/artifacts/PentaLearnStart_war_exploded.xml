@@ -21,7 +21,6 @@
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-web:1.0.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-tomcat:1.0.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.52" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
@@ -62,13 +61,14 @@
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:9.4.1208" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.4" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-rest-webmvc:2.5.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-rest-core:2.5.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.hateoas:spring-hateoas:0.9.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.atteo:evo-inflector:1.2.1" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.6.5" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.6" />
           <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.6" />
           <element id="library" level="project" name="Maven: org.reflections:reflections:0.9.10" />

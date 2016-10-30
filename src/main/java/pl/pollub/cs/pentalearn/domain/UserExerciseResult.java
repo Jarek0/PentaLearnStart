@@ -3,15 +3,17 @@ package pl.pollub.cs.pentalearn.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 /**
  * Created by pglg on 27-07-2016.
  */
-
+@Entity
 public class UserExerciseResult{
 
     @NotNull
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

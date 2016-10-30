@@ -3,6 +3,8 @@ package pl.pollub.cs.pentalearn.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+import pl.pollub.cs.pentalearn.serializer.Views;
 import pl.pollub.cs.pentalearn.service.exception.InvalidAnswerSetException;
 
 import javax.persistence.*;
@@ -27,6 +29,7 @@ public class AnswerSet implements Serializable{
     @ElementCollection
     @CollectionTable(name="answer_set_answers")
     @Column(name="answers")
+    @JsonView(Views.Private.class)
     List<Boolean> answers = new ArrayList<>();
 
     @ElementCollection
@@ -85,7 +88,8 @@ public class AnswerSet implements Serializable{
         this.question = question;
     }
 
-    public List<Boolean> getAnswers() {
+    @JsonView(Views.Private.class)
+   public List<Boolean> getAnswers() {
         return answers;
     }
 
