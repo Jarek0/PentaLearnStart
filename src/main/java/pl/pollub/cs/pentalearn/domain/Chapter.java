@@ -1,6 +1,9 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +23,6 @@ public class Chapter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     @ManyToOne
     private Course course;
 
@@ -40,12 +42,25 @@ public class Chapter {
     @Size(max = 64)
     private String description;
 
-    private Chapter(){}
 
     public Chapter(String name, String description, Course course) {
         this.name = name;
         this.description = description;
         this.course = course;
+    }
+
+    private Chapter(){}
+
+    @JsonCreator
+    public Chapter(@JsonProperty("name")
+                    @NotEmpty
+                    @Size(max = 64)
+                       String name,
+                   @JsonProperty("description")
+                   @NotEmpty
+                   String description){
+        this.name=name;
+        this.description=description;
     }
 
     public void addLecture(Lecture lecture){

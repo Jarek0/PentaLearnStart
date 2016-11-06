@@ -14,6 +14,8 @@ import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Wojciech on 2016-06-04.
@@ -112,7 +114,11 @@ public class UserExerciseController {
         correctAnswersInMadeExercisePercentage=((double)correctAnswerSum/answeredQuestions)*100;
         finalExerciseResult=((double)correctAnswerSum/questionsInExercise)*100;
 
-        UserExerciseResult result= new  UserExerciseResult(exerciseMadePercentage,correctAnswersInMadeExercisePercentage,finalExerciseResult);
+        Date date=new Date();
+        Timestamp currentTimestamp=new Timestamp(date.getTime());
+
+        UserExerciseResult result= new  UserExerciseResult(exerciseMadePercentage,correctAnswersInMadeExercisePercentage,
+                                    finalExerciseResult,userExercise,currentTimestamp);
         userExerciseResultService.save(result);
         return result;
 

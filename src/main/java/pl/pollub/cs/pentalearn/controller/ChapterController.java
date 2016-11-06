@@ -3,7 +3,6 @@ package pl.pollub.cs.pentalearn.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.Chapter;
-import pl.pollub.cs.pentalearn.domain.createForm.ChapterCreateForm;
 import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.CourseService;
@@ -39,25 +38,25 @@ public class ChapterController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addChapter(@PathVariable Long courseId,@Valid @RequestBody ChapterCreateForm chapterCreateForm,
+    public void addChapter(@PathVariable Long courseId,@Valid @RequestBody Chapter chapter1,
                            HttpServletRequest httpServletRequest,
                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Course course=courseService.getById(courseId);
-       Chapter chapter=new Chapter(chapterCreateForm.getName(),chapterCreateForm.getDescription(), course);
+       Chapter chapter=new Chapter(chapter1.getName(),chapter1.getDescription(), course);
 
         chapterService.save(chapter);
     }
 
     @RequestMapping(value = "/{chapterId}",method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateChapter(@PathVariable Long chapterId,@Valid @RequestBody ChapterCreateForm chapterCreateForm,
+    public void updateChapter(@PathVariable Long chapterId,@Valid @RequestBody Chapter chapter1,
                            HttpServletRequest httpServletRequest,
                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter=chapterService.getById(chapterId);
-        chapter.setDescription(chapterCreateForm.getDescription());
-        chapter.setName(chapterCreateForm.getName());
+        chapter.setDescription(chapter1.getDescription());
+        chapter.setName(chapter1.getName());
         chapterService.update(chapter);
     }
 

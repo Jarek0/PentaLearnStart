@@ -28,9 +28,12 @@ public class UserExercise {
     private Exercise exercise;
 
     @NotNull
-    @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=AnswerSet.class)
     @JsonSerialize(using = PrivateSerializer.class)
     private List<AnswerSet> answerSets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=UserExerciseResult.class)
+    private List<UserExerciseResult> userExerciseResults =new ArrayList<>();
 
     public UserExercise(Exercise exercise) throws NoCorrectAnswerSetAssignedToQuestionException {
         if(!isQuestionWithoutCorrectAnswerSet(exercise))
