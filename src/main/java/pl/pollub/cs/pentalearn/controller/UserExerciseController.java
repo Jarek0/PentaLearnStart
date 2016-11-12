@@ -1,11 +1,8 @@
 package pl.pollub.cs.pentalearn.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.*;
-import pl.pollub.cs.pentalearn.serializer.Views;
 import pl.pollub.cs.pentalearn.service.*;
 import pl.pollub.cs.pentalearn.service.exception.IncompatibleAnswerSetException;
 import pl.pollub.cs.pentalearn.service.exception.InvalidAnswerSetException;
@@ -15,6 +12,7 @@ import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -114,11 +112,10 @@ public class UserExerciseController {
         correctAnswersInMadeExercisePercentage=((double)correctAnswerSum/answeredQuestions)*100;
         finalExerciseResult=((double)correctAnswerSum/questionsInExercise)*100;
 
-        Date date=new Date();
-        Timestamp currentTimestamp=new Timestamp(date.getTime());
+
 
         UserExerciseResult result= new  UserExerciseResult(exerciseMadePercentage,correctAnswersInMadeExercisePercentage,
-                                    finalExerciseResult,userExercise,currentTimestamp);
+                                    finalExerciseResult,userExercise, new Date());
         userExerciseResultService.save(result);
         return result;
 

@@ -1,10 +1,11 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by pglg on 27-07-2016.
@@ -31,12 +32,13 @@ public class UserExerciseResult{
     private Double finalExerciseResult;
 
     @NotNull
-    private Timestamp resultTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private Date resultTime;
 
     private UserExerciseResult(){}
 
     public UserExerciseResult(Double exerciseMadePercentage, Double correctAnswersInMadeExercisePercentage,
-                              Double finalExerciseResult,UserExercise userExercise,Timestamp timestamp) {
+                              Double finalExerciseResult, UserExercise userExercise, Date timestamp) {
         this.exerciseMadePercentage = exerciseMadePercentage;
         this.correctAnswersInMadeExercisePercentage = correctAnswersInMadeExercisePercentage;
         this.finalExerciseResult = finalExerciseResult;
@@ -84,11 +86,11 @@ public class UserExerciseResult{
         this.userExercise = userExercise;
     }
 
-    public Timestamp getResultTime() {
+    public Date getResultTime() {
         return resultTime;
     }
 
-    public void setResultTime(Timestamp resultTime) {
+    public void setResultTime(Date resultTime) {
         this.resultTime = resultTime;
     }
 }
