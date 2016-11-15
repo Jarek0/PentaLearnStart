@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/example-spring-boot-mvc-1.0-SNAPSHOT.war
+web: java -Dserver.port=$PORT -jar target/pentalearn-1.0-SNAPSHOT.war
