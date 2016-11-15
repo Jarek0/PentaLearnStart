@@ -1,10 +1,12 @@
 package pl.pollub.cs.pentalearn.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Created by pglg on 27-07-2016.
@@ -12,10 +14,15 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class UserExerciseResult{
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(hidden = true)
     private Long id;
+
+    @NotNull
+    @ManyToOne
+    @JsonIgnore
+    private UserExercise userExercise;
 
     @NotNull
     private Double exerciseMadePercentage;
@@ -26,10 +33,19 @@ public class UserExerciseResult{
     @NotNull
     private Double finalExerciseResult;
 
-    public UserExerciseResult(Double exerciseMadePercentage, Double correctAnswersInMadeExercisePercentage, Double finalExerciseResult) {
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private Date resultTime;
+
+    private UserExerciseResult(){}
+
+    public UserExerciseResult(Double exerciseMadePercentage, Double correctAnswersInMadeExercisePercentage,
+                              Double finalExerciseResult, UserExercise userExercise, Date timestamp) {
         this.exerciseMadePercentage = exerciseMadePercentage;
         this.correctAnswersInMadeExercisePercentage = correctAnswersInMadeExercisePercentage;
         this.finalExerciseResult = finalExerciseResult;
+        this.userExercise=userExercise;
+        this.resultTime=timestamp;
     }
 
     public Double getExerciseMadePercentage() {
@@ -64,4 +80,19 @@ public class UserExerciseResult{
         this.finalExerciseResult = finalExerciseResult;
     }
 
+    public UserExercise getUserExercise() {
+        return userExercise;
+    }
+
+    public void setUserExercise(UserExercise userExercise) {
+        this.userExercise = userExercise;
+    }
+
+    public Date getResultTime() {
+        return resultTime;
+    }
+
+    public void setResultTime(Date resultTime) {
+        this.resultTime = resultTime;
+    }
 }

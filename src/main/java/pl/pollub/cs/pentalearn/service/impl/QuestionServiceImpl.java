@@ -73,7 +73,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questions;
 
         questions = getQuestionsIfExerciseExist(exerciseId);
-        CheckIfArrayIsEmpty(questions, exerciseId);
+        checkIfArrayIsEmpty(questions, exerciseId);
         return questions;
     }
 
@@ -83,7 +83,7 @@ public class QuestionServiceImpl implements QuestionService {
         return exercise.getQuestions();
     }
 
-    private void CheckIfArrayIsEmpty(List<Question> lectures, long exerciseId) throws ObjectHasNoItemsInTableException{
+    private void checkIfArrayIsEmpty(List<Question> lectures, long exerciseId) throws ObjectHasNoItemsInTableException{
         if(lectures.size() == 0) throw new ObjectHasNoItemsInTableException(exerciseId);
     }
 }

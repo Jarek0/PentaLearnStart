@@ -1,11 +1,8 @@
 package pl.pollub.cs.pentalearn.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.*;
-import pl.pollub.cs.pentalearn.serializer.Views;
 import pl.pollub.cs.pentalearn.service.*;
 import pl.pollub.cs.pentalearn.service.exception.IncompatibleAnswerSetException;
 import pl.pollub.cs.pentalearn.service.exception.InvalidAnswerSetException;
@@ -14,6 +11,8 @@ import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Wojciech on 2016-06-04.
@@ -58,28 +57,26 @@ public class UserExerciseController {
         AnswerSet answerSet1=new AnswerSet(answerSet.getTexts(),answerSet.getAnswers(),answerSet.getMultiSelectAllowed(),question,exercise);
 
         if(AnswerSet.isAnswerSetsCompatible(answerSet1,question.getCorrectAnswerSet())){
-            AnswerSet currentAnswerSet=getAnswerSetForQuestionInUserExercise(exercise,question);
+            AnswerSet currentAnswerSet=answerSetService.getAnswerSetForQuestionInUserExercise(question,exercise);
             if(currentAnswerSet==null) answerSetService.save(answerSet1);
             else{
                 currentAnswerSet.setTexts(answerSet1.getTexts());
                 currentAnswerSet.setAnswers(answerSet1.getAnswers());
                 currentAnswerSet.setMultiSelectAllowed(answerSet1.getMultiSelectAllowed());
-                currentAnswerSet.setQuestion(answerSet1.getQuestion());
-                currentAnswerSet.setUserExercise(answerSet1.getUserExercise());
                 answerSetService.save(currentAnswerSet);
             }
         }
         else throw new IncompatibleAnswerSetException();
 
     }
-    private AnswerSet getAnswerSetForQuestionInUserExercise(UserExercise userExercise, Question question){
+   /* private AnswerSet getAnswerSetForQuestionInUserExercise(UserExercise userExercise, Question question){
         for(AnswerSet s :userExercise.getAnswerSets() ){
             if(s.getQuestion().getId()==question.getId()){
                 return s;
             }
         }
         return  null;
-    }
+    }*/
 
     @RequestMapping(value = "userExercises/{userExerciseId}/stop",method = RequestMethod.GET)
     public UserExerciseResult stopExercise(@PathVariable Long userExerciseId)  throws NoSuchObjectException {
@@ -109,10 +106,16 @@ public class UserExerciseController {
             correctAnswerSum+=AnswerSet.matchLevel(set,set.getQuestion().getCorrectAnswerSet());
         }
         exerciseMadePercentage=((double)answeredQuestions/questionsInExercise)*100;
-        correctAnswersInMadeExercisePercentage=((double)correctAnswerSum/answeredQuestions)*100;
+
+        if(answeredQuestions==0) correctAnswersInMadeExercisePercentage=0;
+        else correctAnswersInMadeExercisePercentage=((double)correctAnswerSum/answeredQuestions)*100;
+
         finalExerciseResult=((double)correctAnswerSum/questionsInExercise)*100;
 
-        UserExerciseResult result= new  UserExerciseResult(exerciseMadePercentage,correctAnswersInMadeExercisePercentage,finalExerciseResult);
+
+
+        UserExerciseResult result= new  UserExerciseResult(exerciseMadePercentage,correctAnswersInMadeExercisePercentage,
+                                    finalExerciseResult,userExercise, new Date());
         userExerciseResultService.save(result);
         return result;
 

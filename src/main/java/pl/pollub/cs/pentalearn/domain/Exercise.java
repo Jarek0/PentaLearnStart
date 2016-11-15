@@ -1,6 +1,11 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,10 +18,11 @@ public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(hidden = true)
     private Long id;
 
-    @NotNull
     @ManyToOne
+    @ApiModelProperty(hidden = true)
     private Chapter chapter;
 
     @NotNull
@@ -24,19 +30,26 @@ public class Exercise {
     private String title;
 
     @NotNull
+    @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Question.class)
     private List<Question>questions=new ArrayList<>();
 
     @NotNull
+    @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = UserExercise.class)
     private List<UserExercise> userExercises = new ArrayList<>();
 
 
-    private Exercise(){}
-
     public Exercise(Chapter chapter, String title) {
         this.chapter = chapter;
         this.title = title;
+    }
+
+    private Exercise(){}
+
+    @JsonCreator
+    public Exercise(@JsonProperty("title") @NotEmpty @Size(max = 64)String title){
+        this.title=title;
     }
 
     public void addQuestion(Question question){

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pl.pollub.cs.pentalearn.serializer.Views;
 import pl.pollub.cs.pentalearn.service.exception.InvalidAnswerSetException;
 
@@ -20,10 +22,11 @@ import java.util.List;
 public class AnswerSet implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @JsonIgnore
-    @OneToOne
+    @ManyToOne
     private Question question;
 
     @ElementCollection
@@ -44,8 +47,10 @@ public class AnswerSet implements Serializable{
     @NotNull
     private Boolean multiSelectAllowed;
 
-    private AnswerSet()  {
-    }
+    @NotNull
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    private Boolean  userAnswerSet;
 
     @JsonCreator
     public AnswerSet(@JsonProperty("texts") List<String> texts,@JsonProperty("answers") List<Boolean> answers, @JsonProperty("multiSelectAllowed") boolean multiSelectAllowed) throws InvalidAnswerSetException {
@@ -66,6 +71,7 @@ public class AnswerSet implements Serializable{
             this.texts=texts;
             this.answers=answers;
             this.multiSelectAllowed = multiSelectAllowed;
+            this.userAnswerSet=false;
         }
         else throw new InvalidAnswerSetException();
     }
@@ -73,12 +79,16 @@ public class AnswerSet implements Serializable{
     public AnswerSet( List<String> texts, List<Boolean> answers, boolean multiSelectAllowed, Question question) throws InvalidAnswerSetException {
         this(texts,answers, multiSelectAllowed);
         this.question = question;
+        this.userAnswerSet=false;
     }
 
     public AnswerSet(List<String> texts, List<Boolean> answers, boolean multiSelectAllowed, Question question, UserExercise userExercise) throws InvalidAnswerSetException {
         this(texts,answers, multiSelectAllowed,question);
         this.userExercise = userExercise;
+        this.userAnswerSet=true;
     }
+
+    private AnswerSet(){}
 
     public Question getQuestion() {
         return question;
@@ -154,5 +164,13 @@ public class AnswerSet implements Serializable{
 
     public void setMultiSelectAllowed(Boolean multiSelectAllowed) {
         this.multiSelectAllowed = multiSelectAllowed;
+    }
+
+    public Boolean getUserAnswerSet() {
+        return userAnswerSet;
+    }
+
+    public void setUserAnswerSet(Boolean userAnswerSet) {
+        this.userAnswerSet = userAnswerSet;
     }
 }
