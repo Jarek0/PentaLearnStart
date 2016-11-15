@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,18 +24,22 @@ import java.util.List;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @ManyToOne
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Exercise exercise;
 
     @NotNull
     @Size(max = 64)
     private String questionText;
 
-    @OneToOne(mappedBy = "question")
-    private AnswerSet correctAnswerSet;
+    @OneToMany(mappedBy = "question")
+    @JsonIgnore
+    @ApiModelProperty(hidden = true,example = "Use only this field to construct question")
+    private List<AnswerSet> answerSets;
 
     public Question( String questionText,Exercise exercise) {
         this.questionText = questionText;
@@ -72,11 +80,19 @@ public class Question {
     }
 
     public AnswerSet getCorrectAnswerSet() {
-        return correctAnswerSet;
+        for(AnswerSet set:answerSets){
+            if(!set.getUserAnswerSet()) return set;
+        }
+        return null;
     }
 
-    public void setCorrectAnswerSet(AnswerSet correctAnswerSet) {
-        this.correctAnswerSet = correctAnswerSet;
+
+    public List<AnswerSet> getAnswerSets() {
+        return answerSets;
+    }
+
+    public void setAnswerSets(List<AnswerSet> answerSets) {
+        this.answerSets = answerSets;
     }
 
 }

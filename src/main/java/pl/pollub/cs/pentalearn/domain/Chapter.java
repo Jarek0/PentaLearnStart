@@ -3,6 +3,7 @@ package pl.pollub.cs.pentalearn.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Chapter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @ManyToOne

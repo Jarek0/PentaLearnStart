@@ -2,6 +2,7 @@ package pl.pollub.cs.pentalearn.domain;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.annotations.ApiModelProperty;
 import org.aspectj.weaver.ast.Test;
 import pl.pollub.cs.pentalearn.serializer.PrivateSerializer;
 import pl.pollub.cs.pentalearn.serializer.PublicSerializer;
@@ -20,6 +21,7 @@ import java.util.List;
 public class UserExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @NotNull
