@@ -44,9 +44,6 @@ public class AnswerSet implements Serializable{
     @NotNull
     private Boolean multiSelectAllowed;
 
-    private AnswerSet()  {
-    }
-
     @JsonCreator
     public AnswerSet(@JsonProperty("texts") List<String> texts,@JsonProperty("answers") List<Boolean> answers, @JsonProperty("multiSelectAllowed") boolean multiSelectAllowed) throws InvalidAnswerSetException {
         boolean isObjectValidToMake=false;
@@ -79,6 +76,8 @@ public class AnswerSet implements Serializable{
         this(texts,answers, multiSelectAllowed,question);
         this.userExercise = userExercise;
     }
+
+    private AnswerSet(){}
 
     public Question getQuestion() {
         return question;

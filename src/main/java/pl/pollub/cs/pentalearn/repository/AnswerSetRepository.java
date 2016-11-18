@@ -2,7 +2,6 @@ package pl.pollub.cs.pentalearn.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.pollub.cs.pentalearn.domain.Answer;
 import pl.pollub.cs.pentalearn.domain.AnswerSet;
 
 /**

@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.Chapter;
 import pl.pollub.cs.pentalearn.domain.Exercise;
-import pl.pollub.cs.pentalearn.domain.createForm.ExerciseCreateForm;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.ExerciseService;
 import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
@@ -45,23 +44,23 @@ public class ExerciseController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addExercise(@PathVariable Long chapterId, @Valid @RequestBody ExerciseCreateForm exerciseCreateForm,
+    public void addExercise(@PathVariable Long chapterId, @Valid @RequestBody Exercise exercise1,
                             HttpServletRequest httpServletRequest,
                             HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter = chapterService.getById(chapterId);
-        Exercise exercise = new Exercise(chapter,exerciseCreateForm.getTitle());
+        Exercise exercise = new Exercise(chapter,exercise1.getTitle());
         exerciseService.save(exercise);
     }
 
     @RequestMapping(value = "/{exerciseId}",method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateExercise(@PathVariable Long exerciseId,@Valid @RequestBody ExerciseCreateForm exerciseCreateForm,
+    public void updateExercise(@PathVariable Long exerciseId,@Valid @RequestBody Exercise exercise1,
                               HttpServletRequest httpServletRequest,
                               HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
-        exercise.setTitle(exerciseCreateForm.getTitle());
+        exercise.setTitle(exercise1.getTitle());
         exerciseService.update(exercise);
     }
 

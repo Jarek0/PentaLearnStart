@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.cs.pentalearn.domain.Chapter;
 import pl.pollub.cs.pentalearn.domain.Lecture;
-import pl.pollub.cs.pentalearn.domain.createForm.LectureCreateForm;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.LectureService;
 import pl.pollub.cs.pentalearn.service.exception.ObjectHasNoItemsInTableException;
@@ -38,23 +37,23 @@ public class LectureController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addLecture(@PathVariable Long chapterId, @Valid @RequestBody LectureCreateForm lectureCreateForm,
+    public void addLecture(@PathVariable Long chapterId, @Valid @RequestBody Lecture lecture1,
                            HttpServletRequest httpServletRequest,
                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter=chapterService.getById(chapterId);
-        Lecture lecture=new Lecture(chapter,lectureCreateForm.getContent());
+        Lecture lecture=new Lecture(chapter,lecture1.getContent());
         lectureService.save(lecture);
     }
 
     @RequestMapping(value = "/{lectureId}",method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateLecture(@PathVariable Long lectureId,@Valid @RequestBody LectureCreateForm lectureCreateForm,
+    public void updateLecture(@PathVariable Long lectureId,@Valid @RequestBody Lecture lecture1,
                                HttpServletRequest httpServletRequest,
                                HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Lecture lecture=lectureService.getById(lectureId);
-        lecture.setContent(lectureCreateForm.getContent());
+        lecture.setContent(lecture1.getContent());
         lectureService.update(lecture);
     }
 
