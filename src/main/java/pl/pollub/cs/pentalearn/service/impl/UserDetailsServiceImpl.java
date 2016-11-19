@@ -42,10 +42,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException,DisabledException,BadCredentialsException,RuntimeException {
         
-    /*    String ip = getClientIP();
+       String ip = getClientIP();
         if (loginAttemptService.isBlocked(ip)) {
+            System.out.println("BLOCKED");
             throw new RuntimeException("blocked");
-        }*/
+        }
         
         User user = userRepository.findByUsername(username);
         if (user == null) {

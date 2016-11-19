@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.session.ConcurrentSessionFilter;
+import org.springframework.web.context.request.RequestContextListener;
 import pl.pollub.cs.pentalearn.service.handlers.LogoutSuccesHandler;
 import pl.pollub.cs.pentalearn.service.handlers.MyAuthenticationFailureHandler;
 import pl.pollub.cs.pentalearn.service.handlers.MyAuthenticationSuccessHandler;
@@ -106,6 +107,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         jdbcTokenRepository.setCreateTableOnStartup(false);
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
+    }
+
+    @Bean public RequestContextListener requestContextListener(){
+        return new RequestContextListener();
     }
 
     @Bean

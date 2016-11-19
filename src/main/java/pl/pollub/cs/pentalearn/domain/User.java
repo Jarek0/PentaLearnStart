@@ -39,8 +39,6 @@ public class User{
     private boolean banned;
 
     @Transient
-    @NotNull
-    @Size(min=8,max=64)
     private String passwordConfirm;
 
     @OneToOne(mappedBy = "user")

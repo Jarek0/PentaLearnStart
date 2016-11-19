@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -75,6 +77,28 @@ public class SecurityController {
 
         String appUrl = request.getContextPath();
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(userForm, request.getLocale(), appUrl));
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public void login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        if (error != null) {
+
+            String targetUrl = getRememberMeTargetUrlFromSession(request);
+            if(StringUtils.hasText(targetUrl)){
+                //to do komunikaty o błędach w logowaniu
+            }
+
+        }
+
+
+        if (logout != null) {
+            //to do komunikat o wylogowaniu
+        }
+
+
+        //"Your csrf token is in header of response. You can start procedure of login. Please send request '/auth/login_check' method 'Post' with parameters: username, password";
+
     }
     
     @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)

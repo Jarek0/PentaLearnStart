@@ -52,10 +52,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User registerNewUserAccount(User accountDto){
-
-            //Walidacja danych po rejestracji
-
-            
             accountDto.setPassword(bCryptPasswordEncoder.encode(accountDto.getPassword()));
             accountDto.setRoles(new ArrayList<Role>(Arrays.asList(roleRepository.findByName("USER"))));
             accountDto.setEnabled(false);
