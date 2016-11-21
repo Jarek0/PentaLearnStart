@@ -1,80 +1,42 @@
 package pl.pollub.cs.pentalearn.service.handlers;
 
-import org.apache.commons.logging.LogFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.WebAttributes;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.stereotype.Component;
+import pl.pollub.cs.pentalearn.domain.User;
+import pl.pollub.cs.pentalearn.service.UserService;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Collection;
+import java.io.PrintWriter;
 
-public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    protected org.apache.commons.logging.Log logger = LogFactory.getLog(this.getClass());
+@Component
+public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    @Autowired
+    UserService userService;
+
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
+        response.setStatus(HttpServletResponse.SC_OK);
+        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+        response.setHeader("X-CSRF-HEADER", token.getHeaderName());
+        response.setHeader("X-CSRF-PARAM", token.getParameterName());
+        response.setHeader("X-CSRF-TOKEN", token.getToken());
 
 
+        User user=userService.getByUsername(authentication.getName());
 
-        handle(request, response, authentication);
-        clearAuthenticationAttributes(request);
-    }
-
-    protected void handle(HttpServletRequest request,
-                          HttpServletResponse response, Authentication authentication) throws IOException {
-        String targetUrl = determineTargetUrl(authentication);
-
-        if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
-
-            return;
-        }
-        redirectStrategy.sendRedirect(request, response, targetUrl);
-    }
-
-    protected String determineTargetUrl(Authentication authentication) {
-        boolean isUser = false;
-        boolean isAdmin = false;
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("USER")) {
-                isUser = true;
-                break;
-            } else if (grantedAuthority.getAuthority().equals("ROOT")) {
-                isAdmin = true;
-                break;
-            }
-        }
-
-        if (isAdmin) {
-            return "/api/user";
-        } else if (isUser) {
-            return "/api/user";
-        } else {
-            throw new IllegalStateException();
-        }
-    }
-
-    protected void clearAuthenticationAttributes(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return;
-        }
-        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-    }
-
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
-    }
-    protected RedirectStrategy getRedirectStrategy() {
-        return redirectStrategy;
+        PrintWriter writer = response.getWriter();
+        writer.write(mapper.writeValueAsString(user));
+        writer.flush();
     }
 }

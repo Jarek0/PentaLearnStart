@@ -44,7 +44,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         
        String ip = getClientIP();
         if (loginAttemptService.isBlocked(ip)) {
-            System.out.println("BLOCKED");
             throw new RuntimeException("blocked");
         }
         

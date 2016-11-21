@@ -7,9 +7,9 @@ package pl.pollub.cs.pentalearn.service.exception;
 
 
 @SuppressWarnings("serial")
-public class EmailExistsException extends Exception{
+public class AuthException extends Exception{
 
-    public EmailExistsException(final String message) {
+    public AuthException(final String message) {
         super(message);
     }
 

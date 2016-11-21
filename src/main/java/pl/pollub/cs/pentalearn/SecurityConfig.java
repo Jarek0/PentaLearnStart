@@ -1,6 +1,8 @@
 package pl.pollub.cs.pentalearn;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,8 +13,9 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.session.ConcurrentSessionFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.context.request.RequestContextListener;
-import pl.pollub.cs.pentalearn.service.handlers.LogoutSuccesHandler;
+import pl.pollub.cs.pentalearn.service.handlers.HttpLogoutSuccessHandler;
 import pl.pollub.cs.pentalearn.service.handlers.MyAuthenticationFailureHandler;
 import pl.pollub.cs.pentalearn.service.handlers.MyAuthenticationSuccessHandler;
 import pl.pollub.cs.pentalearn.service.impl.UserDetailsServiceImpl;
@@ -46,15 +49,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().ignoringAntMatchers("/auth/login_check**").ignoringAntMatchers("/api/registration**").csrfTokenRepository(csrfTokenRepository())
-
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint())
                 .and()
                 .httpBasic()
 
                 .and()
                 .logout()
-                .logoutUrl("/j_spring_security_logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies("JSESSIONID")
-                .addLogoutHandler(new LogoutSuccesHandler("/logout"))
+                .logoutSuccessHandler(logoutSuccessHandler())
 
                 .and()
                 .rememberMe()
@@ -84,13 +90,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionRegistry(sessionRegistry());}
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        auth.authenticationProvider(authenticationProvider());
     }
 
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+
+        return authenticationProvider;
+    }
 
     @Bean
     public PersistentTokenBasedRememberMeServices rememberMeAuthenticationProvider(){
         return new PersistentTokenBasedRememberMeServices("myAppKey",userDetailsService(),jdbcTokenRepository());
+    }
+
+    @Bean
+    public HttpAuthenticationEntryPoint authenticationEntryPoint(){
+        return new HttpAuthenticationEntryPoint();
+    }
+
+    @Bean
+    public HttpLogoutSuccessHandler logoutSuccessHandler(){
+        return new HttpLogoutSuccessHandler();
     }
 
     @Bean
