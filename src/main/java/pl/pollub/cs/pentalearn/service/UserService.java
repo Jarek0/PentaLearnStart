@@ -29,14 +29,7 @@ public interface UserService {
     User delete(User user);
 
     User update(User user);
-    
-    void addUserRole(User user, Role role);
 
-    void addUserRoles(User user, List<Role> roles);
-
-    void deleteUserRole(User user, Role role);
-
-    void deleteUserRoles(User user, List<Role> roles);
 
     boolean emailExist(String email);
 

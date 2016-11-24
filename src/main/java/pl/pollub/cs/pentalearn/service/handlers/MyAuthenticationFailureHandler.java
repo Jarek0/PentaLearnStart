@@ -31,6 +31,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
         //writer.write(exception.getMessage());
         writer.write(mapper.writeValueAsString(exception));

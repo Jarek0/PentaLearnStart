@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.pollub.cs.pentalearn.domain.Role;
 import pl.pollub.cs.pentalearn.repository.RoleRepository;
+import pl.pollub.cs.pentalearn.repository.UserRepository;
 import pl.pollub.cs.pentalearn.service.RoleService;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
@@ -17,9 +18,11 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
     @Inject
-    public RoleServiceImpl(final RoleRepository roleRepository) {
+    public RoleServiceImpl(final RoleRepository roleRepository,final UserRepository userRepository) {
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -64,5 +67,10 @@ public class RoleServiceImpl implements RoleService {
          Role role=roleRepository.findByName(rolename);
          if(role == null) throw new NoSuchObjectException(rolename);
          return role;
+    }
+
+    @Override
+    public List<Role> getRolesByUserId(Long userId) {
+        return userRepository.findById(userId).getRoles();
     }
 }

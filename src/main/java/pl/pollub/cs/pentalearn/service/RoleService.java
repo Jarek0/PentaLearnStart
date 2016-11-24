@@ -15,4 +15,6 @@ public interface RoleService {
     Role delete(Role role);
     Role getById(Long id)throws NoSuchObjectException;
     Role getByName(String rolename)throws NoSuchObjectException;
+
+    List<Role> getRolesByUserId(Long userId);
 }

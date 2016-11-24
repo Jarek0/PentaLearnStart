@@ -126,32 +126,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @Transactional
-    @Override
-    public void addUserRole(User user, Role role){
-        user.getRoles().add(role);
-        userRepository.save(user);
-    }
 
-    @Transactional
-    @Override
-    public void addUserRoles(User user, List<Role> roles){
-        user.getRoles().addAll(roles);
-        userRepository.save(user);
-    }
-
-    @Transactional
-    @Override
-    public void deleteUserRole(User user, Role role){
-        user.getRoles().remove(role);
-        userRepository.save(user);
-    }
-
-    @Transactional
-    @Override
-    public void deleteUserRoles(User user, List<Role> roles){
-        user.getRoles().removeAll(roles);
-        userRepository.save(user);
-    }
     
 }

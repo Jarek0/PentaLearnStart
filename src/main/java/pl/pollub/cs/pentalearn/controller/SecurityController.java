@@ -4,6 +4,7 @@ package pl.pollub.cs.pentalearn.controller;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import pl.pollub.cs.pentalearn.service.UserService;
 import pl.pollub.cs.pentalearn.service.VerificationTokenService;
 import pl.pollub.cs.pentalearn.service.events.OnRegistrationCompleteEvent;
 import pl.pollub.cs.pentalearn.service.exception.AuthException;
+import pl.pollub.cs.pentalearn.service.exception.InvalidRequestException;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
 import pl.pollub.cs.pentalearn.service.impl.MailServiceImpl;
 import pl.pollub.cs.pentalearn.service.validator.UserValidator;
@@ -64,21 +66,36 @@ public class SecurityController {
         this.userValidator=userValidator;
     }
 
-    @InitBinder
+    /*@InitBinder
     public void dataBinding(WebDataBinder binder) {
         binder.addValidators(userValidator);
+    }*/
+
+
+    /*Żeby się zarejestrować trzeba wysłać JSON postaci:
+    {
+    "username":"username"
+    "password":"password"
+    "passwordConfirm":"passwordConfirm"
+    "email":"email"
     }
+    Requestem /api/registration POST
 
-
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    Żeby się zalogować należy wysłać Request /auth/login_check z username i password
+     */
+    @RequestMapping(value = "/registration", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public void registration(@RequestBody @Valid User userForm, HttpServletRequest request,BindingResult bindingResult){
+        userValidator.validate(userForm,bindingResult);
+        if (bindingResult.hasErrors()) {
+            throw new InvalidRequestException("Invalid user", bindingResult);
+        }
         userService.registerNewUserAccount(userForm);
         String appUrl = request.getContextPath();
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(userForm, request.getLocale(), appUrl));
     }
 
-    
-    @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
+    //potwierdzenie wysyalne jest na maila. Link wysłany w mailu uruchamia procedurę weryfikacji
+    @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
     public void confirmRegistration(WebRequest request, @RequestParam("token") String token) throws NoSuchObjectException,AuthException {
     Locale locale = request.getLocale();
      

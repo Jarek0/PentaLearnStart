@@ -8,8 +8,6 @@ import pl.pollub.cs.pentalearn.domain.Role;
 import pl.pollub.cs.pentalearn.domain.User;
 import pl.pollub.cs.pentalearn.repository.RoleRepository;
 import pl.pollub.cs.pentalearn.repository.UserRepository;
-import pl.pollub.cs.pentalearn.service.RoleService;
-import pl.pollub.cs.pentalearn.service.UserService;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

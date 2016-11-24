@@ -22,7 +22,10 @@ import java.util.List;
  *                   --> Exercise --> Question
  *                             |       |
  *                             V       V
- *                           UserExercise
+ *                           UserExercise  <-> User -> Role
+ *                                               |
+ *                                               V
+ *                                        VerificationToken
  * ------------------------------------------------------------------------
  * Created by Wojciech on 2016-04-30.
  */

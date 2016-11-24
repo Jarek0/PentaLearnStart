@@ -28,15 +28,13 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
                                         Authentication authentication) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_OK);
         CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
-        response.setHeader("X-CSRF-HEADER", token.getHeaderName());
-        response.setHeader("X-CSRF-PARAM", token.getParameterName());
-        response.setHeader("X-CSRF-TOKEN", token.getToken());
 
+        response.setContentType("application/json");
 
         User user=userService.getByUsername(authentication.getName());
 
         PrintWriter writer = response.getWriter();
-        writer.write(mapper.writeValueAsString(user));
+        writer.write(mapper.writeValueAsString(token));
         writer.flush();
     }
 }
