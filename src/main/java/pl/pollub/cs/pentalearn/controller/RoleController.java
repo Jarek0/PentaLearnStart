@@ -22,17 +22,17 @@ public class RoleController {
     private final UserService userService;
 
     @Inject
-    public RoleController(final RoleService roleService, final UserService userService){
-        this.roleService=roleService;
-        this.userService=userService;
+    public RoleController(final RoleService roleService, final UserService userService) {
+        this.roleService = roleService;
+        this.userService = userService;
     }
 
-    @RequestMapping(value = "/roles/{roleId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/roles/{roleId}", method = RequestMethod.GET)
     public List<Role> showRolesById(@PathVariable Long roleId) throws NoSuchObjectException, ObjectHasNoItemsInTableException {
         return roleService.getRolesByUserId(roleId);
     }
 
-    @RequestMapping(value = "/roles",method = RequestMethod.POST)
+    @RequestMapping(value = "/roles", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void addRole(@Valid @RequestBody Role role,
                         HttpServletRequest httpServletRequest,
@@ -41,9 +41,9 @@ public class RoleController {
         roleService.save(role);
     }
 
-    @RequestMapping(value = "/roles/{roleId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/roles/{roleId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateRole(@PathVariable Long roleId,@Valid @RequestBody Role role1,
+    public void updateRole(@PathVariable Long roleId, @Valid @RequestBody Role role1,
                            HttpServletRequest httpServletRequest,
                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
@@ -52,7 +52,7 @@ public class RoleController {
         roleService.update(role);
     }
 
-    @RequestMapping(value = "/roles/{roleId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/roles/{roleId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteRole(@PathVariable Long roleId,
                            HttpServletRequest httpServletRequest,
@@ -62,33 +62,33 @@ public class RoleController {
         roleService.delete(role);
     }
 
-    @RequestMapping(value = "/users/{userId}/roles",method = RequestMethod.GET)
+    @RequestMapping(value = "/users/{userId}/roles", method = RequestMethod.GET)
     public List<Role> showRolesByUserId(@PathVariable Long userId) throws NoSuchObjectException, ObjectHasNoItemsInTableException {
         return userService.getById(userId).getRoles();
     }
 
-    @RequestMapping(value = "/users/{userId}/roles/{roleId}",method = RequestMethod.POST)
+    @RequestMapping(value = "/users/{userId}/roles/{roleId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addRoleToUser(@PathVariable Long userId,@PathVariable Long roleId,
-                           HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void addRoleToUser(@PathVariable Long userId, @PathVariable Long roleId,
+                              HttpServletRequest httpServletRequest,
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
-        User user=userService.getById(userId);
-        Role role=roleService.getById(roleId);
+        User user = userService.getById(userId);
+        Role role = roleService.getById(roleId);
         user.getRoles().add(role);
 
         userService.saveRegisteredUser(user);
     }
 
 
-    @RequestMapping(value = "/users/{userId}/roles/{roleId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/users/{userId}/roles/{roleId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteRoleInUser(@PathVariable Long userId,@PathVariable Long roleId,
-                           HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void deleteRoleInUser(@PathVariable Long userId, @PathVariable Long roleId,
+                                 HttpServletRequest httpServletRequest,
+                                 HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
-        User user=userService.getById(userId);
-        Role role=roleService.getById(roleId);
+        User user = userService.getById(userId);
+        Role role = roleService.getById(roleId);
         user.getRoles().remove(role);
 
         userService.saveRegisteredUser(user);

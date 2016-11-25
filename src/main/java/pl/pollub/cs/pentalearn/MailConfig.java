@@ -17,35 +17,36 @@ public class MailConfig {
 
 
     @Bean
-    public JavaMailSenderImpl mailSender(){
-        JavaMailSenderImpl mailSender=new JavaMailSenderImpl();
+    public JavaMailSenderImpl mailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPassword("STALKER70A3");
         mailSender.setUsername("testaccont666@gmail.com");
         mailSender.setPort(587);
         Properties props = new Properties();
-        props.put("mail.smtp.auth","true");
-        props.put("mail.smtp.starttls.enable","true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
         mailSender.setJavaMailProperties(props);
         return mailSender;
     }
 
     @Bean
-    public MailServiceImpl mailService(){
-        MailServiceImpl mailService=new MailServiceImpl();
+    public MailServiceImpl mailService() {
+        MailServiceImpl mailService = new MailServiceImpl();
         mailService.setMailSender(mailSender());
         return mailService;
     }
 
     @Bean
-    public ResourceBundleMessageSource messageSource(){
-        ResourceBundleMessageSource messageSource=new ResourceBundleMessageSource();
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
         return messageSource;
     }
+
     @Bean
-    public SessionLocaleResolver sessionLocaleResolver(){
-        SessionLocaleResolver sessionLocaleResolver=new SessionLocaleResolver();
+    public SessionLocaleResolver sessionLocaleResolver() {
+        SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
         sessionLocaleResolver.setDefaultLocale(new Locale("en"));
         return sessionLocaleResolver;
     }

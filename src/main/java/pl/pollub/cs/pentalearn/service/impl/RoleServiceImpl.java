@@ -19,8 +19,9 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+
     @Inject
-    public RoleServiceImpl(final RoleRepository roleRepository,final UserRepository userRepository) {
+    public RoleServiceImpl(final RoleRepository roleRepository, final UserRepository userRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
     }
@@ -34,8 +35,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public List<Role> getAllRoles() throws TableIsEmptyException {
-        List<Role> roles=roleRepository.findAll();
-        if(roles.size()==0)
+        List<Role> roles = roleRepository.findAll();
+        if (roles.size() == 0)
             throw new TableIsEmptyException("role");
         return roles;
     }
@@ -56,17 +57,17 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Role getById(Long id) throws NoSuchObjectException {
-        Role role=roleRepository.findOne(id);
-        if(role == null) throw new NoSuchObjectException(id);
+        Role role = roleRepository.findOne(id);
+        if (role == null) throw new NoSuchObjectException(id);
         return role;
     }
 
     @Override
     @Transactional
-    public Role getByName(String rolename)throws NoSuchObjectException {
-         Role role=roleRepository.findByName(rolename);
-         if(role == null) throw new NoSuchObjectException(rolename);
-         return role;
+    public Role getByName(String rolename) throws NoSuchObjectException {
+        Role role = roleRepository.findByName(rolename);
+        if (role == null) throw new NoSuchObjectException(rolename);
+        return role;
     }
 
     @Override

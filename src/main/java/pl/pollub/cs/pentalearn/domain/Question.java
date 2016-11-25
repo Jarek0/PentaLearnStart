@@ -33,12 +33,13 @@ public class Question {
     @OneToOne(mappedBy = "question")
     private AnswerSet correctAnswerSet;
 
-    public Question( String questionText,Exercise exercise) {
+    public Question(String questionText, Exercise exercise) {
         this.questionText = questionText;
-        this.exercise=exercise;
+        this.exercise = exercise;
     }
 
-    private Question(){}
+    private Question() {
+    }
 
     @JsonCreator
     public Question(@JsonProperty("questionText") String questionText) {

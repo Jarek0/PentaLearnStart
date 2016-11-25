@@ -24,29 +24,29 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private final MailServiceImpl mailService;
 
     @Inject
-    public RegistrationListener(final VerificationTokenRepository verificationTokenRepository, final MessageSource messages, final MailServiceImpl mailService){
-        this.verificationTokenRepository=verificationTokenRepository;
-        this.messages=messages;
-        this.mailService=mailService;
+    public RegistrationListener(final VerificationTokenRepository verificationTokenRepository, final MessageSource messages, final MailServiceImpl mailService) {
+        this.verificationTokenRepository = verificationTokenRepository;
+        this.messages = messages;
+        this.mailService = mailService;
     }
- 
+
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
         this.confirmRegistration(event);
     }
- 
+
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         User user = event.getUser();
         String token = UUID.randomUUID().toString();
-        VerificationToken vtoken=new VerificationToken(token,user);
+        VerificationToken vtoken = new VerificationToken(token, user);
         verificationTokenRepository.save(vtoken);
-         
+
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
         String confirmationUrl = event.getAppUrl() + "/api/registration/confirm?token=" + token;
         String message = messages.getMessage("message.regSucc", null, event.getLocale());
-         
-        
-        mailService.sendMail("from@no-spam.com",recipientAddress,subject,message + " rn " + "http://localhost:8080" + confirmationUrl);
+
+
+        mailService.sendMail("from@no-spam.com", recipientAddress, subject, message + " rn " + "http://localhost:8080" + confirmationUrl);
     }
 }

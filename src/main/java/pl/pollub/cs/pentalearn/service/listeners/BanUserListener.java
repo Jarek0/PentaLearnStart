@@ -18,11 +18,11 @@ public class BanUserListener implements ApplicationListener<BanUserEvent> {
     private final SessionRegistry sessionRegistry;
 
     @Inject
-    public BanUserListener(final SessionRegistry sessionRegistry){
-        this.sessionRegistry=sessionRegistry;
+    public BanUserListener(final SessionRegistry sessionRegistry) {
+        this.sessionRegistry = sessionRegistry;
     }
-    
- 
+
+
     @Override
     public void onApplicationEvent(BanUserEvent event) {
         try {
@@ -30,35 +30,30 @@ public class BanUserListener implements ApplicationListener<BanUserEvent> {
         } catch (Exception ex) {
         }
     }
- 
-    private void confirmBan(BanUserEvent event)throws Exception {
+
+    private void confirmBan(BanUserEvent event) throws Exception {
         String bannedUser = event.getUserName();
-        if(event.getOnline())
-            {
-                org.springframework.security.core.userdetails.User bannedUserWithSession=findUserByUsername(bannedUser);
-                if(bannedUserWithSession!=null)
-                {
-                    for(SessionInformation session:(sessionRegistry.getAllSessions(bannedUserWithSession, false))){
-                        session.expireNow();
-                    }
+        if (event.getOnline()) {
+            org.springframework.security.core.userdetails.User bannedUserWithSession = findUserByUsername(bannedUser);
+            if (bannedUserWithSession != null) {
+                for (SessionInformation session : (sessionRegistry.getAllSessions(bannedUserWithSession, false))) {
+                    session.expireNow();
                 }
             }
-        
+        }
+
     }
 
-    public org.springframework.security.core.userdetails.User findUserByUsername(String userName)
-        {
-            List<Object> onlineUserList=sessionRegistry.getAllPrincipals();
-            for(Object onlineUser:onlineUserList)
-            {
-                org.springframework.security.core.userdetails.User convertedonlineUser=(org.springframework.security.core.userdetails.User)onlineUser;
-                if(((convertedonlineUser).getUsername()).equalsIgnoreCase(userName))
-                {
-                   return convertedonlineUser; 
-                }
-                
+    public org.springframework.security.core.userdetails.User findUserByUsername(String userName) {
+        List<Object> onlineUserList = sessionRegistry.getAllPrincipals();
+        for (Object onlineUser : onlineUserList) {
+            org.springframework.security.core.userdetails.User convertedonlineUser = (org.springframework.security.core.userdetails.User) onlineUser;
+            if (((convertedonlineUser).getUsername()).equalsIgnoreCase(userName)) {
+                return convertedonlineUser;
             }
-            return null;
+
         }
-    
+        return null;
+    }
+
 }

@@ -25,7 +25,7 @@ public class LectureController {
     private final ChapterService chapterService;
 
     @Inject
-    public LectureController(LectureService lectureService, ChapterService chapterService){
+    public LectureController(LectureService lectureService, ChapterService chapterService) {
         this.lectureService = lectureService;
         this.chapterService = chapterService;
     }
@@ -41,29 +41,29 @@ public class LectureController {
                            HttpServletRequest httpServletRequest,
                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
-        Chapter chapter=chapterService.getById(chapterId);
-        Lecture lecture=new Lecture(chapter,lecture1.getContent());
+        Chapter chapter = chapterService.getById(chapterId);
+        Lecture lecture = new Lecture(chapter, lecture1.getContent());
         lectureService.save(lecture);
     }
 
-    @RequestMapping(value = "/{lectureId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{lectureId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateLecture(@PathVariable Long lectureId,@Valid @RequestBody Lecture lecture1,
-                               HttpServletRequest httpServletRequest,
-                               HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void updateLecture(@PathVariable Long lectureId, @Valid @RequestBody Lecture lecture1,
+                              HttpServletRequest httpServletRequest,
+                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
-        Lecture lecture=lectureService.getById(lectureId);
+        Lecture lecture = lectureService.getById(lectureId);
         lecture.setContent(lecture1.getContent());
         lectureService.update(lecture);
     }
 
-    @RequestMapping(value = "/{lectureId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{lectureId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteLecture(@PathVariable Long lectureId,
                               HttpServletRequest httpServletRequest,
                               HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
-        Lecture lecture=lectureService.getById(lectureId);
+        Lecture lecture = lectureService.getById(lectureId);
         lectureService.delete(lecture);
     }
 }

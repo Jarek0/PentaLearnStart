@@ -8,6 +8,8 @@ import pl.pollub.cs.pentalearn.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
+
     User findByEmail(String email);
+
     User findById(Long id);
 }

@@ -8,5 +8,5 @@ import pl.pollub.cs.pentalearn.domain.AnswerSet;
  * Created by pglg on 28-04-2016.
  */
 @Repository
-public interface AnswerSetRepository extends CrudRepository<AnswerSet,Long> {
+public interface AnswerSetRepository extends CrudRepository<AnswerSet, Long> {
 }

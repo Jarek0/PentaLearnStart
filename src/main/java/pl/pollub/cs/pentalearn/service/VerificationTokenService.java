@@ -8,11 +8,17 @@ import pl.pollub.cs.pentalearn.service.exception.TableIsEmptyException;
 import java.util.List;
 
 public interface VerificationTokenService {
-    VerificationToken save(VerificationToken verificationToken) ;
+    VerificationToken save(VerificationToken verificationToken);
+
     List<VerificationToken> getAllVerificationTokens() throws TableIsEmptyException;
+
     VerificationToken update(VerificationToken verificationToken);
+
     VerificationToken delete(VerificationToken role);
-    VerificationToken getById(Long id)throws NoSuchObjectException;
+
+    VerificationToken getById(Long id) throws NoSuchObjectException;
+
     VerificationToken generateNewVerificationToken(String existingToken);
-    VerificationToken getByToken(String token)throws NoSuchObjectException;
+
+    VerificationToken getByToken(String token) throws NoSuchObjectException;
 }

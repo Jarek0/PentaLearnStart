@@ -11,5 +11,5 @@ import java.util.List;
  * Created by pglg on 25-04-2016.
  */
 @Repository
-public interface QuestionRepository extends CrudRepository<Question,Long>{
+public interface QuestionRepository extends CrudRepository<Question, Long> {
 }

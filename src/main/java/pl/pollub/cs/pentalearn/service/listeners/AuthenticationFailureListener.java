@@ -20,15 +20,15 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
     private final LoginAttemptServiceImpl loginAttemptService;
 
     @Inject
-    AuthenticationFailureListener(final LoginAttemptServiceImpl loginAttemptService){
-        this.loginAttemptService=loginAttemptService;
+    AuthenticationFailureListener(final LoginAttemptServiceImpl loginAttemptService) {
+        this.loginAttemptService = loginAttemptService;
     }
- 
+
     @Override
     public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent e) {
         WebAuthenticationDetails auth = (WebAuthenticationDetails)
-          e.getAuthentication().getDetails();
-         
+                e.getAuthentication().getDetails();
+
         loginAttemptService.loginFailed(auth.getRemoteAddress());
     }
 }

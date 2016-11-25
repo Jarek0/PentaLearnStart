@@ -6,7 +6,6 @@
 package pl.pollub.cs.pentalearn.service.listeners;
 
 
-
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -26,19 +25,19 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
     private final LoginAttemptServiceImpl loginAttemptService;
 
     @Inject
-    AuthenticationSuccessEventListener (final LoginAttemptServiceImpl loginAttemptService,final UserService userService){
-        this.loginAttemptService=loginAttemptService;
-        this.userService=userService;
+    AuthenticationSuccessEventListener(final LoginAttemptServiceImpl loginAttemptService, final UserService userService) {
+        this.loginAttemptService = loginAttemptService;
+        this.userService = userService;
     }
- 
-    @Override
-    public void onApplicationEvent(AuthenticationSuccessEvent e){
-        WebAuthenticationDetails auth = (WebAuthenticationDetails)  e.getAuthentication().getDetails();
-         
-        loginAttemptService.loginSucceeded(auth.getRemoteAddress());
-        User loginUser= null;
 
-            loginUser = userService.getByUsername(e.getAuthentication().getName());
+    @Override
+    public void onApplicationEvent(AuthenticationSuccessEvent e) {
+        WebAuthenticationDetails auth = (WebAuthenticationDetails) e.getAuthentication().getDetails();
+
+        loginAttemptService.loginSucceeded(auth.getRemoteAddress());
+        User loginUser = null;
+
+        loginUser = userService.getByUsername(e.getAuthentication().getName());
 
 
         loginUser.setOnline(true);

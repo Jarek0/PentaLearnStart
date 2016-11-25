@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * Created by pglg on 27-07-2016.
  */
 @Entity
-public class UserExerciseResult{
+public class UserExerciseResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,15 +33,16 @@ public class UserExerciseResult{
     @NotNull
     private Timestamp resultTime;
 
-    private UserExerciseResult(){}
+    private UserExerciseResult() {
+    }
 
     public UserExerciseResult(Double exerciseMadePercentage, Double correctAnswersInMadeExercisePercentage,
-                              Double finalExerciseResult,UserExercise userExercise,Timestamp timestamp) {
+                              Double finalExerciseResult, UserExercise userExercise, Timestamp timestamp) {
         this.exerciseMadePercentage = exerciseMadePercentage;
         this.correctAnswersInMadeExercisePercentage = correctAnswersInMadeExercisePercentage;
         this.finalExerciseResult = finalExerciseResult;
-        this.userExercise=userExercise;
-        this.resultTime=timestamp;
+        this.userExercise = userExercise;
+        this.resultTime = timestamp;
     }
 
     public Double getExerciseMadePercentage() {

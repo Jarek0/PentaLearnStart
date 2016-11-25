@@ -31,7 +31,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 
         response.setContentType("application/json");
 
-        User user=userService.getByUsername(authentication.getName());
+        User user = userService.getByUsername(authentication.getName());
 
         PrintWriter writer = response.getWriter();
         writer.write(mapper.writeValueAsString(token));

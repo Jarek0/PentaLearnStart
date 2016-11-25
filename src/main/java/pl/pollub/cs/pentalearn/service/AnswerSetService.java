@@ -8,8 +8,11 @@ import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
  */
 public interface AnswerSetService {
     AnswerSet save(AnswerSet answer);
+
     AnswerSet getById(Long id) throws NoSuchObjectException;
+
     AnswerSet update(AnswerSet answer);
+
     void delete(AnswerSet answer);
 
 }

@@ -32,32 +32,32 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     private String getClientIP() {
-    String xfHeader = request.getHeader("X-Forwarded-For");
-    if (xfHeader == null){
-        return request.getRemoteAddr();
+        String xfHeader = request.getHeader("X-Forwarded-For");
+        if (xfHeader == null) {
+            return request.getRemoteAddr();
+        }
+        return xfHeader.split(",")[0];
     }
-    return xfHeader.split(",")[0];
-}
+
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException,DisabledException,BadCredentialsException,RuntimeException {
-        
-       String ip = getClientIP();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DisabledException, BadCredentialsException, RuntimeException {
+
+        String ip = getClientIP();
         if (loginAttemptService.isBlocked(ip)) {
             throw new RuntimeException("blocked");
         }
-        
+
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("user not found");
         }
         ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-        for (Role role : user.getRoles()){
+        for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         boolean enabled = true;
-       if(!user.getEnabled())
-        {
+        if (!user.getEnabled()) {
             enabled = false;
             throw new DisabledException("not verified");
         }
@@ -68,8 +68,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (!accountNonLocked) {
             throw new RuntimeException("banned");
         }
-        
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, grantedAuthorities);
+
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, grantedAuthorities);
     }
 }
 

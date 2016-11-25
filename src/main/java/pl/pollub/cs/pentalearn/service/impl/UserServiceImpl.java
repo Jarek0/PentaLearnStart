@@ -44,44 +44,44 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveRegisteredUser(@NotNull final User user) {
-        
+
         userRepository.save(user);
     }
 
 
     @Override
     @Transactional
-    public User registerNewUserAccount(User accountDto){
-            accountDto.setPassword(bCryptPasswordEncoder.encode(accountDto.getPassword()));
-            accountDto.setRoles(new ArrayList<Role>(Arrays.asList(roleRepository.findByName("USER"))));
-            accountDto.setEnabled(false);
-            accountDto.setBanned(false);
-            accountDto.setOnline(false);
-            User savedUser=userRepository.save(accountDto);
-            return savedUser;
+    public User registerNewUserAccount(User accountDto) {
+        accountDto.setPassword(bCryptPasswordEncoder.encode(accountDto.getPassword()));
+        accountDto.setRoles(new ArrayList<Role>(Arrays.asList(roleRepository.findByName("USER"))));
+        accountDto.setEnabled(false);
+        accountDto.setBanned(false);
+        accountDto.setOnline(false);
+        User savedUser = userRepository.save(accountDto);
+        return savedUser;
     }
 
     @Transactional
     @Override
-    public User getByUsername(String username){
-            User user=userRepository.findByUsername(username);
+    public User getByUsername(String username) {
+        User user = userRepository.findByUsername(username);
 
-            return user;
+        return user;
     }
 
     @Transactional
     @Override
     public User getByToken(String verificationToken) throws NoSuchObjectException {
-            User user=tokenRepository.findByToken(verificationToken).getUser();
-            if(user==null)
-                throw new NoSuchObjectException("no user with verification token: "+verificationToken);
-            return user;
+        User user = tokenRepository.findByToken(verificationToken).getUser();
+        if (user == null)
+            throw new NoSuchObjectException("no user with verification token: " + verificationToken);
+        return user;
     }
 
     @Transactional
     @Override
-    public User getByEmail(String email){
-        User user=userRepository.findByEmail(email);
+    public User getByEmail(String email) {
+        User user = userRepository.findByEmail(email);
 
         return user;
     }
@@ -89,8 +89,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User getById(Long id) throws NoSuchObjectException {
-        User user=userRepository.findById(id);
-        if(user==null)
+        User user = userRepository.findById(id);
+        if (user == null)
             throw new NoSuchObjectException(id);
         return user;
     }
@@ -108,8 +108,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public List<User> getAllUsers() throws TableIsEmptyException {
-        List<User> users=userRepository.findAll();
-        if(users.size()==0)
+        List<User> users = userRepository.findAll();
+        if (users.size() == 0)
             throw new TableIsEmptyException("user");
         return users;
     }
@@ -127,5 +127,4 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    
 }

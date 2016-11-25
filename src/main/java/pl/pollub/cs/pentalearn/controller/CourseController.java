@@ -15,17 +15,17 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- *  *------------------------------------------------------------------------
+ * *------------------------------------------------------------------------
  * Controllers tree:
- *                   --> Lecture
+ * --> Lecture
  * Course -> Chapter |
- *                   --> Exercise --> Question
- *                             |       |
- *                             V       V
- *                           UserExercise  <-> User -> Role
- *                                               |
- *                                               V
- *                                        VerificationToken
+ * --> Exercise --> Question
+ * |       |
+ * V       V
+ * UserExercise  <-> User -> Role
+ * |
+ * V
+ * VerificationToken
  * ------------------------------------------------------------------------
  * Created by Wojciech on 2016-04-30.
  */
@@ -50,17 +50,17 @@ public class CourseController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void addCourse(@Valid @RequestBody Course course,
-                           HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) {
+                          HttpServletRequest httpServletRequest,
+                          HttpServletResponse httpServletResponse) {
 
-            courseService.save(course);
+        courseService.save(course);
     }
 
-    @RequestMapping(value = "/{courseId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateCourse(@PathVariable Long courseId,@Valid @RequestBody Course course1,
-                              HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void updateCourse(@PathVariable Long courseId, @Valid @RequestBody Course course1,
+                             HttpServletRequest httpServletRequest,
+                             HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Course course = courseService.getById(courseId);
         course.setName(course1.getName());
@@ -69,11 +69,11 @@ public class CourseController {
         courseService.update(course);
     }
 
-    @RequestMapping(value = "/{courseId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteCourse(@PathVariable Long courseId,
-                              HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+                             HttpServletRequest httpServletRequest,
+                             HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Course course = courseService.getById(courseId);
         courseService.delete(course);

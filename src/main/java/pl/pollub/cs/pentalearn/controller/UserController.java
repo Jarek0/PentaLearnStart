@@ -20,8 +20,8 @@ public class UserController {
     private final UserService userService;
 
     @Inject
-    public UserController(final UserService userService){
-        this.userService=userService;
+    public UserController(final UserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -32,17 +32,17 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser(@Valid @RequestBody User user,
-                          HttpServletRequest httpServletRequest,
-                          HttpServletResponse httpServletResponse) {
+                        HttpServletRequest httpServletRequest,
+                        HttpServletResponse httpServletResponse) {
 
         userService.saveRegisteredUser(user);
     }
 
-    @RequestMapping(value = "/{userId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@PathVariable Long userId,@Valid @RequestBody User user1,
-                             HttpServletRequest httpServletRequest,
-                             HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void updateUser(@PathVariable Long userId, @Valid @RequestBody User user1,
+                           HttpServletRequest httpServletRequest,
+                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         User user = userService.getById(userId);
         user.setUsername(user1.getUsername());
@@ -55,11 +55,11 @@ public class UserController {
         userService.update(user);
     }
 
-    @RequestMapping(value = "/{userId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable Long userId,
-                             HttpServletRequest httpServletRequest,
-                             HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+                           HttpServletRequest httpServletRequest,
+                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         User user = userService.getById(userId);
         userService.delete(user);

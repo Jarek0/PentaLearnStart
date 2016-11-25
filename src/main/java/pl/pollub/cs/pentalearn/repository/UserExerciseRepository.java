@@ -8,5 +8,5 @@ import pl.pollub.cs.pentalearn.domain.UserExercise;
  * Created by pglg on 04-06-2016.
  */
 @Repository
-public interface UserExerciseRepository extends CrudRepository<UserExercise,Long> {
+public interface UserExerciseRepository extends CrudRepository<UserExercise, Long> {
 }

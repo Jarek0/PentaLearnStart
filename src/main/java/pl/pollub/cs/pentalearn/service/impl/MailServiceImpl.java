@@ -8,9 +8,9 @@ import pl.pollub.cs.pentalearn.service.MailService;
 public class MailServiceImpl implements MailService {
     private MailSender mailSender;
 
-	public void setMailSender(MailSender mailSender) {
-		this.mailSender = mailSender;
-	}
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
     @Override
     public void sendMail(String from, String to, String subject, String body) {
@@ -21,11 +21,12 @@ public class MailServiceImpl implements MailService {
         message.setText(body);
         mailSender.send(message);
     }
+
     @Override
     public void sendMail(SimpleMailMessage message) {
-        
+
         mailSender.send(message);
     }
-    
+
 }
 

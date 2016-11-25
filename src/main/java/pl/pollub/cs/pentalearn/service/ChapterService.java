@@ -12,10 +12,15 @@ import java.util.List;
  */
 public interface ChapterService {
     List<Chapter> getList() throws TableIsEmptyException;
+
     Chapter save(Chapter chapter);
+
     Chapter update(Chapter chapter);
+
     void delete(Chapter chapter);
+
     List<Chapter> getChaptersByCourseId(long courseId) throws NoSuchObjectException, ObjectHasNoItemsInTableException;
+
     Chapter getById(Long id) throws NoSuchObjectException;
 
 }

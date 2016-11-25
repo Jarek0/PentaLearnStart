@@ -21,7 +21,7 @@ public class VerificationTokenController {
     private final VerificationTokenService verificationTokenService;
 
     @Inject
-    VerificationTokenController(final UserService userService, final VerificationTokenService verificationTokenServiceService){
+    VerificationTokenController(final UserService userService, final VerificationTokenService verificationTokenServiceService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenServiceService;
     }
@@ -33,36 +33,36 @@ public class VerificationTokenController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addToken(@PathVariable Long userId,@Valid @RequestBody VerificationToken token1,
-                           HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void addToken(@PathVariable Long userId, @Valid @RequestBody VerificationToken token1,
+                         HttpServletRequest httpServletRequest,
+                         HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
 
-        VerificationToken token=new VerificationToken(token1.getToken(),userService.getById(userId));
+        VerificationToken token = new VerificationToken(token1.getToken(), userService.getById(userId));
 
         verificationTokenService.save(token);
     }
 
-    @RequestMapping(value = "/{tokenId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{tokenId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateToken(@PathVariable Long tokenId,@Valid @RequestBody VerificationToken token1,
-                              HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void updateToken(@PathVariable Long tokenId, @Valid @RequestBody VerificationToken token1,
+                            HttpServletRequest httpServletRequest,
+                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
-        VerificationToken token=verificationTokenService.getById(tokenId);
+        VerificationToken token = verificationTokenService.getById(tokenId);
         token.setToken(token1.getToken());
         token.setVerified(token1.getVerified());
         token.setDate(token1.getDate());
         verificationTokenService.update(token);
     }
 
-    @RequestMapping(value = "/{tokenId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{tokenId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteChapter(@PathVariable Long tokenId,
                               HttpServletRequest httpServletRequest,
                               HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
-        VerificationToken token=verificationTokenService.getById(tokenId);
+        VerificationToken token = verificationTokenService.getById(tokenId);
 
         verificationTokenService.delete(token);
     }

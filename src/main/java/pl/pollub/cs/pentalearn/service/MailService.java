@@ -7,11 +7,9 @@ package pl.pollub.cs.pentalearn.service;
 
 import org.springframework.mail.SimpleMailMessage;
 
-/**
- *
- * @author Dell
- */
+
 public interface MailService {
     public void sendMail(String from, String to, String subject, String body);
+
     public void sendMail(SimpleMailMessage message);
 }

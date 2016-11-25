@@ -30,7 +30,7 @@ public class UserExerciseServiceImpl implements UserExerciseService {
     @Transactional(readOnly = true)
     public UserExercise getById(Long id) throws NoSuchObjectException {
         UserExercise userExercise = userExerciseRepository.findOne(id);
-        if(userExercise == null)
+        if (userExercise == null)
             throw new NoSuchObjectException(id);
         return userExercise;
     }

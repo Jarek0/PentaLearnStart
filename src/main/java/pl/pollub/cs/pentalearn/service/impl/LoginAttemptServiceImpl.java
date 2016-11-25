@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class LoginAttemptServiceImpl implements LoginAttemptService {
- 
+
     private final int MAX_ATTEMPT = 5;
     int attempts = 0;
     private LoadingCache<String, Integer> attemptsCache;
@@ -25,7 +25,7 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
     public LoginAttemptServiceImpl() {
         super();
         attemptsCache = CacheBuilder.newBuilder().
-          expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<String, Integer>() {
+                expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<String, Integer>() {
             @Override
             public Integer load(String key) {
                 return 0;
@@ -37,9 +37,9 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
     public void loginSucceeded(String key) {
         attemptsCache.invalidate(key);
     }
- 
+
     public void loginFailed(String key) {
-        
+
         try {
             attempts = attemptsCache.get(key);
         } catch (ExecutionException e) {
@@ -48,6 +48,7 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
         attempts++;
         attemptsCache.put(key, attempts);
     }
+
     @Override
     public boolean isBlocked(String key) {
         try {

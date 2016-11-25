@@ -10,5 +10,5 @@ import java.util.List;
  * Created by pglg on 12-05-2016.
  */
 @Repository
-public interface ExerciseRepository extends CrudRepository<Exercise,Long> {
+public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
 }

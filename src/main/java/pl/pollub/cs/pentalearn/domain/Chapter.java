@@ -27,12 +27,12 @@ public class Chapter {
     private Course course;
 
     @NotNull
-    @OneToMany(mappedBy = "chapter",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-    private List<Lecture> lectures=new ArrayList<>();
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Lecture> lectures = new ArrayList<>();
 
     @NotNull
-    @OneToMany(mappedBy = "chapter",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-    private List<Exercise> exercises=new ArrayList<>();
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Exercise> exercises = new ArrayList<>();
 
     @NotNull
     @Size(max = 32)
@@ -49,25 +49,26 @@ public class Chapter {
         this.course = course;
     }
 
-    private Chapter(){}
+    private Chapter() {
+    }
 
     @JsonCreator
     public Chapter(@JsonProperty("name")
-                    @NotEmpty
-                    @Size(max = 64)
-                       String name,
+                   @NotEmpty
+                   @Size(max = 64)
+                           String name,
                    @JsonProperty("description")
                    @NotEmpty
-                   String description){
-        this.name=name;
-        this.description=description;
+                           String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public void addLecture(Lecture lecture){
+    public void addLecture(Lecture lecture) {
         this.lectures.add(lecture);
     }
 
-    public void addExercise(Exercise exercise){
+    public void addExercise(Exercise exercise) {
         this.exercises.add(exercise);
     }
 
@@ -106,11 +107,19 @@ public class Chapter {
         this.exercises = exercises;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getDescription() {return description;}
+    public String getDescription() {
+        return description;
+    }
 
-    public void setDescription(String description) {this.description = description;}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

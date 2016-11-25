@@ -9,12 +9,17 @@ import java.util.List;
 
 public interface RoleService {
 
-    Role save(Role role) ;
+    Role save(Role role);
+
     List<Role> getAllRoles() throws TableIsEmptyException;
+
     Role update(Role role);
+
     Role delete(Role role);
-    Role getById(Long id)throws NoSuchObjectException;
-    Role getByName(String rolename)throws NoSuchObjectException;
+
+    Role getById(Long id) throws NoSuchObjectException;
+
+    Role getByName(String rolename) throws NoSuchObjectException;
 
     List<Role> getRolesByUserId(Long userId);
 }

@@ -12,5 +12,5 @@ import java.util.List;
  * Created by pglg on 12-05-2016.
  */
 @Repository
-public interface ChapterRepository extends CrudRepository<Chapter,Long> {
+public interface ChapterRepository extends CrudRepository<Chapter, Long> {
 }

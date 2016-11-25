@@ -42,7 +42,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional(readOnly = true)
     public List<Question> getList() throws TableIsEmptyException {
         List<Question> questions = (List<Question>) questionRepository.findAll();
-        if(questions.size() == 0)
+        if (questions.size() == 0)
             throw new TableIsEmptyException("question");
         return questions;
     }
@@ -62,8 +62,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional(readOnly = true)
     public Question getById(Long id) throws NoSuchObjectException {
-        Question question=questionRepository.findOne(id);
-        if(question == null) throw new NoSuchObjectException(id);
+        Question question = questionRepository.findOne(id);
+        if (question == null) throw new NoSuchObjectException(id);
         return question;
     }
 
@@ -77,13 +77,13 @@ public class QuestionServiceImpl implements QuestionService {
         return questions;
     }
 
-    private List<Question> getQuestionsIfExerciseExist(long exerciseId) throws NoSuchObjectException{
+    private List<Question> getQuestionsIfExerciseExist(long exerciseId) throws NoSuchObjectException {
         Exercise exercise = exerciseRepository.findOne(exerciseId);
-        if(exercise == null) throw new NoSuchObjectException(exerciseId);
+        if (exercise == null) throw new NoSuchObjectException(exerciseId);
         return exercise.getQuestions();
     }
 
-    private void checkIfArrayIsEmpty(List<Question> lectures, long exerciseId) throws ObjectHasNoItemsInTableException{
-        if(lectures.size() == 0) throw new ObjectHasNoItemsInTableException(exerciseId);
+    private void checkIfArrayIsEmpty(List<Question> lectures, long exerciseId) throws ObjectHasNoItemsInTableException {
+        if (lectures.size() == 0) throw new ObjectHasNoItemsInTableException(exerciseId);
     }
 }

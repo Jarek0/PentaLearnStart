@@ -22,15 +22,15 @@ public class Exercise {
     private Chapter chapter;
 
     @NotNull
-    @Size(min = 4,max = 64)
+    @Size(min = 4, max = 64)
     private String title;
 
     @NotNull
-    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Question.class)
-    private List<Question>questions=new ArrayList<>();
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Question.class)
+    private List<Question> questions = new ArrayList<>();
 
     @NotNull
-    @OneToMany(mappedBy = "exercise",cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = UserExercise.class)
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = UserExercise.class)
     private List<UserExercise> userExercises = new ArrayList<>();
 
 
@@ -39,14 +39,15 @@ public class Exercise {
         this.title = title;
     }
 
-    private Exercise(){}
-
-    @JsonCreator
-    public Exercise(@JsonProperty("title") @NotEmpty @Size(max = 64)String title){
-        this.title=title;
+    private Exercise() {
     }
 
-    public void addQuestion(Question question){
+    @JsonCreator
+    public Exercise(@JsonProperty("title") @NotEmpty @Size(max = 64) String title) {
+        this.title = title;
+    }
+
+    public void addQuestion(Question question) {
         this.questions.add(question);
     }
 

@@ -30,19 +30,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     final DataSource dataSource;
 
 
-
     @Inject
-    SecurityConfig(final DataSource dataSource){
-        this.dataSource=dataSource;
+    SecurityConfig(final DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Bean
-    public MyAuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+    public MyAuthenticationSuccessHandler myAuthenticationSuccessHandler() {
         return new MyAuthenticationSuccessHandler();
     }
 
     @Bean
-    public MyAuthenticationFailureHandler myAuthenticationFailureHandler(){
+    public MyAuthenticationFailureHandler myAuthenticationFailureHandler() {
         return new MyAuthenticationFailureHandler();
     }
 
@@ -72,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/api/root/**").hasRole("ROOT")
-                .antMatchers("/api/user/**").hasAnyRole("ROOT","TEACHER","USER")
-                .antMatchers("/api/teacher/**").hasAnyRole("ROOT","TEACHER")
+                .antMatchers("/api/user/**").hasAnyRole("ROOT", "TEACHER", "USER")
+                .antMatchers("/api/teacher/**").hasAnyRole("ROOT", "TEACHER")
 
                 .and()
                 .formLogin()
@@ -87,7 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .maximumSessions(1)
                 .expiredUrl("/api/youarebanned")
-                .sessionRegistry(sessionRegistry());}
+                .sessionRegistry(sessionRegistry());
+    }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
@@ -103,59 +103,60 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PersistentTokenBasedRememberMeServices rememberMeAuthenticationProvider(){
-        return new PersistentTokenBasedRememberMeServices("myAppKey",userDetailsService(),jdbcTokenRepository());
+    public PersistentTokenBasedRememberMeServices rememberMeAuthenticationProvider() {
+        return new PersistentTokenBasedRememberMeServices("myAppKey", userDetailsService(), jdbcTokenRepository());
     }
 
     @Bean
-    public HttpAuthenticationEntryPoint authenticationEntryPoint(){
+    public HttpAuthenticationEntryPoint authenticationEntryPoint() {
         return new HttpAuthenticationEntryPoint();
     }
 
     @Bean
-    public HttpLogoutSuccessHandler logoutSuccessHandler(){
+    public HttpLogoutSuccessHandler logoutSuccessHandler() {
         return new HttpLogoutSuccessHandler();
     }
 
     @Bean
-    public HttpSessionCsrfTokenRepository csrfTokenRepository(){
-        HttpSessionCsrfTokenRepository csrfTokenRepository=new HttpSessionCsrfTokenRepository();
+    public HttpSessionCsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository csrfTokenRepository = new HttpSessionCsrfTokenRepository();
         csrfTokenRepository.setHeaderName("X-XSRF-TOKEN");
         return new HttpSessionCsrfTokenRepository();
     }
 
 
     @Bean
-    public JdbcTokenRepositoryImpl jdbcTokenRepository(){
-        JdbcTokenRepositoryImpl jdbcTokenRepository=new JdbcTokenRepositoryImpl();
+    public JdbcTokenRepositoryImpl jdbcTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setCreateTableOnStartup(false);
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
     }
 
-    @Bean public RequestContextListener requestContextListener(){
+    @Bean
+    public RequestContextListener requestContextListener() {
         return new RequestContextListener();
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
     }
 
     @Bean
-    public ConcurrentSessionFilter concurrentSessionFilter(){
-        ConcurrentSessionFilter concurrentSessionFilter=new ConcurrentSessionFilter(sessionRegistry(),"/session-expired.htm");
+    public ConcurrentSessionFilter concurrentSessionFilter() {
+        ConcurrentSessionFilter concurrentSessionFilter = new ConcurrentSessionFilter(sessionRegistry(), "/session-expired.htm");
         return concurrentSessionFilter;
     }
 
     @Bean
-    public SessionRegistryImpl sessionRegistry(){
+    public SessionRegistryImpl sessionRegistry() {
         return new SessionRegistryImpl();
     }
 
 
     @Bean
-    public UserDetailsServiceImpl userDetailsService(){
+    public UserDetailsServiceImpl userDetailsService() {
         return new UserDetailsServiceImpl();
     }
 

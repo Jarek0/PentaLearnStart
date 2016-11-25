@@ -7,7 +7,7 @@ package pl.pollub.cs.pentalearn.service.exception;
 
 
 @SuppressWarnings("serial")
-public class AuthException extends Exception{
+public class AuthException extends Exception {
 
     public AuthException(final String message) {
         super(message);

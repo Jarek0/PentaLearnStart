@@ -11,22 +11,22 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
-    @Size(min=6,max=64)
+    @Size(min = 6, max = 64)
     private String username;
 
     @NotNull
-    @Size(min=8,max=64)
+    @Size(min = 8, max = 64)
     private String password;
 
     @NotNull
-    @Size(min=5,max=255)
+    @Size(min = 5, max = 255)
     private String email;
 
     @NotNull
@@ -48,29 +48,31 @@ public class User{
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    public User(){
+    public User() {
 
     }
 
-    public User(String username,String password,String passwordConfirm,String email){
-        this.username=username;
-        this.password=password;
-        this.passwordConfirm=passwordConfirm;
-        this.email=email;
+    public User(String username, String password, String passwordConfirm, String email) {
+        this.username = username;
+        this.password = password;
+        this.passwordConfirm = passwordConfirm;
+        this.email = email;
 
     }
-    public User(String username, String password, String passwordConfirm, String email, boolean enabled, boolean online, boolean banned, VerificationToken token, List<Role> roles){
-        this.username=username;
-        this.password=password;
-        this.passwordConfirm=passwordConfirm;
-        this.email=email;
-        this.enabled=enabled;
-        this.online=online;
-        this.banned=banned;
-        this.token=token;
-        this.roles=roles;
-        
+
+    public User(String username, String password, String passwordConfirm, String email, boolean enabled, boolean online, boolean banned, VerificationToken token, List<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.passwordConfirm = passwordConfirm;
+        this.email = email;
+        this.enabled = enabled;
+        this.online = online;
+        this.banned = banned;
+        this.token = token;
+        this.roles = roles;
+
     }
+
     public Long getId() {
         return id;
     }
@@ -94,7 +96,7 @@ public class User{
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -102,7 +104,7 @@ public class User{
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public boolean getEnabled() {
         return enabled;
     }
@@ -110,7 +112,7 @@ public class User{
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
+
     public boolean getOnline() {
         return online;
     }
@@ -118,13 +120,13 @@ public class User{
     public void setOnline(boolean online) {
         this.online = online;
     }
-    
+
     public boolean getBanned() {
         return banned;
     }
-    
+
     public void setBanned(boolean banned) {
-        
+
         this.banned = banned;
     }
 

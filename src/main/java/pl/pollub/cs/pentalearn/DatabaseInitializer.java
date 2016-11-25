@@ -23,29 +23,29 @@ public class DatabaseInitializer implements ApplicationListener<ContextRefreshed
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Inject
-    DatabaseInitializer(final UserRepository userRepository,final RoleRepository roleRepository,final BCryptPasswordEncoder bCryptPasswordEncoder){
-        this.userRepository=userRepository;
-        this.roleRepository=roleRepository;
-        this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+    DatabaseInitializer(final UserRepository userRepository, final RoleRepository roleRepository, final BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        if(roleRepository.findByName("ROOT")==null){
-            Role root=new Role("ROOT",null);
+        if (roleRepository.findByName("ROOT") == null) {
+            Role root = new Role("ROOT", null);
             roleRepository.save(root);
 
         }
-        if(roleRepository.findByName("USER")==null){
-            Role user=new Role("USER",null);
+        if (roleRepository.findByName("USER") == null) {
+            Role user = new Role("USER", null);
             roleRepository.save(user);
         }
-        if(roleRepository.findByName("TEACHER")==null){
-            Role teacher=new Role("TEACHER",null);
+        if (roleRepository.findByName("TEACHER") == null) {
+            Role teacher = new Role("TEACHER", null);
             roleRepository.save(teacher);
         }
-        if(userRepository.findByUsername("rootUser")==null) {
+        if (userRepository.findByUsername("rootUser") == null) {
             User rootUser = new User("rootUser", bCryptPasswordEncoder.encode("poziomd123"), null, "6darksavant9@gmail.com", true, false, false, null, new ArrayList<Role>(Arrays.asList(roleRepository.findByName("ROOT"))));
             userRepository.save(rootUser);
         }

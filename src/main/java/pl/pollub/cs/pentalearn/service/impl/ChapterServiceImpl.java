@@ -36,7 +36,7 @@ public class ChapterServiceImpl implements ChapterService {
     @Transactional(readOnly = true)
     public List<Chapter> getList() throws TableIsEmptyException {
         List<Chapter> chapters = (List<Chapter>) chapterRepository.findAll();
-        if(chapters.size() == 0)
+        if (chapters.size() == 0)
             throw new TableIsEmptyException("Chapter");
         return chapters;
     }
@@ -51,22 +51,22 @@ public class ChapterServiceImpl implements ChapterService {
         return chapters;
     }
 
-    private List<Chapter> getChaptersIfCourseExist(long courseId) throws NoSuchObjectException{
+    private List<Chapter> getChaptersIfCourseExist(long courseId) throws NoSuchObjectException {
         Course course = courseRepository.findOne(courseId);
-        if(course == null) throw new NoSuchObjectException(courseId);
+        if (course == null) throw new NoSuchObjectException(courseId);
         return course.getChapters();
     }
 
-    private void CheckIfArrayIsEmpty(List<Chapter> chapters, long courseId) throws ObjectHasNoItemsInTableException{
-        if(chapters.size() == 0) throw new ObjectHasNoItemsInTableException(courseId);
+    private void CheckIfArrayIsEmpty(List<Chapter> chapters, long courseId) throws ObjectHasNoItemsInTableException {
+        if (chapters.size() == 0) throw new ObjectHasNoItemsInTableException(courseId);
     }
 
 
     @Override
     @Transactional(readOnly = true)
     public Chapter getById(Long id) throws NoSuchObjectException {
-        Chapter chapter=chapterRepository.findOne(id);
-        if(chapter == null)
+        Chapter chapter = chapterRepository.findOne(id);
+        if (chapter == null)
             throw new NoSuchObjectException(id);
         return chapter;
     }
@@ -80,7 +80,7 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     @Transactional
     public void delete(@NotNull Chapter chapter) {
-         chapterRepository.delete(chapter);
+        chapterRepository.delete(chapter);
     }
 
     @Override

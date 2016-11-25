@@ -5,19 +5,9 @@ package pl.pollub.cs.pentalearn.controller;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import pl.pollub.cs.pentalearn.GenericResponse;
 import pl.pollub.cs.pentalearn.domain.User;
 import pl.pollub.cs.pentalearn.domain.VerificationToken;
 import pl.pollub.cs.pentalearn.service.UserService;
@@ -26,13 +16,10 @@ import pl.pollub.cs.pentalearn.service.events.OnRegistrationCompleteEvent;
 import pl.pollub.cs.pentalearn.service.exception.AuthException;
 import pl.pollub.cs.pentalearn.service.exception.InvalidRequestException;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchObjectException;
-import pl.pollub.cs.pentalearn.service.impl.MailServiceImpl;
 import pl.pollub.cs.pentalearn.service.validator.UserValidator;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Locale;
@@ -56,14 +43,13 @@ public class SecurityController {
     private final UserValidator userValidator;
 
     @Inject
-    public SecurityController(final MessageSource messages, final ApplicationEventPublisher eventPublisher, final UserService userService, final VerificationTokenService verificationTokenService,final UserValidator userValidator)
-    {
-        this.messages=messages;
-        this.eventPublisher=eventPublisher;
-        this.userService=userService;
-        this.verificationTokenService=verificationTokenService;
+    public SecurityController(final MessageSource messages, final ApplicationEventPublisher eventPublisher, final UserService userService, final VerificationTokenService verificationTokenService, final UserValidator userValidator) {
+        this.messages = messages;
+        this.eventPublisher = eventPublisher;
+        this.userService = userService;
+        this.verificationTokenService = verificationTokenService;
         //this.mailService=mailService;
-        this.userValidator=userValidator;
+        this.userValidator = userValidator;
     }
 
     /*@InitBinder
@@ -83,9 +69,9 @@ public class SecurityController {
 
     Żeby się zalogować należy wysłać Request /auth/login_check z username i password
      */
-    @RequestMapping(value = "/registration", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void registration(@RequestBody @Valid User userForm, HttpServletRequest request,BindingResult bindingResult){
-        userValidator.validate(userForm,bindingResult);
+    @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void registration(@RequestBody @Valid User userForm, HttpServletRequest request, BindingResult bindingResult) {
+        userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             throw new InvalidRequestException("Invalid user", bindingResult);
         }
@@ -95,25 +81,25 @@ public class SecurityController {
     }
 
     //potwierdzenie wysyalne jest na maila. Link wysłany w mailu uruchamia procedurę weryfikacji
-    @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void confirmRegistration(WebRequest request, @RequestParam("token") String token) throws NoSuchObjectException,AuthException {
-    Locale locale = request.getLocale();
-     
-    VerificationToken verificationToken = verificationTokenService.getByToken(token);
-    if (verificationToken == null) {
-        throw new AuthException(messages.getMessage("auth.message.invalidToken", null, locale));
-    }
-     
-    User user = verificationToken.getUser();
-    Calendar cal = Calendar.getInstance();
-    if ((verificationToken.getDate() - cal.getTime().getTime()) <= 0) {
-        throw new AuthException(messages.getMessage("auth.message.expired", null, locale));
-    } 
-     
-    user.setEnabled(true); 
-    userService.saveRegisteredUser(user);
+    @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
+    public void confirmRegistration(WebRequest request, @RequestParam("token") String token) throws NoSuchObjectException, AuthException {
+        Locale locale = request.getLocale();
 
-}
+        VerificationToken verificationToken = verificationTokenService.getByToken(token);
+        if (verificationToken == null) {
+            throw new AuthException(messages.getMessage("auth.message.invalidToken", null, locale));
+        }
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getDate() - cal.getTime().getTime()) <= 0) {
+            throw new AuthException(messages.getMessage("auth.message.expired", null, locale));
+        }
+
+        user.setEnabled(true);
+        userService.saveRegisteredUser(user);
+
+    }
 
 
 }

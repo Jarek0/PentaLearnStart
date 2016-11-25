@@ -36,7 +36,7 @@ public class LectureServiceImpl implements LectureService {
     @Transactional(readOnly = true)
     public List<Lecture> getList() throws TableIsEmptyException {
         List<Lecture> lectures = (List<Lecture>) lectureRepository.findAll();
-        if(lectures.size() == 0)
+        if (lectures.size() == 0)
             throw new TableIsEmptyException("lecture");
         return lectures;
     }
@@ -51,14 +51,14 @@ public class LectureServiceImpl implements LectureService {
         return lectures;
     }
 
-    private List<Lecture> getLecturesIfChapterExist(long chapterId) throws NoSuchObjectException{
+    private List<Lecture> getLecturesIfChapterExist(long chapterId) throws NoSuchObjectException {
         Chapter chapter = chapterRepository.findOne(chapterId);
-        if(chapter == null) throw new NoSuchObjectException(chapterId);
+        if (chapter == null) throw new NoSuchObjectException(chapterId);
         return chapter.getLectures();
     }
 
-    private void CheckIfArrayIsEmpty(List<Lecture> lectures, long chapterId) throws ObjectHasNoItemsInTableException{
-        if(lectures.size() == 0) throw new ObjectHasNoItemsInTableException(chapterId);
+    private void CheckIfArrayIsEmpty(List<Lecture> lectures, long chapterId) throws ObjectHasNoItemsInTableException {
+        if (lectures.size() == 0) throw new ObjectHasNoItemsInTableException(chapterId);
     }
 
 
@@ -83,8 +83,8 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional(readOnly = true)
     public Lecture getById(Long id) throws NoSuchObjectException {
-        Lecture lecture=lectureRepository.findOne(id);
-        if(lecture==null)
+        Lecture lecture = lectureRepository.findOne(id);
+        if (lecture == null)
             throw new NoSuchObjectException(id);
         return lecture;
     }

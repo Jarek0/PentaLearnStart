@@ -16,19 +16,19 @@ public class Role {
     private Long id;
 
     @NotNull
-    @Size(min=1,max=32)
+    @Size(min = 1, max = 32)
     private String name;
 
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private List<User> users;
 
-    public Role(){
+    public Role() {
     }
 
-    public Role(String name,List<User> users){
-        this.name=name;
-        this.users=users;
+    public Role(String name, List<User> users) {
+        this.name = name;
+        this.users = users;
     }
 
     public Long getId() {
@@ -61,7 +61,7 @@ public class Role {
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", name=" + name +'\'' +
+                ", name=" + name + '\'' +
                 '}';
     }
 }

@@ -34,8 +34,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     @Override
     @Transactional
     public List<VerificationToken> getAllVerificationTokens() throws TableIsEmptyException {
-        List<VerificationToken> tokens=verificationTokenRepository.findAll();
-        if(tokens.size()==0)
+        List<VerificationToken> tokens = verificationTokenRepository.findAll();
+        if (tokens.size() == 0)
             throw new TableIsEmptyException("vtoken");
         return tokens;
     }
@@ -56,21 +56,21 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     @Override
     @Transactional
     public VerificationToken getById(Long id) throws NoSuchObjectException {
-        VerificationToken token=verificationTokenRepository.findOne(id);
-        if(token == null) throw new NoSuchObjectException(id);
+        VerificationToken token = verificationTokenRepository.findOne(id);
+        if (token == null) throw new NoSuchObjectException(id);
         return token;
     }
 
 
     @Override
     public VerificationToken getByToken(String token) throws NoSuchObjectException {
-        VerificationToken vtoken=verificationTokenRepository.findByToken(token);
-        if(vtoken == null) throw new NoSuchObjectException(token);
+        VerificationToken vtoken = verificationTokenRepository.findByToken(token);
+        if (vtoken == null) throw new NoSuchObjectException(token);
         return vtoken;
     }
 
     @Override
-    public VerificationToken generateNewVerificationToken(String existingToken){
-        return new VerificationToken(UUID.randomUUID().toString(),(verificationTokenRepository.findByToken(existingToken)).getUser());
+    public VerificationToken generateNewVerificationToken(String existingToken) {
+        return new VerificationToken(UUID.randomUUID().toString(), (verificationTokenRepository.findByToken(existingToken)).getUser());
     }
 }
