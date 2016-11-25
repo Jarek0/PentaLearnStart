@@ -67,7 +67,7 @@ public class SecurityController {
     }
     Requestem /api/registration POST
 
-    Żeby się zalogować należy wysłać Request /auth/login_check z username i password
+    Żeby się zalogować należy wysłać Request /auth/login_check z username i password opcjonalnie remember-me
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void registration(@RequestBody @Valid User userForm, HttpServletRequest request, BindingResult bindingResult) {
