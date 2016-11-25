@@ -27,7 +27,7 @@ public class Lecture {
     private Chapter chapter;
 
     @NotNull
-    @Size(min=10)
+    @Size(min = 10)
     private String content;
 
     public Lecture(Chapter chapter, String content) {
@@ -35,11 +35,12 @@ public class Lecture {
         this.content = content;
     }
 
-    private Lecture(){}
+    private Lecture() {
+    }
 
     @JsonCreator
-    public Lecture(@JsonProperty("content") @NotEmpty @Size(min=10) String content){
-        this.content=content;
+    public Lecture(@JsonProperty("content") @NotEmpty @Size(min = 10) String content) {
+        this.content = content;
     }
 
     public Long getId() {

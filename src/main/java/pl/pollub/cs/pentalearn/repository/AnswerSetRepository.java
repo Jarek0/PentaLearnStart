@@ -14,8 +14,8 @@ import java.util.List;
  * Created by pglg on 28-04-2016.
  */
 @Repository
-public interface AnswerSetRepository extends CrudRepository<AnswerSet,Long> {
+public interface AnswerSetRepository extends CrudRepository<AnswerSet, Long> {
 
-    List<AnswerSet> findByQuestionIdAndUserExerciseId(Long questionId,Long userExerciseId);
+    List<AnswerSet> findByQuestionIdAndUserExerciseId(Long questionId, Long userExerciseId);
 
 }

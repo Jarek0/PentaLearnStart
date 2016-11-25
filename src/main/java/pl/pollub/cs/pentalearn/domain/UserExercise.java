@@ -30,26 +30,27 @@ public class UserExercise {
     private Exercise exercise;
 
     @NotNull
-    @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=AnswerSet.class)
+    @OneToMany(mappedBy = "userExercise", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = AnswerSet.class)
     @JsonSerialize(using = PrivateSerializer.class)
     private List<AnswerSet> answerSets = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userExercise",cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=UserExerciseResult.class)
-    private List<UserExerciseResult> userExerciseResults =new ArrayList<>();
+    @OneToMany(mappedBy = "userExercise", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = UserExerciseResult.class)
+    private List<UserExerciseResult> userExerciseResults = new ArrayList<>();
 
     public UserExercise(Exercise exercise) throws NoCorrectAnswerSetAssignedToQuestionException {
-        if(!isQuestionWithoutCorrectAnswerSet(exercise))
+        if (!isQuestionWithoutCorrectAnswerSet(exercise))
             this.exercise = exercise;
         else throw new NoCorrectAnswerSetAssignedToQuestionException();
     }
 
     private UserExercise() {
     }
-    private boolean isQuestionWithoutCorrectAnswerSet(Exercise exercise){
-        boolean result=false;
-        for(Question question:exercise.getQuestions()){
-            if(question.getCorrectAnswerSet()==null){
-                result=true;
+
+    private boolean isQuestionWithoutCorrectAnswerSet(Exercise exercise) {
+        boolean result = false;
+        for (Question question : exercise.getQuestions()) {
+            if (question.getCorrectAnswerSet() == null) {
+                result = true;
                 break;
             }
         }
@@ -73,7 +74,7 @@ public class UserExercise {
         this.answerSets = answerSets;
     }
 
-    public void addToAnswerSets(AnswerSet answerSet){
+    public void addToAnswerSets(AnswerSet answerSet) {
         answerSets.add(answerSet);
     }
 

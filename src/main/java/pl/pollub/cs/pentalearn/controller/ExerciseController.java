@@ -30,7 +30,7 @@ public class ExerciseController {
     private final ChapterService chapterService;
 
     @Inject
-    ExerciseController(ExerciseService exerciseService, ChapterService chapterService){
+    ExerciseController(ExerciseService exerciseService, ChapterService chapterService) {
         this.exerciseService = exerciseService;
         this.chapterService = chapterService;
     }
@@ -49,22 +49,22 @@ public class ExerciseController {
                             HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Chapter chapter = chapterService.getById(chapterId);
-        Exercise exercise = new Exercise(chapter,exercise1.getTitle());
+        Exercise exercise = new Exercise(chapter, exercise1.getTitle());
         exerciseService.save(exercise);
     }
 
-    @RequestMapping(value = "/{exerciseId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{exerciseId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateExercise(@PathVariable Long exerciseId,@Valid @RequestBody Exercise exercise1,
-                              HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+    public void updateExercise(@PathVariable Long exerciseId, @Valid @RequestBody Exercise exercise1,
+                               HttpServletRequest httpServletRequest,
+                               HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
         exercise.setTitle(exercise1.getTitle());
         exerciseService.update(exercise);
     }
 
-    @RequestMapping(value = "/{exerciseId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{exerciseId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteChapter(@PathVariable Long exerciseId,
                               HttpServletRequest httpServletRequest,

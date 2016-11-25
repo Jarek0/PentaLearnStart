@@ -38,15 +38,16 @@ public class Question {
 
     @OneToMany(mappedBy = "question")
     @JsonIgnore
-    @ApiModelProperty(hidden = true,example = "Use only this field to construct question")
+    @ApiModelProperty(hidden = true, example = "Use only this field to construct question")
     private List<AnswerSet> answerSets;
 
-    public Question( String questionText,Exercise exercise) {
+    public Question(String questionText, Exercise exercise) {
         this.questionText = questionText;
-        this.exercise=exercise;
+        this.exercise = exercise;
     }
 
-    private Question(){}
+    private Question() {
+    }
 
     @JsonCreator
     public Question(@JsonProperty("questionText") String questionText) {
@@ -80,8 +81,8 @@ public class Question {
     }
 
     public AnswerSet getCorrectAnswerSet() {
-        for(AnswerSet set:answerSets){
-            if(!set.getUserAnswerSet()) return set;
+        for (AnswerSet set : answerSets) {
+            if (!set.getUserAnswerSet()) return set;
         }
         return null;
     }

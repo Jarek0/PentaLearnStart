@@ -19,9 +19,9 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
         Set<Class<? extends Object>> allClasses =
                 reflections.getSubTypesOf(Object.class);
 
-       for(Class c: allClasses){
-           config.exposeIdsFor(c);
-       }
+        for (Class c : allClasses) {
+            config.exposeIdsFor(c);
+        }
     }
 
 }

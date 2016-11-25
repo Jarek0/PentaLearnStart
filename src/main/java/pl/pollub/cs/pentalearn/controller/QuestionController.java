@@ -45,46 +45,47 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void addQuestion(@PathVariable Long exerciseId, @Valid @RequestBody Question question,
-                           HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) throws NoSuchObjectException {
+                            HttpServletRequest httpServletRequest,
+                            HttpServletResponse httpServletResponse) throws NoSuchObjectException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
-        Question question1=new Question(question.getQuestionText(),exercise);
+        Question question1 = new Question(question.getQuestionText(), exercise);
         questionService.save(question1);
     }
 
-    @RequestMapping(value = "/{questionId}/answers",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{questionId}/answers", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void updateQuestionCorrectAnswerSet(@PathVariable Long questionId, @Valid @RequestBody AnswerSet answerSet,
                                                HttpServletRequest httpServletRequest,
                                                HttpServletResponse httpServletResponse) throws NoSuchObjectException, InvalidAnswerSetException {
 
-        Question question=questionService.getById(questionId);
-        List<String> texts=answerSet.getTexts();
-        List<Boolean> answers=answerSet.getAnswers();
-        AnswerSet currentAnswerSet=question.getCorrectAnswerSet();
-            currentAnswerSet.setAnswers(answers);
-            currentAnswerSet.setTexts(texts);
-            currentAnswerSet.setMultiSelectAllowed(answerSet.getMultiSelectAllowed());
-            answerSetService.save(currentAnswerSet);
+        Question question = questionService.getById(questionId);
+        List<String> texts = answerSet.getTexts();
+        List<Boolean> answers = answerSet.getAnswers();
+        AnswerSet currentAnswerSet = question.getCorrectAnswerSet();
+        currentAnswerSet.setAnswers(answers);
+        currentAnswerSet.setTexts(texts);
+        currentAnswerSet.setMultiSelectAllowed(answerSet.getMultiSelectAllowed());
+        answerSetService.save(currentAnswerSet);
 
     }
-    @RequestMapping(value = "/{questionId}/answers",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/{questionId}/answers", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void addQuestionCorrectAnswerSet(@PathVariable Long questionId, @Valid @RequestBody AnswerSet answerSet) throws NoSuchObjectException, InvalidAnswerSetException {
-        Question question=questionService.getById(questionId);
-        AnswerSet answerSet1=new AnswerSet(answerSet.getTexts(),answerSet.getAnswers(),answerSet.getMultiSelectAllowed(),question);
+        Question question = questionService.getById(questionId);
+        AnswerSet answerSet1 = new AnswerSet(answerSet.getTexts(), answerSet.getAnswers(), answerSet.getMultiSelectAllowed(), question);
         answerSetService.save(answerSet1);
     }
 
-    @RequestMapping(value = "/{questionId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{questionId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateQuestion(@PathVariable Long questionId,@PathVariable Long exerciseId,@Valid @RequestBody Question question,
-                              HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse) throws NoSuchObjectException, InvalidAnswerSetException {
+    public void updateQuestion(@PathVariable Long questionId, @PathVariable Long exerciseId, @Valid @RequestBody Question question,
+                               HttpServletRequest httpServletRequest,
+                               HttpServletResponse httpServletResponse) throws NoSuchObjectException, InvalidAnswerSetException {
 
         Exercise exercise = exerciseService.getById(exerciseId);
-        Question question1=questionService.getById(questionId);
+        Question question1 = questionService.getById(questionId);
 
         question1.setQuestionText(question.getQuestionText());
 

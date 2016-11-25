@@ -25,15 +25,15 @@ public class Course {
     private Long id;
 
     @NotNull
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private List<Chapter> chapters=new ArrayList<>();
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Chapter> chapters = new ArrayList<>();
 
     @NotNull
     @Size(max = 32)
     private String category;
 
     @NotNull
-    @Size(max = 64,min = 4)
+    @Size(max = 64, min = 4)
     private String name;
 
     @NotNull
@@ -46,7 +46,8 @@ public class Course {
         this.category = category;
     }
 
-    private Course(){}
+    private Course() {
+    }
 
     @JsonIgnore
     public List<Chapter> getChapters() {
@@ -57,7 +58,7 @@ public class Course {
         this.chapters = chapters;
     }
 
-    public void addChapter(Chapter chapter){
+    public void addChapter(Chapter chapter) {
         this.chapters.add(chapter);
     }
 
