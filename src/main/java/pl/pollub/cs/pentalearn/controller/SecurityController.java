@@ -4,6 +4,7 @@ package pl.pollub.cs.pentalearn.controller;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +71,7 @@ public class SecurityController {
     Żeby się zalogować należy wysłać Request /auth/login_check z username i password opcjonalnie remember-me
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     public void registration(@RequestBody @Valid User userForm, HttpServletRequest request, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -82,6 +84,7 @@ public class SecurityController {
 
     //potwierdzenie wysyalne jest na maila. Link wysłany w mailu uruchamia procedurę weryfikacji
     @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
     public void confirmRegistration(WebRequest request, @RequestParam("token") String token) throws NoSuchObjectException, AuthException {
         Locale locale = request.getLocale();
 
