@@ -12,9 +12,14 @@ import java.util.List;
  */
 public interface ExerciseService {
     List<Exercise> getList() throws TableIsEmptyException;
+
     List<Exercise> getExercisesByChapterId(long chapterId) throws NoSuchObjectException, ObjectHasNoItemsInTableException;
+
     Exercise save(Exercise exercise);
+
     Exercise update(Exercise exercise);
+
     void delete(Exercise exercise);
+
     Exercise getById(Long id) throws NoSuchObjectException;
 }

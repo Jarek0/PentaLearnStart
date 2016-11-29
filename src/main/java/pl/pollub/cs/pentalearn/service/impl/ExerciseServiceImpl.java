@@ -36,7 +36,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Transactional(readOnly = true)
     public List<Exercise> getList() throws TableIsEmptyException {
         List<Exercise> exercises = (List<Exercise>) exerciseRepository.findAll();
-        if(exercises.size() == 0)
+        if (exercises.size() == 0)
             throw new TableIsEmptyException("Exercise");
         return exercises;
     }
@@ -50,14 +50,14 @@ public class ExerciseServiceImpl implements ExerciseService {
         return exercises;
     }
 
-    private List<Exercise> getExercisesIfChapterExist(long chapterId) throws NoSuchObjectException{
+    private List<Exercise> getExercisesIfChapterExist(long chapterId) throws NoSuchObjectException {
         Chapter chapter = chapterRepository.findOne(chapterId);
-        if(chapter == null) throw new NoSuchObjectException(chapterId);
+        if (chapter == null) throw new NoSuchObjectException(chapterId);
         return chapter.getExercises();
     }
 
-    private void CheckIfArrayIsEmpty(List<Exercise> exercises, long chapterId) throws ObjectHasNoItemsInTableException{
-        if(exercises.size() == 0) throw new ObjectHasNoItemsInTableException(chapterId);
+    private void CheckIfArrayIsEmpty(List<Exercise> exercises, long chapterId) throws ObjectHasNoItemsInTableException {
+        if (exercises.size() == 0) throw new ObjectHasNoItemsInTableException(chapterId);
     }
 
 
@@ -82,8 +82,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     @Transactional(readOnly = true)
     public Exercise getById(Long id) throws NoSuchObjectException {
-        Exercise exercise=exerciseRepository.findOne(id);
-        if(exercise==null)
+        Exercise exercise = exerciseRepository.findOne(id);
+        if (exercise == null)
             throw new NoSuchObjectException(id);
         return exercise;
     }

@@ -29,9 +29,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Course> getAll()  throws TableIsEmptyException {
+    public List<Course> getAll() throws TableIsEmptyException {
         List<Course> courses = (List<Course>) courseRepository.findAll();
-        if(courses.size() == 0)
+        if (courses.size() == 0)
             throw new TableIsEmptyException("Course");
         return courses;
     }
@@ -40,7 +40,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public Course getById(@NotNull @Valid final Long id) throws NoSuchObjectException {
         Course existing = courseRepository.findOne(id);
-        if(existing == null)
+        if (existing == null)
             throw new NoSuchObjectException(id);
         return existing;
     }

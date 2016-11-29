@@ -37,8 +37,8 @@ public class AnswerSetServiceImpl implements AnswerSetService {
     @Override
     @Transactional(readOnly = true)
     public AnswerSet getById(@NotNull @Valid Long id) throws NoSuchObjectException {
-        AnswerSet existing= answerSetRepository.findOne(id);
-        if(existing == null) throw new NoSuchObjectException(id);
+        AnswerSet existing = answerSetRepository.findOne(id);
+        if (existing == null) throw new NoSuchObjectException(id);
         return existing;
     }
 
@@ -51,7 +51,7 @@ public class AnswerSetServiceImpl implements AnswerSetService {
     @Override
     @Transactional
     public void delete(AnswerSet answer) {
-         answerSetRepository.delete(answer);
+        answerSetRepository.delete(answer);
     }
 
     @Override
