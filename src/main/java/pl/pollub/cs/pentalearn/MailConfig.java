@@ -12,7 +12,6 @@ import java.util.Locale;
 import java.util.Properties;
 
 @Configuration
-@EnableWebMvc
 public class MailConfig {
 
 
